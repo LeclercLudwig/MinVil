@@ -26,6 +26,8 @@ cd mod
 ./gradlew runClient    # lance Minecraft 26.3 avec le mod, joueur « Enqueteur »
 ```
 
+Sans terminal : `lancer-minecraft-dev.sh`, à la racine du dépôt, fait la même chose et garde la fenêtre ouverte en cas d'erreur. On peut le lancer depuis un raccourci de bureau (`Terminal=true` dans un fichier `.desktop`).
+
 Le premier lancement télécharge Minecraft et Fabric (quelques minutes). Le jeu tourne dans `mod/run/` (mondes, options, journaux), ignoré par git.
 
 En jeu : créer un monde en mode Créatif avec les commandes activées, puis `/enquete commencer`. En développement seulement, `/enquete solution` dévoile le coupable pour vérifier une enquête sans la jouer.

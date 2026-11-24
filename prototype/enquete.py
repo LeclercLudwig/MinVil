@@ -78,7 +78,8 @@ def explain(case: Case) -> list[str]:
     holders = [n for n in case.living if case.trades[n] == case.clue]
     motive = MOTIVE_TEXT[case.motives[case.culprit]].format(who=case.culprit, victim=case.victim)
     return [
-        f"{case.culprit} prétendait être {lie}, mais {join(case.witnesses)} "
+        f"{case.culprit} prétendait être {lie} et y avoir vu "
+        f"{join(case.seen[case.culprit])}, mais {join(case.witnesses)} "
         f"y {'était' if len(case.witnesses) == 1 else 'étaient'} sans y voir "
         f"{case.culprit}. Mobile : {motive}.",
         f"{h} avait aussi un motif, mais {join(partners)} "

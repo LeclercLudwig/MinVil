@@ -4,6 +4,7 @@ Principe : on décide d'abord la vérité (qui était où, qui a un motif, qui a
 l'occasion), puis on en dérive les alibis, les témoignages et les rumeurs.
 
 - Le coupable ment sur son lieu, et au moins un témoin peut le contredire.
+  Pour paraître crédible, il cite quelqu'un qui y était vraiment.
 - Une fausse piste a aussi un motif, mais son alibi est vrai et au moins un
   autre villageois peut le confirmer.
 - Un indice physique, laissé sur le lieu du crime, désigne le métier du
@@ -148,7 +149,6 @@ def generate(seed: int) -> Case:
                     if o != npc and location_at_crime[o] == location_at_crime[npc])
         for npc in innocents
     }
-    seen[culprit] = []  # le coupable n'ose nommer personne
     witnesses = sorted(n for n in innocents if location_at_crime[n] == lie)
 
     # 4. Rumeurs : chaque motif est connu d'au moins un autre innocent.
@@ -169,6 +169,12 @@ def generate(seed: int) -> Case:
     trades[sharer] = clue
     trades[herring] = rng.choice(other_trades)
     trades[victim] = rng.choice(other_trades)
+
+    # 6. Le coupable ment mieux : il dit avoir vu un villageois qui était
+    #    vraiment au lieu de son mensonge. Seule la déclaration de ce
+    #    villageois, qui ne cite pas le coupable, trahit le mensonge.
+    #    (Tiré en dernier pour ne pas changer le reste du crime d'une seed.)
+    seen[culprit] = [rng.choice(witnesses)]
 
     return Case(
         seed=seed,
@@ -271,6 +277,9 @@ def check(case: Case) -> list[str]:
         errors.append("les témoins ne découlent pas de la vérité")
     if not expected_witnesses:
         errors.append("aucun témoin ne peut contredire le coupable")
+    claimed = case.seen.get(case.culprit, [])
+    if len(claimed) != 1 or claimed[0] not in expected_witnesses:
+        errors.append("le coupable ne cite pas un villageois vraiment présent au lieu de son mensonge")
 
     # Fausse piste : motif, alibi vrai, confirmé par quelqu'un.
     if case.herring not in case.motives:
@@ -337,6 +346,9 @@ def test_culprit_lies_and_is_contradicted():
             assert w not in (case.victim, case.culprit), f"seed {seed} : témoin {w}"
             assert case.location_at_crime[w] == lie, f"seed {seed} : témoin {w} absent"
             assert case.culprit not in case.seen[w], f"seed {seed} : {w} a vu le coupable"
+        claimed = case.seen[case.culprit]
+        assert len(claimed) == 1, f"seed {seed} : le coupable ne cite personne"
+        assert claimed[0] in case.witnesses, f"seed {seed} : le coupable cite un absent"
 
 
 def test_red_herring_has_confirmed_alibi():

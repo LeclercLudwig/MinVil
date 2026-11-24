@@ -198,7 +198,6 @@
       seen[npc] = pySorted(innocents.filter(
         (o) => o !== npc && locationAtCrime[o] === locationAtCrime[npc]));
     }
-    seen[culprit] = [];
     const witnesses = pySorted(innocents.filter((n) => locationAtCrime[n] === lie));
 
     const rumors = {};
@@ -218,6 +217,10 @@
     trades[sharer] = clue;
     trades[herring] = rng.choice(otherTrades);
     trades[victim] = rng.choice(otherTrades);
+
+    // Le coupable dit avoir vu un villageois vraiment présent au lieu de
+    // son mensonge (tiré en dernier, comme en Python).
+    seen[culprit] = [rng.choice(witnesses)];
 
     const npcs = pySorted(chosen);
     return {
@@ -264,7 +267,8 @@
     const holders = c.living.filter((n) => c.trades[n] === c.clue);
     const w = c.witnesses;
     return [
-      `${c.culprit} prétendait être ${lie}, mais ${join(w)} ` +
+      `${c.culprit} prétendait être ${lie} et y avoir vu ${join(c.seen[c.culprit])}, ` +
+        `mais ${join(w)} ` +
         `y ${w.length === 1 ? "était" : "étaient"} sans y voir ${c.culprit}. ` +
         `Mobile : ${motiveText(c, c.culprit)}.`,
       `${h} avait aussi un motif, mais ${join(partners)} ` +

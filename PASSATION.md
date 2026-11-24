@@ -1,7 +1,7 @@
 # Passation : prototype « enquête villageoise »
 
 ## Contexte
-Projet de mod Minecraft en Java, pour **Fabric sur Minecraft 26.1** (voir « Choix techniques »). On a écarté les fractales. Le périmètre retenu combine :
+Projet de mod Minecraft en Java, pour **Fabric sur Minecraft 26.3** (voir « Choix techniques »). On a écarté les fractales. Le périmètre retenu combine :
 - **Enquête** : un crime entre PNJ, résolu à partir d'indices et d'alibis.
 - **Réputation et liens sociaux** : les rumeurs et les relations entre PNJ.
 - **Généalogie et conseil** : lignées, votes, conséquences.
@@ -59,7 +59,7 @@ Note : chaque réécriture change l'ordre des tirages aléatoires, donc une seed
 4. ~~Ajouter un indice physique relié au coupable.~~ Fait.
 5. ~~Équilibrer la difficulté.~~ Fait (coupable crédible, indice ambigu, rumeurs fausses) ; à confirmer en jouant.
 6. ~~Sérialiser le cas en JSON.~~ Fait : `export.py`, format `minvil-enquete` version 1.
-7. **Prochaine étape : le mod Fabric 26.1**, qui lit ce JSON (commande pour lancer une enquête, villageois interrogeables, accusation).
+7. ~~Premier mod Fabric.~~ Fait : `mod/`, compilé par GitHub Actions. **Prochaine étape : le tester en jeu** (voir « Mod Fabric »).
 8. Seulement après : brancher le conseil du village (vote) et la réputation.
 
 ## Commandes
@@ -76,13 +76,20 @@ node web/verifier.js             # vérifie que la page web donne les mêmes cri
 La page web s'ouvre directement dans un navigateur : `prototype/web/index.html` (`#enquete-42` à la fin de l'adresse pour une seed précise).
 
 ## Choix techniques (mod)
-- **Chargeur de mods : Fabric.** Plus léger que NeoForge et suffisant pour un prototype ; on pourra viser NeoForge plus tard si le besoin apparaît.
-- **Version : Minecraft 26.1** (dernier correctif 26.1.x au moment de créer le projet ; vérifier qu'il n'existe pas une version plus récente prise en charge par Fabric).
-  - Nouvelle numérotation de Mojang par année : 26.1 succède à 1.21.x.
-  - Code de Minecraft publié sans obfuscation depuis 26.1 : on travaille avec les vrais noms de classes.
-  - Échanges des villageois configurables par fichiers de données : utile pour l'économie plus tard.
-  - **Java 25 obligatoire** pour compiler et lancer.
-- **Compilation dans l'environnement cloud de Claude :** pas encore possible. Le réseau y bloque `maven.fabricmc.net`, `meta.fabricmc.net` et les serveurs de Mojang (`piston-meta.mojang.com`, etc.), et seul Java 21 y est installé. Il faudra autoriser ces hôtes dans les réglages réseau de l'environnement, ou compiler sur ta machine.
+- **Chargeur de mods : Fabric.** Plus léger que NeoForge et suffisant pour un prototype.
+- **Version : Minecraft 26.3**, la version stable actuelle (novembre 2026). Un premier choix de 26.1 reposait sur une information périmée.
+  - Fabric Loader 0.20.1, Fabric API 0.167.0+26.3, Loom 1.19 (plugin `net.fabricmc.fabric-loom`, sans mappings : le code de Minecraft n'est plus obfusqué), Gradle 9.8.2.
+  - **Java 25** obligatoire pour compiler et lancer.
+  - Noms officiels de Mojang. Changements rencontrés par rapport à 1.21 : `Villager` est dans `net.minecraft.world.entity.npc.villager` ; `EntityType.VILLAGER` est remplacé par `EntityTypes.VILLAGER` (le mod passe par le registre `minecraft:villager`) ; `Entity.getTags()`, `setInvulnerable()` et `Player.displayClientMessage()` n'existent plus (`sendSystemMessage` les remplace pour les messages).
+- **Compilation : GitHub Actions** (`.github/workflows/mod.yml`). L'environnement cloud de Claude n'a pas accès aux serveurs de Fabric et de Mojang. À chaque envoi sur `main` ou une branche `ccr-*`, GitHub lance les tests Python, vérifie que les enquêtes embarquées sont à jour, compile le mod, lance les tests JUnit et publie le `.jar` (artefact « minvil-mod »). En cas d'échec, une étape de diagnostic affiche les vrais noms des classes et méthodes de Minecraft.
+
+## Mod Fabric (`mod/`)
+- `Enquete.java` lit le format JSON `minvil-enquete` ; `MinVil.java` est le point d'entrée (commandes, clic droit).
+- **100 enquêtes embarquées** (seeds 0 à 99), générées par `python3 -I prototype/export.py $(seq 0 99) --dir mod/src/main/resources/minvil/enquetes`. À régénérer après toute modification du générateur, sinon la compilation sur GitHub échoue.
+- **Commandes :** `/enquete` (aide), `/enquete commencer [numéro]`, `/enquete fouiller`, `/enquete carnet`, `/enquete accuser <nom>` (noms proposés), `/enquete terminer`. **Clic droit** sur un villageois de l'enquête : sa déclaration dans le chat, sans ouvrir l'écran de commerce.
+- Les villageois apparaissent en cercle (rayon 4 blocs) autour du joueur, tournés vers lui, immobiles, nommés, avec la profession Minecraft de leur métier, et protégés des coups des joueurs. Ils portent l'étiquette `minvil_enquete` (`/kill @e[tag=minvil_enquete]` les retire en secours).
+- **Installation pour tester :** dans un profil Minecraft 26.3 avec Fabric Loader 0.20.1, mettre dans le dossier `mods` le `.jar` de MinVil (artefact GitHub, à dézipper) et Fabric API 0.167.0+26.3.
+- **Limites connues (prototype) :** une seule enquête à la fois sur le serveur, gardée en mémoire (perdue au redémarrage, villageois alors orphelins) ; les monstres peuvent encore blesser les villageois ; pas de victime ni d'objet dans le monde (tout passe par le chat) ; terrain non vérifié à l'apparition ; **jamais testé en jeu à ce stade**.
 
 ## Points de vigilance
 - Le générateur est déterministe par seed : même seed, même crime. Garder ce comportement pour le débogage et la reproductibilité en jeu.

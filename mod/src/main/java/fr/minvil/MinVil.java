@@ -5,6 +5,7 @@ import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
+import net.fabricmc.fabric.api.event.player.AttackEntityCallback;
 import net.fabricmc.fabric.api.event.player.UseEntityCallback;
 import net.minecraft.ChatFormatting;
 import net.minecraft.commands.CommandSourceStack;
@@ -69,6 +70,10 @@ public final class MinVil implements ModInitializer {
 	public void onInitialize() {
 		CommandRegistrationCallback.EVENT.register((dispatcher, contexte, selection) -> enregistrer(dispatcher));
 		UseEntityCallback.EVENT.register((joueur, niveau, main, entite, impact) -> interroger(joueur, niveau.isClientSide(), main, entite));
+		// Les joueurs ne peuvent pas frapper les villageois de l'enquête.
+		AttackEntityCallback.EVENT.register((joueur, niveau, main, entite, impact) ->
+				!niveau.isClientSide() && villageoisIds.containsKey(entite.getUUID())
+						? InteractionResult.FAIL : InteractionResult.PASS);
 		LOGGER.info("MinVil prêt : {} enquêtes embarquées.", Enquete.NOMBRE);
 	}
 
@@ -231,7 +236,6 @@ public final class MinVil implements ModInitializer {
 			villageois.setCustomName(Component.literal(v.nom()));
 			villageois.setCustomNameVisible(true);
 			villageois.setNoAi(true);
-			villageois.setInvulnerable(true);
 			villageois.setPersistenceRequired();
 			var cle = ResourceKey.create(Registries.VILLAGER_PROFESSION, Identifier.parse(v.professionMinecraft()));
 			professions.get(cle).ifPresent(profession ->

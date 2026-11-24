@@ -3,7 +3,8 @@
     python3 -I enquete.py          # crime tiré au hasard
     python3 -I enquete.py 42       # rejouer le crime de la seed 42
 
-Interroge les villageois, recoupe leurs déclarations, puis accuse quelqu'un.
+Fouille le lieu du crime, interroge les villageois, recoupe leurs
+déclarations, puis accuse quelqu'un.
 """
 
 from __future__ import annotations
@@ -16,11 +17,12 @@ import unicodedata
 # `python3 -I` n'ajoute pas le dossier du script aux chemins d'import.
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
-from mystery import LOCATION_AT, MOTIVE_TEXT, Case, generate
+from mystery import CLUE_TEXT, LOCATION_AT, MOTIVE_TEXT, Case, generate
 
 HELP = (
-    "Tape un numéro ou un nom pour interroger, « carnet » pour relire tes "
-    "notes, « accuser » pour désigner le coupable, « quitter » pour abandonner."
+    "Tape un numéro ou un nom pour interroger, « examiner » pour fouiller le "
+    "lieu du crime, « carnet » pour relire tes notes, « accuser » pour "
+    "désigner le coupable, « quitter » pour abandonner."
 )
 
 
@@ -73,6 +75,7 @@ def explain(case: Case) -> list[str]:
     lie = LOCATION_AT[case.alibis[case.culprit]]
     h = case.herring
     partners = [n for n in case.innocents if h in case.seen[n]]
+    holders = [n for n in case.living if case.trades[n] == case.clue]
     motive = MOTIVE_TEXT[case.motives[case.culprit]].format(who=case.culprit, victim=case.victim)
     return [
         f"{case.culprit} prétendait être {lie}, mais {join(case.witnesses)} "
@@ -81,6 +84,9 @@ def explain(case: Case) -> list[str]:
         f"{h} avait aussi un motif, mais {join(partners)} "
         f"{'confirme' if len(partners) == 1 else 'confirment'} sa présence "
         f"{LOCATION_AT[case.alibis[h]]}.",
+        f"L'indice, {CLUE_TEXT[case.clue]}, désignait le métier de {case.clue} : "
+        f"{join(holders)}. Parmi eux, {case.culprit} était la seule personne "
+        f"avec un motif.",
     ]
 
 
@@ -88,6 +94,9 @@ def play(seed: int) -> int:
     case = generate(seed)
     living = case.living
     notes: dict[str, list[str]] = {}
+    clue_found = False
+    crime_place = LOCATION_AT[case.crime_location]
+    clue_line = f"Près du corps, {crime_place} : {CLUE_TEXT[case.clue]}."
 
     print(f"\n=== Enquête n° {seed} ===\n")
     print(f"Ce matin, on a retrouvé le corps de {case.victim} "
@@ -99,7 +108,7 @@ def play(seed: int) -> int:
         print()
         for i, npc in enumerate(living, 1):
             mark = "  (interrogé)" if npc in notes else ""
-            print(f"  {i}. {npc}{mark}")
+            print(f"  {i}. {npc}, {case.trades[npc]}{mark}")
         answer = ask("> ")
         if answer is None:
             return 1
@@ -110,8 +119,10 @@ def play(seed: int) -> int:
             return 1
 
         if cmd in ("c", "carnet"):
-            if not notes:
+            if not notes and not clue_found:
                 print("Ton carnet est vide.")
+            if clue_found:
+                print(clue_line)
             for npc, lines in notes.items():
                 print(f"{npc} : {' '.join(lines)}")
             continue
@@ -133,6 +144,12 @@ def play(seed: int) -> int:
                 print(line)
             print(f"\nVillageois interrogés : {len(notes)} sur {len(living)}.")
             return 0 if accused == case.culprit else 2
+
+        if cmd in ("e", "examiner", "fouiller"):
+            clue_found = True
+            print(f"Tu fouilles le lieu du crime, {crime_place}. Près du corps, "
+                  f"tu trouves {CLUE_TEXT[case.clue]}.")
+            continue
 
         if cmd in ("aide", "?", "h"):
             print(HELP)

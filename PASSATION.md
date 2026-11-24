@@ -24,13 +24,14 @@ Stratégie : construire **une seule boucle complète** avant d'élargir. Le prot
 3. Le coupable **ment** sur son lieu. Il doit être **démasquable** : au moins un témoin doit pouvoir le contredire.
 
 ## État actuel
-- `generate()` produit un crime avec victime, coupable, fausse piste, lieu, PNJ, alibis, « qui a vu qui », rumeurs et témoins.
+- `generate()` produit un crime avec victime, coupable, fausse piste, lieu, PNJ, métiers, indice physique, alibis, « qui a vu qui », rumeurs et témoins.
 - Chaque villageois vivant déclare où il était et qui il y a vu. Les innocents disent vrai ; le coupable donne un faux lieu et dit n'y avoir vu personne.
 - Deux villageois ont un motif : le coupable et la **fausse piste**. Les motifs ne sont connus que par des **rumeurs**, racontées par d'autres innocents.
-- `solve()` résout l'enquête avec les seules informations accessibles au joueur (déclarations et rumeurs), sans regarder la vérité.
-- `check()` vérifie : un seul coupable (motif + occasion), positions cohérentes, déclarations des innocents justes, mensonge du coupable contredit par au moins un témoin, alibi de la fausse piste confirmé par au moins un villageois, motifs tous révélés par des rumeurs, au moins deux suspects, et `solve()` désigne le bon coupable.
-- Cinq tests passent, sur 500 seeds chacun.
-- `enquete.py` : version jouable dans le terminal (interroger, carnet, accuser). 4 000 parties automatiques jouées sans erreur.
+- Chaque PNJ a un **métier**, connu du joueur. Un **indice physique** trouvé près du corps désigne le métier du coupable. Au moins un autre villageois partage ce métier, jamais la fausse piste.
+- Deux pistes indépendantes mènent au coupable : `solve_by_alibi()` (alibi contredit) et `solve_by_clue()` (seul suspect du métier désigné). `solve()` exige qu'elles concordent. Aucune ne regarde la vérité : elles n'utilisent que ce que le joueur peut apprendre.
+- `check()` vérifie : un seul coupable (motif + occasion), positions cohérentes, déclarations des innocents justes, mensonge du coupable contredit par au moins un témoin, alibi de la fausse piste confirmé par au moins un villageois, motifs tous révélés par des rumeurs, au moins deux suspects, indice lié au coupable mais partagé par un autre villageois et pas par la fausse piste, et les deux pistes désignent le bon coupable.
+- Six tests passent, sur 500 seeds chacun.
+- `enquete.py` : version jouable dans le terminal (examiner, interroger, carnet, accuser). 4 000 parties automatiques jouées sans erreur.
 
 ## Garanties du générateur
 Les rôles sont placés d'office, plutôt que d'espérer que le hasard tombe bien (c'était le bug du premier prototype : 243 seeds sur 500 sans témoin) :
@@ -39,7 +40,11 @@ Les rôles sont placés d'office, plutôt que d'espérer que le hasard tombe bie
 - les autres innocents sont placés au hasard, hors du lieu du crime ;
 - il faut donc au moins trois innocents (5 PNJ minimum), sinon `generate()` lève une erreur.
 
-Raisonnement attendu du joueur : parmi les suspects révélés par les rumeurs, le coupable est celui dont l'alibi est contredit (des villageois étaient à l'endroit annoncé et ne l'y ont pas vu) ; l'alibi de la fausse piste est confirmé.
+Raisonnement attendu du joueur, deux pistes au choix parmi les suspects révélés par les rumeurs :
+- **alibis** : le coupable est celui dont l'alibi est contredit (des villageois étaient à l'endroit annoncé et ne l'y ont pas vu) ; l'alibi de la fausse piste est confirmé ;
+- **indice** : le coupable est le seul suspect qui exerce le métier désigné par l'objet trouvé près du corps.
+
+Les métiers sont tirés en dernier : pour une seed donnée, l'ajout de l'indice n'a pas changé les positions, motifs ni rumeurs.
 
 Note : chaque réécriture change l'ordre des tirages aléatoires, donc une seed ne produit pas le même crime d'une version à l'autre.
 
@@ -47,9 +52,10 @@ Note : chaque réécriture change l'ordre des tirages aléatoires, donc une seed
 1. ~~Garantir au moins un témoin.~~ Fait.
 2. ~~Ajouter un PNJ de fausse piste avec motif mais alibi vrai.~~ Fait.
 3. ~~Version jouable dans le terminal.~~ Fait : y jouer plusieurs parties pour juger si l'enquête est intéressante.
-4. Ajouter un **indice physique** (objet laissé sur le lieu du crime) relié au coupable, pour faire converger les pistes.
-5. Sérialiser le cas en JSON (PNJ, liens, événements) pour le porter ensuite dans le mod Java.
-6. Seulement après : brancher le conseil du village (vote) et la réputation.
+4. ~~Ajouter un indice physique relié au coupable.~~ Fait.
+5. Équilibrer la difficulté (voir « Points de vigilance »).
+6. Sérialiser le cas en JSON (PNJ, liens, événements) pour le porter ensuite dans le mod Java.
+7. Seulement après : brancher le conseil du village (vote) et la réputation.
 
 ## Commandes
 ```
@@ -73,3 +79,5 @@ python3 -I enquete.py 42         # rejoue l'enquête de la seed 42
 - Le générateur est déterministe par seed : même seed, même crime. Garder ce comportement pour le débogage et la reproductibilité en jeu.
 - Les tests vérifient la cohérence sur 500 seeds. Un bug qui n'apparaît que sur certaines seeds sera détecté par cette boucle.
 - Le texte des témoignages est généré dans `enquete.py`, à partir de la structure de données. Les phrases évitent d'accorder au masculin ou au féminin : le genre des PNJ n'est pas modélisé.
+- **Difficulté encore faible.** La piste de l'indice est très courte : examiner le lieu, trouver les deux rumeurs, et le coupable est le seul suspect du bon métier (3 à 4 actions). Le coupable est aussi le seul à dire « je n'y ai vu personne » à un endroit où d'autres étaient. Pistes : un indice moins direct (objet partagé par plusieurs métiers, ou qu'il faut faire identifier par un villageois), un coupable qui nomme quelqu'un qu'il prétend avoir vu, ou des rumeurs parfois fausses.
+- Les métiers sont proches des professions des villageois de Minecraft, pour faciliter le portage dans le mod.

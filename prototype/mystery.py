@@ -6,6 +6,9 @@ l'occasion), puis on en dérive les alibis, les témoignages et les rumeurs.
 - Le coupable ment sur son lieu, et au moins un témoin peut le contredire.
 - Une fausse piste a aussi un motif, mais son alibi est vrai et au moins un
   autre villageois peut le confirmer.
+- Un indice physique, laissé sur le lieu du crime, désigne le métier du
+  coupable. Au moins un autre villageois exerce ce métier, mais jamais la
+  fausse piste : l'indice et les alibis mènent au coupable chacun de leur côté.
 
 Le générateur est déterministe : même seed, même crime.
 
@@ -49,6 +52,22 @@ MOTIVE_TEXT = {
 }
 MOTIVES = list(MOTIVE_TEXT)
 
+# Métier -> objet qu'un villageois de ce métier peut laisser derrière lui.
+CLUE_TEXT = {
+    "fermier": "des brins de paille",
+    "berger": "des touffes de laine",
+    "boucher": "un tablier taché de sang",
+    "pêcheur": "des écailles de poisson",
+    "bibliothécaire": "une page arrachée d'un livre",
+    "prêtre": "des gouttes de cire de cierge",
+    "tanneur": "une lanière de cuir",
+    "forgeron": "un clou de fer",
+    "cartographe": "un morceau de carte",
+    "maçon": "de la poussière de pierre",
+    "flécheur": "une plume d'oie",
+}
+TRADES = list(CLUE_TEXT)
+
 MIN_NPCS = 5
 MAX_NPCS = 8
 
@@ -73,6 +92,10 @@ class Case:
     rumors: dict[str, list[str]]
     # Innocents présents au lieu revendiqué par le coupable.
     witnesses: list[str]
+    # Public : métier de chaque PNJ.
+    trades: dict[str, str]
+    # Indice physique trouvé sur le lieu du crime : le métier qu'il désigne.
+    clue: str
 
     @property
     def innocents(self) -> list[str]:
@@ -134,6 +157,19 @@ def generate(seed: int) -> Case:
         teller = rng.choice([n for n in innocents if n != holder])
         rumors.setdefault(teller, []).append(holder)
 
+    # 5. Métiers et indice physique. Le coupable laisse un objet de son
+    #    métier ; un autre innocent (pas la fausse piste) partage ce métier,
+    #    pour que l'indice seul ne suffise pas. La victime et la fausse piste
+    #    ont un autre métier.
+    clue = rng.choice(TRADES)
+    other_trades = [t for t in TRADES if t != clue]
+    sharer = rng.choice([n for n in innocents if n != herring])
+    trades = {npc: rng.choice(TRADES) for npc in innocents if npc not in (herring, sharer)}
+    trades[culprit] = clue
+    trades[sharer] = clue
+    trades[herring] = rng.choice(other_trades)
+    trades[victim] = rng.choice(other_trades)
+
     return Case(
         seed=seed,
         npcs=sorted(chosen),
@@ -147,18 +183,25 @@ def generate(seed: int) -> Case:
         seen=seen,
         rumors=rumors,
         witnesses=witnesses,
+        trades=trades,
+        clue=clue,
     )
 
 
-def solve(case: Case) -> str | None:
-    """Résout l'enquête avec ce que le joueur peut apprendre, sans la vérité.
+def _suspects(case: Case) -> list[str]:
+    """Villageois dont une rumeur révèle le motif."""
+    return sorted({h for holders in case.rumors.values() for h in holders})
 
-    Suspects : les villageois dont une rumeur révèle le motif. Un alibi est
-    contredit si quelqu'un qui dit avoir été au même endroit n'y a pas vu le
-    suspect, et confirmé si quelqu'un l'y a vu. Le coupable est l'unique
-    suspect dont l'alibi est contredit et jamais confirmé ; None sinon.
+
+def solve_by_alibi(case: Case) -> str | None:
+    """Piste des alibis, avec ce que le joueur peut apprendre.
+
+    Un alibi est contredit si quelqu'un qui dit avoir été au même endroit n'y
+    a pas vu le suspect, et confirmé si quelqu'un l'y a vu. Le coupable est
+    l'unique suspect dont l'alibi est contredit et jamais confirmé ; None
+    sinon.
     """
-    suspects = sorted({h for holders in case.rumors.values() for h in holders})
+    suspects = _suspects(case)
     guilty = []
     for s in suspects:
         others = [v for v in case.living
@@ -168,6 +211,18 @@ def solve(case: Case) -> str | None:
         if contradicted and not confirmed:
             guilty.append(s)
     return guilty[0] if len(guilty) == 1 else None
+
+
+def solve_by_clue(case: Case) -> str | None:
+    """Piste de l'indice : l'unique suspect qui exerce le métier désigné."""
+    guilty = [s for s in _suspects(case) if case.trades[s] == case.clue]
+    return guilty[0] if len(guilty) == 1 else None
+
+
+def solve(case: Case) -> str | None:
+    """Résout l'enquête si les deux pistes désignent la même personne."""
+    by_alibi = solve_by_alibi(case)
+    return by_alibi if by_alibi == solve_by_clue(case) else None
 
 
 def check(case: Case) -> list[str]:
@@ -232,11 +287,26 @@ def check(case: Case) -> list[str]:
     if any(teller in holders for teller, holders in case.rumors.items()):
         errors.append("un villageois révèle son propre motif")
 
+    # Indice physique : désigne le métier du coupable, partagé par un autre
+    # villageois, mais pas par la fausse piste.
+    if set(case.trades) != set(case.npcs):
+        errors.append("tous les PNJ n'ont pas de métier")
+    elif case.trades[case.culprit] != case.clue:
+        errors.append("l'indice ne désigne pas le métier du coupable")
+    else:
+        holders = [n for n in case.living if case.trades[n] == case.clue]
+        if len(holders) < 2:
+            errors.append("l'indice désigne directement le coupable")
+        if case.trades[case.herring] == case.clue:
+            errors.append("la fausse piste a le métier désigné par l'indice")
+
     # L'enquête a de vrais choix et une seule solution.
     if len(revealed) < 2:
         errors.append("un seul suspect : l'enquête est triviale")
-    if solve(case) != case.culprit:
-        errors.append("les témoignages ne désignent pas le coupable")
+    if solve_by_alibi(case) != case.culprit:
+        errors.append("les alibis ne désignent pas le coupable")
+    if set(case.trades) == set(case.npcs) and solve_by_clue(case) != case.culprit:
+        errors.append("l'indice ne désigne pas le coupable")
 
     return errors
 
@@ -287,12 +357,24 @@ def test_case_is_solvable_with_testimonies():
         assert solve(case) == case.culprit, f"seed {seed} : solution incorrecte"
 
 
+def test_clue_points_to_culprit():
+    for seed in SEEDS:
+        case = generate(seed)
+        holders = [n for n in case.living if case.trades[n] == case.clue]
+        assert case.culprit in holders, f"seed {seed} : indice sans lien avec le coupable"
+        assert len(holders) >= 2, f"seed {seed} : l'indice suffit à lui seul"
+        assert case.herring not in holders, f"seed {seed} : l'indice vise la fausse piste"
+        assert solve_by_clue(case) == case.culprit, f"seed {seed} : piste de l'indice"
+        assert solve_by_alibi(case) == case.culprit, f"seed {seed} : piste des alibis"
+
+
 TESTS = [
     test_case_is_consistent,
     test_generation_is_deterministic,
     test_culprit_lies_and_is_contradicted,
     test_red_herring_has_confirmed_alibi,
     test_case_is_solvable_with_testimonies,
+    test_clue_points_to_culprit,
 ]
 
 
@@ -317,13 +399,15 @@ def describe(case: Case) -> str:
         f"Victime : {case.victim} (corps retrouvé {LOCATION_AT[case.crime_location]})",
         f"Coupable : {case.culprit} (motif : {case.motives[case.culprit]})",
         f"Fausse piste : {case.herring} (motif : {case.motives[case.herring]})",
+        f"Indice : {CLUE_TEXT[case.clue]} (métier : {case.clue})",
         "",
-        "PNJ           réel        déclaré     a vu",
+        "PNJ           métier          réel        déclaré     a vu",
     ]
     for npc in case.npcs:
         claimed = case.alibis.get(npc, "-")
         seen = ", ".join(case.seen.get(npc, [])) or "-"
-        lines.append(f"{npc:<13} {case.location_at_crime[npc]:<11} {claimed:<11} {seen}")
+        lines.append(f"{npc:<13} {case.trades[npc]:<15} "
+                     f"{case.location_at_crime[npc]:<11} {claimed:<11} {seen}")
     lines.append("")
     lines.append(f"Témoins contre {case.culprit} : {', '.join(case.witnesses)}")
     for teller, holders in case.rumors.items():

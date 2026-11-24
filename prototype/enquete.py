@@ -17,7 +17,8 @@ import unicodedata
 # `python3 -I` n'ajoute pas le dossier du script aux chemins d'import.
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
-from mystery import CLUE_TEXT, LOCATION_AT, MOTIVE_TEXT, Case, generate
+from mystery import (CLUE_TEXT, CLUE_VAGUE, LOCATION_AT, MOTIVE_TEXT, Case,
+                     clue_experts, generate)
 
 HELP = (
     "Tape un numéro ou un nom pour interroger, « examiner » pour fouiller le "
@@ -41,8 +42,12 @@ def que(name: str) -> str:
     return "qu'" + name if normalize(name)[0] in "aeiouy" else "que " + name
 
 
-def statement(case: Case, npc: str) -> list[str]:
-    """Ce que dit un villageois quand on l'interroge."""
+def statement(case: Case, npc: str, clue_found: bool = False) -> list[str]:
+    """Ce que dit un villageois quand on l'interroge.
+
+    Une fois l'indice trouvé, on le lui montre : s'il est du métier, il le
+    reconnaît.
+    """
     place = LOCATION_AT[case.alibis[npc]]
     seen = case.seen[npc]
     lines = [f"J'étais {place}."]
@@ -50,6 +55,10 @@ def statement(case: Case, npc: str) -> list[str]:
     for holder in case.rumors.get(npc, []):
         motive = MOTIVE_TEXT[case.motives[holder]].format(who=holder, victim=case.victim)
         lines.append(f"Et puis on raconte {que(motive)}.")
+    if clue_found and npc in clue_experts(case):
+        lines.append(f"L'objet trouvé près du corps ? Je reconnais "
+                     f"{CLUE_TEXT[case.clue]}, on en trouve chez tous les "
+                     f"{case.clue}s.")
     return lines
 
 
@@ -76,6 +85,8 @@ def explain(case: Case) -> list[str]:
     h = case.herring
     partners = [n for n in case.innocents if h in case.seen[n]]
     holders = [n for n in case.living if case.trades[n] == case.clue]
+    experts = clue_experts(case)
+    recognized = "l'a" if len(experts) == 1 else "l'ont"
     motive = MOTIVE_TEXT[case.motives[case.culprit]].format(who=case.culprit, victim=case.victim)
     return [
         f"{case.culprit} prétendait être {lie} et y avoir vu "
@@ -85,9 +96,11 @@ def explain(case: Case) -> list[str]:
         f"{h} avait aussi un motif, mais {join(partners)} "
         f"{'confirme' if len(partners) == 1 else 'confirment'} sa présence "
         f"{LOCATION_AT[case.alibis[h]]}.",
-        f"L'indice, {CLUE_TEXT[case.clue]}, désignait le métier de {case.clue} : "
-        f"{join(holders)}. Parmi eux, {case.culprit} était la seule personne "
-        f"avec un motif.",
+        f"L'objet trouvé près du corps, {CLUE_VAGUE[case.clue]}, était "
+        f"{CLUE_TEXT[case.clue]}, comme {join(experts)} "
+        f"{recognized} reconnu. Il désignait le "
+        f"métier de {case.clue} : {join(holders)}. Parmi eux, {case.culprit} "
+        f"était la seule personne avec un motif.",
     ]
 
 
@@ -97,7 +110,7 @@ def play(seed: int) -> int:
     notes: dict[str, list[str]] = {}
     clue_found = False
     crime_place = LOCATION_AT[case.crime_location]
-    clue_line = f"Près du corps, {crime_place} : {CLUE_TEXT[case.clue]}."
+    clue_line = f"Près du corps, {crime_place} : {CLUE_VAGUE[case.clue]}."
 
     print(f"\n=== Enquête n° {seed} ===\n")
     print(f"Ce matin, on a retrouvé le corps de {case.victim} "
@@ -149,7 +162,9 @@ def play(seed: int) -> int:
         if cmd in ("e", "examiner", "fouiller"):
             clue_found = True
             print(f"Tu fouilles le lieu du crime, {crime_place}. Près du corps, "
-                  f"tu trouves {CLUE_TEXT[case.clue]}.")
+                  f"tu trouves {CLUE_VAGUE[case.clue]}. Difficile de dire d'où "
+                  f"ça vient : montre-le aux villageois en les interrogeant, "
+                  f"quelqu'un du métier saura le reconnaître.")
             continue
 
         if cmd in ("aide", "?", "h"):
@@ -160,7 +175,7 @@ def play(seed: int) -> int:
         if npc is None:
             print("Commande inconnue. " + HELP)
             continue
-        notes[npc] = statement(case, npc)
+        notes[npc] = statement(case, npc, clue_found)
         print(f"{npc} : « {' '.join(notes[npc])} »")
 
 

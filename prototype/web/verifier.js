@@ -26,6 +26,7 @@ for s in json.loads(sys.stdin.read()):
     d = dataclasses.asdict(c)
     d["seed"] = s
     d["statements"] = {n: enquete.statement(c, n) for n in c.living}
+    d["statements_clue"] = {n: enquete.statement(c, n, True) for n in c.living}
     d["explain"] = enquete.explain(c)
     out.append(d)
 print(json.dumps(out, ensure_ascii=False))
@@ -59,6 +60,7 @@ for (const want of expected) {
   const diffs = FIELDS.filter((f) => !same(got[f], want[f]));
   for (const n of got.living) {
     if (!same(M.statement(got, n), want.statements[n])) diffs.push(`statement(${n})`);
+    if (!same(M.statement(got, n, true), want.statements_clue[n])) diffs.push(`statement(${n}, indice)`);
   }
   if (!same(M.explain(got), want.explain)) diffs.push("explain");
   if (diffs.length) {

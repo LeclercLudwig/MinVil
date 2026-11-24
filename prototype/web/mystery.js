@@ -143,17 +143,41 @@
   const CLUE_TEXT = {
     "fermier": "des brins de paille",
     "berger": "des touffes de laine",
-    "boucher": "un tablier taché de sang",
-    "pêcheur": "des écailles de poisson",
+    "boucher": "un lien de cuir taché de sang",
+    "pêcheur": "un morceau de filet de pêche",
     "bibliothécaire": "une page arrachée d'un livre",
-    "prêtre": "des gouttes de cire de cierge",
-    "tanneur": "une lanière de cuir",
-    "forgeron": "un clou de fer",
+    "prêtre": "une page de psautier",
+    "tanneur": "une chute de cuir tanné",
+    "forgeron": "de la limaille de fer",
     "cartographe": "un morceau de carte",
-    "maçon": "de la poussière de pierre",
-    "flécheur": "une plume d'oie",
+    "maçon": "un éclat de pierre taillée",
+    "flécheur": "un bout de corde d'arc",
   };
   const TRADES = Object.keys(CLUE_TEXT);
+
+  // Ce que voit le joueur en fouillant : chaque description vaut pour
+  // plusieurs métiers.
+  const CLUE_VAGUE = {
+    "fermier": "des fibres claires",
+    "berger": "des fibres claires",
+    "boucher": "un morceau de cuir",
+    "pêcheur": "un bout de fil tressé",
+    "bibliothécaire": "un bout de parchemin déchiré",
+    "prêtre": "un bout de parchemin déchiré",
+    "tanneur": "un morceau de cuir",
+    "forgeron": "un petit éclat gris et dur",
+    "cartographe": "un bout de parchemin déchiré",
+    "maçon": "un petit éclat gris et dur",
+    "flécheur": "un bout de fil tressé",
+  };
+
+  function clueGroup(trade) {
+    return TRADES.filter((t) => CLUE_VAGUE[t] === CLUE_VAGUE[trade]);
+  }
+
+  function clueExperts(c) {
+    return c.innocents.filter((n) => c.trades[n] === c.clue);
+  }
 
   const MIN_NPCS = 5;
   const MAX_NPCS = 8;
@@ -215,7 +239,7 @@
     }
     trades[culprit] = clue;
     trades[sharer] = clue;
-    trades[herring] = rng.choice(otherTrades);
+    trades[herring] = rng.choice(clueGroup(clue).filter((t) => t !== clue));
     trades[victim] = rng.choice(otherTrades);
 
     // Le coupable dit avoir vu un villageois vraiment présent au lieu de
@@ -250,12 +274,16 @@
       .replace("{who}", holder).replace("{victim}", c.victim);
   }
 
-  function statement(c, npc) {
+  function statement(c, npc, clueFound) {
     const lines = [`J'étais ${LOCATION_AT[c.alibis[npc]]}.`];
     const seen = c.seen[npc];
     lines.push(seen.length ? `J'y ai vu ${join(seen)}.` : "Je n'y ai vu personne.");
     for (const holder of c.rumors[npc] || []) {
       lines.push(`Et puis on raconte ${que(motiveText(c, holder))}.`);
+    }
+    if (clueFound && clueExperts(c).includes(npc)) {
+      lines.push(`L'objet trouvé près du corps ? Je reconnais ${CLUE_TEXT[c.clue]}, ` +
+        `on en trouve chez tous les ${c.clue}s.`);
     }
     return lines;
   }
@@ -265,6 +293,7 @@
     const h = c.herring;
     const partners = c.innocents.filter((n) => c.seen[n].includes(h));
     const holders = c.living.filter((n) => c.trades[n] === c.clue);
+    const experts = clueExperts(c);
     const w = c.witnesses;
     return [
       `${c.culprit} prétendait être ${lie} et y avoir vu ${join(c.seen[c.culprit])}, ` +
@@ -274,14 +303,16 @@
       `${h} avait aussi un motif, mais ${join(partners)} ` +
         `${partners.length === 1 ? "confirme" : "confirment"} sa présence ` +
         `${LOCATION_AT[c.alibis[h]]}.`,
-      `L'indice, ${CLUE_TEXT[c.clue]}, désignait le métier de ${c.clue} : ` +
-        `${join(holders)}. Parmi eux, ${c.culprit} était la seule personne avec un motif.`,
+      `L'objet trouvé près du corps, ${CLUE_VAGUE[c.clue]}, était ${CLUE_TEXT[c.clue]}, ` +
+        `comme ${join(experts)} ${experts.length === 1 ? "l'a" : "l'ont"} reconnu. ` +
+        `Il désignait le métier de ${c.clue} : ${join(holders)}. ` +
+        `Parmi eux, ${c.culprit} était la seule personne avec un motif.`,
     ];
   }
 
   const api = {
-    PyRandom, generate, statement, explain, join,
-    LOCATION_AT, CLUE_TEXT, MOTIVE_TEXT,
+    PyRandom, generate, statement, explain, join, clueGroup, clueExperts,
+    LOCATION_AT, CLUE_TEXT, CLUE_VAGUE, MOTIVE_TEXT,
   };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else root.Mystery = api;

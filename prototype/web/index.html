@@ -249,7 +249,9 @@ td.lie { color: var(--bad); font-weight: 700; }
     $("seed-cmd").textContent = c.seed;
 
     $("crime-text").innerHTML = state.clue
-      ? "Près du corps, " + esc(place) + ", tu as trouvé <span class=\"clue\">" + esc(M.CLUE_TEXT[c.clue]) + "</span>."
+      ? "Près du corps, " + esc(place) + ", tu as trouvé <span class=\"clue\">" + esc(M.CLUE_VAGUE[c.clue]) +
+        "</span>. Difficile de dire d'où ça vient : quelqu'un du métier saura le reconnaître. " +
+        "Les villageois que tu interroges le voient désormais."
       : "Le corps a été retrouvé " + esc(place) + ". Personne n'a encore fouillé les lieux.";
     $("examine").hidden = state.clue;
 
@@ -285,8 +287,9 @@ td.lie { color: var(--bad); font-weight: 700; }
   }
 
   function renderQuote(npc) {
-    const lines = M.statement(c, npc).map((l) =>
-      l.startsWith("Et puis on raconte") ? '<span class="rumor">' + esc(l) + "</span>" : esc(l));
+    const lines = M.statement(c, npc, state.clue).map((l) =>
+      l.startsWith("Et puis on raconte") || l.startsWith("L'objet trouvé")
+        ? '<span class="rumor">' + esc(l) + "</span>" : esc(l));
     const cls = npc === lastAsked ? "quote new" : "quote";
     return '<p class="' + cls + '">« ' + lines.join(" ") + " »</p>";
   }
@@ -330,7 +333,9 @@ td.lie { color: var(--bad); font-weight: 700; }
         "<th>Villageois</th><th>Métier</th><th>Position réelle</th><th>Déclaré</th><th>A vu</th>" +
       "</tr></thead><tbody>" + rows + "</tbody></table></div>" +
       '<div class="truth-notes muted">' +
-        "<p>Indice : " + esc(M.CLUE_TEXT[c.clue]) + " (métier : " + esc(c.clue) + ").</p>" +
+        "<p>Indice : " + esc(M.CLUE_VAGUE[c.clue]) + ", en fait " + esc(M.CLUE_TEXT[c.clue]) +
+          " (métier : " + esc(c.clue) + " ; ressemble à : " + esc(M.clueGroup(c.clue).join(", ")) +
+          "). Peut le reconnaître : " + esc(M.join(M.clueExperts(c))) + ".</p>" +
         "<p>Motifs : " + esc(c.culprit) + " (" + esc(c.motives[c.culprit]) + "), " +
           esc(c.herring) + " (" + esc(c.motives[c.herring]) + ").</p>" +
         "<p>Rumeurs : " + tellers.join(" ; ") + ".</p>" +

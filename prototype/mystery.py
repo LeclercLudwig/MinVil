@@ -8,8 +8,10 @@ l'occasion), puis on en dérive les alibis, les témoignages et les rumeurs.
 - Une fausse piste a aussi un motif, mais son alibi est vrai et au moins un
   autre villageois peut le confirmer.
 - Un indice physique, laissé sur le lieu du crime, désigne le métier du
-  coupable. Au moins un autre villageois exerce ce métier, mais jamais la
-  fausse piste : l'indice et les alibis mènent au coupable chacun de leur côté.
+  coupable. Au premier regard, il peut venir de plusieurs métiers, dont celui
+  de la fausse piste ; seul un villageois du bon métier le reconnaît. Au
+  moins un autre villageois exerce ce métier, mais jamais la fausse piste :
+  l'indice et les alibis mènent au coupable chacun de leur côté.
 
 Le générateur est déterministe : même seed, même crime.
 
@@ -53,21 +55,48 @@ MOTIVE_TEXT = {
 }
 MOTIVES = list(MOTIVE_TEXT)
 
-# Métier -> objet qu'un villageois de ce métier peut laisser derrière lui.
+# Métier -> objet qu'un villageois de ce métier peut laisser derrière lui,
+# tel que le reconnaît quelqu'un du métier.
 CLUE_TEXT = {
     "fermier": "des brins de paille",
     "berger": "des touffes de laine",
-    "boucher": "un tablier taché de sang",
-    "pêcheur": "des écailles de poisson",
+    "boucher": "un lien de cuir taché de sang",
+    "pêcheur": "un morceau de filet de pêche",
     "bibliothécaire": "une page arrachée d'un livre",
-    "prêtre": "des gouttes de cire de cierge",
-    "tanneur": "une lanière de cuir",
-    "forgeron": "un clou de fer",
+    "prêtre": "une page de psautier",
+    "tanneur": "une chute de cuir tanné",
+    "forgeron": "de la limaille de fer",
     "cartographe": "un morceau de carte",
-    "maçon": "de la poussière de pierre",
-    "flécheur": "une plume d'oie",
+    "maçon": "un éclat de pierre taillée",
+    "flécheur": "un bout de corde d'arc",
 }
 TRADES = list(CLUE_TEXT)
+
+# Métier -> ce que voit le joueur en fouillant. Chaque description est
+# partagée par plusieurs métiers : seul quelqu'un du métier sait trancher.
+CLUE_VAGUE = {
+    "fermier": "des fibres claires",
+    "berger": "des fibres claires",
+    "boucher": "un morceau de cuir",
+    "pêcheur": "un bout de fil tressé",
+    "bibliothécaire": "un bout de parchemin déchiré",
+    "prêtre": "un bout de parchemin déchiré",
+    "tanneur": "un morceau de cuir",
+    "forgeron": "un petit éclat gris et dur",
+    "cartographe": "un bout de parchemin déchiré",
+    "maçon": "un petit éclat gris et dur",
+    "flécheur": "un bout de fil tressé",
+}
+
+
+def clue_group(trade: str) -> list[str]:
+    """Métiers qui auraient pu laisser un objet qui ressemble à celui-là."""
+    return [t for t in TRADES if CLUE_VAGUE[t] == CLUE_VAGUE[trade]]
+
+
+def clue_experts(case: "Case") -> list[str]:
+    """Innocents capables de reconnaître l'indice : ceux du même métier."""
+    return [n for n in case.innocents if case.trades[n] == case.clue]
 
 MIN_NPCS = 5
 MAX_NPCS = 8
@@ -158,16 +187,17 @@ def generate(seed: int) -> Case:
         rumors.setdefault(teller, []).append(holder)
 
     # 5. Métiers et indice physique. Le coupable laisse un objet de son
-    #    métier ; un autre innocent (pas la fausse piste) partage ce métier,
-    #    pour que l'indice seul ne suffise pas. La victime et la fausse piste
-    #    ont un autre métier.
+    #    métier ; un autre innocent (pas la fausse piste) partage ce métier :
+    #    l'indice seul ne suffit pas, et cet innocent saura le reconnaître.
+    #    La fausse piste exerce un métier voisin, qui aurait pu laisser un
+    #    objet semblable. La victime a un autre métier.
     clue = rng.choice(TRADES)
     other_trades = [t for t in TRADES if t != clue]
     sharer = rng.choice([n for n in innocents if n != herring])
     trades = {npc: rng.choice(TRADES) for npc in innocents if npc not in (herring, sharer)}
     trades[culprit] = clue
     trades[sharer] = clue
-    trades[herring] = rng.choice(other_trades)
+    trades[herring] = rng.choice([t for t in clue_group(clue) if t != clue])
     trades[victim] = rng.choice(other_trades)
 
     # 6. Le coupable ment mieux : il dit avoir vu un villageois qui était
@@ -308,6 +338,12 @@ def check(case: Case) -> list[str]:
             errors.append("l'indice désigne directement le coupable")
         if case.trades[case.herring] == case.clue:
             errors.append("la fausse piste a le métier désigné par l'indice")
+        # Au premier regard, l'indice doit laisser au moins deux suspects.
+        lookalikes = clue_group(case.clue)
+        if case.trades[case.herring] not in lookalikes:
+            errors.append("l'indice brut écarte déjà la fausse piste")
+        if not clue_experts(case):
+            errors.append("personne ne peut reconnaître l'indice")
 
     # L'enquête a de vrais choix et une seule solution.
     if len(revealed) < 2:
@@ -378,6 +414,16 @@ def test_clue_points_to_culprit():
         assert case.herring not in holders, f"seed {seed} : l'indice vise la fausse piste"
         assert solve_by_clue(case) == case.culprit, f"seed {seed} : piste de l'indice"
         assert solve_by_alibi(case) == case.culprit, f"seed {seed} : piste des alibis"
+        # Sans identification, l'indice laisse au moins deux suspects.
+        lookalike_suspects = [s for s in case.motives
+                              if case.trades[s] in clue_group(case.clue)]
+        assert len(lookalike_suspects) >= 2, f"seed {seed} : indice brut trop direct"
+        assert clue_experts(case), f"seed {seed} : personne ne reconnaît l'indice"
+
+
+def test_every_vague_clue_is_ambiguous():
+    for trade in TRADES:
+        assert len(clue_group(trade)) >= 2, f"{trade} : description non ambiguë"
 
 
 TESTS = [
@@ -387,6 +433,7 @@ TESTS = [
     test_red_herring_has_confirmed_alibi,
     test_case_is_solvable_with_testimonies,
     test_clue_points_to_culprit,
+    test_every_vague_clue_is_ambiguous,
 ]
 
 
@@ -411,7 +458,9 @@ def describe(case: Case) -> str:
         f"Victime : {case.victim} (corps retrouvé {LOCATION_AT[case.crime_location]})",
         f"Coupable : {case.culprit} (motif : {case.motives[case.culprit]})",
         f"Fausse piste : {case.herring} (motif : {case.motives[case.herring]})",
-        f"Indice : {CLUE_TEXT[case.clue]} (métier : {case.clue})",
+        f"Indice : {CLUE_VAGUE[case.clue]}, en fait {CLUE_TEXT[case.clue]} "
+        f"(métier : {case.clue} ; ressemble à : {', '.join(clue_group(case.clue))})",
+        f"Peut le reconnaître : {', '.join(clue_experts(case))}",
         "",
         "PNJ           métier          réel        déclaré     a vu",
     ]

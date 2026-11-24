@@ -1,7 +1,7 @@
 # Passation : prototype « enquête villageoise »
 
 ## Contexte
-Projet de mod Minecraft (Java, Fabric ou NeoForge à terme). On a écarté les fractales. Le périmètre retenu combine :
+Projet de mod Minecraft en Java, pour **Fabric sur Minecraft 26.1** (voir « Choix techniques »). On a écarté les fractales. Le périmètre retenu combine :
 - **Enquête** : un crime entre PNJ, résolu à partir d'indices et d'alibis.
 - **Réputation et liens sociaux** : les rumeurs et les relations entre PNJ.
 - **Généalogie et conseil** : lignées, votes, conséquences.
@@ -59,6 +59,15 @@ python3 -I mystery.py --seed 0   # affiche toute la vérité de la seed 0
 python3 -I enquete.py            # joue une enquête tirée au hasard
 python3 -I enquete.py 42         # rejoue l'enquête de la seed 42
 ```
+
+## Choix techniques (mod)
+- **Chargeur de mods : Fabric.** Plus léger que NeoForge et suffisant pour un prototype ; on pourra viser NeoForge plus tard si le besoin apparaît.
+- **Version : Minecraft 26.1** (dernier correctif 26.1.x au moment de créer le projet ; vérifier qu'il n'existe pas une version plus récente prise en charge par Fabric).
+  - Nouvelle numérotation de Mojang par année : 26.1 succède à 1.21.x.
+  - Code de Minecraft publié sans obfuscation depuis 26.1 : on travaille avec les vrais noms de classes.
+  - Échanges des villageois configurables par fichiers de données : utile pour l'économie plus tard.
+  - **Java 25 obligatoire** pour compiler et lancer.
+- **Compilation dans l'environnement cloud de Claude :** pas encore possible. Le réseau y bloque `maven.fabricmc.net`, `meta.fabricmc.net` et les serveurs de Mojang (`piston-meta.mojang.com`, etc.), et seul Java 21 y est installé. Il faudra autoriser ces hôtes dans les réglages réseau de l'environnement, ou compiler sur ta machine.
 
 ## Points de vigilance
 - Le générateur est déterministe par seed : même seed, même crime. Garder ce comportement pour le débogage et la reproductibilité en jeu.

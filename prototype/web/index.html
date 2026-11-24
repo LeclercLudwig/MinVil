@@ -250,8 +250,8 @@ td.lie { color: var(--bad); font-weight: 700; }
 
     $("crime-text").innerHTML = state.clue
       ? "Près du corps, " + esc(place) + ", tu as trouvé <span class=\"clue\">" + esc(M.CLUE_VAGUE[c.clue]) +
-        "</span>. Difficile de dire d'où ça vient : quelqu'un du métier saura le reconnaître. " +
-        "Les villageois que tu interroges le voient désormais."
+        "</span>. Difficile de dire d'où ça vient : montre-le aux villageois, " +
+        "quelqu'un du métier saura le reconnaître."
       : "Le corps a été retrouvé " + esc(place) + ". Personne n'a encore fouillé les lieux.";
     $("examine").hidden = state.clue;
 

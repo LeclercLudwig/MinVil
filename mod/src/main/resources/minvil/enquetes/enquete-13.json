@@ -1,0 +1,245 @@
+{
+  "format": "minvil-enquete",
+  "version": 1,
+  "seed": 13,
+  "public": {
+    "victim": "enguerrand",
+    "crime_location": "puits",
+    "clue": {
+      "description": "un morceau de cuir",
+      "could_be": [
+        "boucher",
+        "tanneur"
+      ]
+    },
+    "villagers": [
+      {
+        "id": "berthe",
+        "name": "Berthe",
+        "trade": "berger",
+        "minecraft_profession": "minecraft:shepherd",
+        "alive": true,
+        "statement": {
+          "location": "bergerie",
+          "seen": [],
+          "rumors": [
+            {
+              "about": "douce",
+              "motive": "heritage"
+            }
+          ],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "clovis",
+        "name": "Clovis",
+        "trade": "boucher",
+        "minecraft_profession": "minecraft:butcher",
+        "alive": true,
+        "statement": {
+          "location": "moulin",
+          "seen": [],
+          "rumors": [
+            {
+              "about": "lothaire",
+              "motive": "jalousie"
+            }
+          ],
+          "recognizes_clue": "boucher"
+        }
+      },
+      {
+        "id": "douce",
+        "name": "Douce",
+        "trade": "tanneur",
+        "minecraft_profession": "minecraft:leatherworker",
+        "alive": true,
+        "statement": {
+          "location": "forge",
+          "seen": [
+            "jehanne"
+          ],
+          "rumors": [],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "enguerrand",
+        "name": "Enguerrand",
+        "trade": "cartographe",
+        "minecraft_profession": "minecraft:cartographer",
+        "alive": false
+      },
+      {
+        "id": "gauvain",
+        "name": "Gauvain",
+        "trade": "boucher",
+        "minecraft_profession": "minecraft:butcher",
+        "alive": true,
+        "statement": {
+          "location": "taverne",
+          "seen": [],
+          "rumors": [],
+          "recognizes_clue": "boucher"
+        }
+      },
+      {
+        "id": "jehanne",
+        "name": "Jehanne",
+        "trade": "bibliothecaire",
+        "minecraft_profession": "minecraft:librarian",
+        "alive": true,
+        "statement": {
+          "location": "forge",
+          "seen": [
+            "douce"
+          ],
+          "rumors": [],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "lothaire",
+        "name": "Lothaire",
+        "trade": "boucher",
+        "minecraft_profession": "minecraft:butcher",
+        "alive": true,
+        "statement": {
+          "location": "moulin",
+          "seen": [
+            "clovis"
+          ],
+          "rumors": [],
+          "recognizes_clue": null
+        }
+      }
+    ]
+  },
+  "solution": {
+    "culprit": "lothaire",
+    "red_herring": "douce",
+    "motives": {
+      "lothaire": "jalousie",
+      "douce": "heritage"
+    },
+    "true_locations": {
+      "enguerrand": "puits",
+      "lothaire": "puits",
+      "clovis": "moulin",
+      "douce": "forge",
+      "jehanne": "forge",
+      "gauvain": "taverne",
+      "berthe": "bergerie"
+    },
+    "witnesses": [
+      "clovis"
+    ],
+    "clue": {
+      "trade": "boucher",
+      "object": "un lien de cuir taché de sang"
+    },
+    "false_rumor": null,
+    "explanation": {
+      "fr": [
+        "Lothaire prétendait être au moulin et y avoir vu Clovis, mais Clovis y était sans y voir Lothaire. Mobile : Lothaire jalousait Enguerrand.",
+        "Douce avait aussi un motif, mais Jehanne confirme sa présence à la forge.",
+        "L'objet trouvé près du corps, un morceau de cuir, était un lien de cuir taché de sang, comme Clovis et Gauvain l'ont reconnu. Il désignait le métier de boucher : Clovis, Gauvain et Lothaire. Parmi eux, Lothaire était la seule personne avec un motif."
+      ]
+    }
+  },
+  "texts": {
+    "fr": {
+      "scene": [
+        "Ce matin, on a retrouvé le corps de Enguerrand au puits. Le crime a eu lieu dans la nuit.",
+        "Les villageois ont tous une version de la soirée. À toi de trouver qui ment."
+      ],
+      "examine": "Tu fouilles le lieu du crime, au puits. Près du corps, tu trouves un morceau de cuir. Difficile de dire d'où ça vient : montre-le aux villageois en les interrogeant, quelqu'un du métier saura le reconnaître.",
+      "statements": {
+        "berthe": {
+          "without_clue": [
+            "J'étais à la bergerie.",
+            "Je n'y ai vu personne.",
+            "Et puis on raconte que Douce comptait hériter de Enguerrand."
+          ],
+          "with_clue": [
+            "J'étais à la bergerie.",
+            "Je n'y ai vu personne.",
+            "Et puis on raconte que Douce comptait hériter de Enguerrand."
+          ]
+        },
+        "clovis": {
+          "without_clue": [
+            "J'étais au moulin.",
+            "Je n'y ai vu personne.",
+            "Et puis on raconte que Lothaire jalousait Enguerrand."
+          ],
+          "with_clue": [
+            "J'étais au moulin.",
+            "Je n'y ai vu personne.",
+            "Et puis on raconte que Lothaire jalousait Enguerrand.",
+            "L'objet trouvé près du corps ? Je reconnais un lien de cuir taché de sang, on en trouve chez tous les bouchers."
+          ]
+        },
+        "douce": {
+          "without_clue": [
+            "J'étais à la forge.",
+            "J'y ai vu Jehanne."
+          ],
+          "with_clue": [
+            "J'étais à la forge.",
+            "J'y ai vu Jehanne."
+          ]
+        },
+        "gauvain": {
+          "without_clue": [
+            "J'étais à la taverne.",
+            "Je n'y ai vu personne."
+          ],
+          "with_clue": [
+            "J'étais à la taverne.",
+            "Je n'y ai vu personne.",
+            "L'objet trouvé près du corps ? Je reconnais un lien de cuir taché de sang, on en trouve chez tous les bouchers."
+          ]
+        },
+        "jehanne": {
+          "without_clue": [
+            "J'étais à la forge.",
+            "J'y ai vu Douce."
+          ],
+          "with_clue": [
+            "J'étais à la forge.",
+            "J'y ai vu Douce."
+          ]
+        },
+        "lothaire": {
+          "without_clue": [
+            "J'étais au moulin.",
+            "J'y ai vu Clovis."
+          ],
+          "with_clue": [
+            "J'étais au moulin.",
+            "J'y ai vu Clovis."
+          ]
+        }
+      },
+      "locations": {
+        "forge": "à la forge",
+        "moulin": "au moulin",
+        "puits": "au puits",
+        "eglise": "à l'église",
+        "marche": "au marché",
+        "taverne": "à la taverne",
+        "champs": "aux champs",
+        "bergerie": "à la bergerie"
+      },
+      "trades": {
+        "berger": "berger",
+        "bibliothecaire": "bibliothécaire",
+        "boucher": "boucher",
+        "cartographe": "cartographe",
+        "tanneur": "tanneur"
+      }
+    }
+  }
+}

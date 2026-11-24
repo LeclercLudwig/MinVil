@@ -1,0 +1,206 @@
+{
+  "format": "minvil-enquete",
+  "version": 1,
+  "seed": 31,
+  "public": {
+    "victim": "hersende",
+    "crime_location": "puits",
+    "clue": {
+      "description": "un bout de fil tressé",
+      "could_be": [
+        "pecheur",
+        "flecheur"
+      ]
+    },
+    "villagers": [
+      {
+        "id": "aldric",
+        "name": "Aldric",
+        "trade": "boucher",
+        "minecraft_profession": "minecraft:butcher",
+        "alive": true,
+        "statement": {
+          "location": "champs",
+          "seen": [
+            "clovis"
+          ],
+          "rumors": [],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "berthe",
+        "name": "Berthe",
+        "trade": "flecheur",
+        "minecraft_profession": "minecraft:fletcher",
+        "alive": true,
+        "statement": {
+          "location": "forge",
+          "seen": [
+            "gauvain"
+          ],
+          "rumors": [],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "clovis",
+        "name": "Clovis",
+        "trade": "pecheur",
+        "minecraft_profession": "minecraft:fisherman",
+        "alive": true,
+        "statement": {
+          "location": "champs",
+          "seen": [
+            "aldric"
+          ],
+          "rumors": [
+            {
+              "about": "aldric",
+              "motive": "dette"
+            }
+          ],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "gauvain",
+        "name": "Gauvain",
+        "trade": "flecheur",
+        "minecraft_profession": "minecraft:fletcher",
+        "alive": true,
+        "statement": {
+          "location": "forge",
+          "seen": [],
+          "rumors": [
+            {
+              "about": "berthe",
+              "motive": "jalousie"
+            },
+            {
+              "about": "clovis",
+              "motive": "jalousie"
+            }
+          ],
+          "recognizes_clue": "flecheur"
+        }
+      },
+      {
+        "id": "hersende",
+        "name": "Hersende",
+        "trade": "cartographe",
+        "minecraft_profession": "minecraft:cartographer",
+        "alive": false
+      }
+    ]
+  },
+  "solution": {
+    "culprit": "berthe",
+    "red_herring": "clovis",
+    "motives": {
+      "berthe": "jalousie",
+      "clovis": "jalousie"
+    },
+    "true_locations": {
+      "hersende": "puits",
+      "berthe": "puits",
+      "gauvain": "forge",
+      "clovis": "champs",
+      "aldric": "champs"
+    },
+    "witnesses": [
+      "gauvain"
+    ],
+    "clue": {
+      "trade": "flecheur",
+      "object": "un bout de corde d'arc"
+    },
+    "false_rumor": {
+      "teller": "clovis",
+      "about": "aldric",
+      "motive": "dette"
+    },
+    "explanation": {
+      "fr": [
+        "Berthe prétendait être à la forge et y avoir vu Gauvain, mais Gauvain y était sans y voir Berthe. Mobile : Berthe jalousait Hersende.",
+        "Clovis avait aussi un motif, mais Aldric confirme sa présence aux champs.",
+        "L'objet trouvé près du corps, un bout de fil tressé, était un bout de corde d'arc, comme Gauvain l'a reconnu. Il désignait le métier de flécheur : Berthe et Gauvain. Parmi eux, Berthe était la seule personne avec un motif.",
+        "La rumeur selon laquelle Aldric devait de l'argent à Hersende était fausse : Clovis ne faisait que répéter un ragot."
+      ]
+    }
+  },
+  "texts": {
+    "fr": {
+      "scene": [
+        "Ce matin, on a retrouvé le corps de Hersende au puits. Le crime a eu lieu dans la nuit.",
+        "Les villageois ont tous une version de la soirée. À toi de trouver qui ment."
+      ],
+      "examine": "Tu fouilles le lieu du crime, au puits. Près du corps, tu trouves un bout de fil tressé. Difficile de dire d'où ça vient : montre-le aux villageois en les interrogeant, quelqu'un du métier saura le reconnaître.",
+      "statements": {
+        "aldric": {
+          "without_clue": [
+            "J'étais aux champs.",
+            "J'y ai vu Clovis."
+          ],
+          "with_clue": [
+            "J'étais aux champs.",
+            "J'y ai vu Clovis."
+          ]
+        },
+        "berthe": {
+          "without_clue": [
+            "J'étais à la forge.",
+            "J'y ai vu Gauvain."
+          ],
+          "with_clue": [
+            "J'étais à la forge.",
+            "J'y ai vu Gauvain."
+          ]
+        },
+        "clovis": {
+          "without_clue": [
+            "J'étais aux champs.",
+            "J'y ai vu Aldric.",
+            "Et puis on raconte qu'Aldric devait de l'argent à Hersende."
+          ],
+          "with_clue": [
+            "J'étais aux champs.",
+            "J'y ai vu Aldric.",
+            "Et puis on raconte qu'Aldric devait de l'argent à Hersende."
+          ]
+        },
+        "gauvain": {
+          "without_clue": [
+            "J'étais à la forge.",
+            "Je n'y ai vu personne.",
+            "Et puis on raconte que Berthe jalousait Hersende.",
+            "Et puis on raconte que Clovis jalousait Hersende."
+          ],
+          "with_clue": [
+            "J'étais à la forge.",
+            "Je n'y ai vu personne.",
+            "Et puis on raconte que Berthe jalousait Hersende.",
+            "Et puis on raconte que Clovis jalousait Hersende.",
+            "L'objet trouvé près du corps ? Je reconnais un bout de corde d'arc, on en trouve chez tous les flécheurs."
+          ]
+        }
+      },
+      "locations": {
+        "forge": "à la forge",
+        "moulin": "au moulin",
+        "puits": "au puits",
+        "eglise": "à l'église",
+        "marche": "au marché",
+        "taverne": "à la taverne",
+        "champs": "aux champs",
+        "bergerie": "à la bergerie"
+      },
+      "trades": {
+        "boucher": "boucher",
+        "cartographe": "cartographe",
+        "flecheur": "flécheur",
+        "pecheur": "pêcheur"
+      }
+    }
+  }
+}

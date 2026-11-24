@@ -1,0 +1,269 @@
+{
+  "format": "minvil-enquete",
+  "version": 1,
+  "seed": 63,
+  "public": {
+    "victim": "hersende",
+    "crime_location": "moulin",
+    "clue": {
+      "description": "un bout de fil tressé",
+      "could_be": [
+        "pecheur",
+        "flecheur"
+      ]
+    },
+    "villagers": [
+      {
+        "id": "aldric",
+        "name": "Aldric",
+        "trade": "macon",
+        "minecraft_profession": "minecraft:mason",
+        "alive": true,
+        "statement": {
+          "location": "bergerie",
+          "seen": [],
+          "rumors": [],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "berthe",
+        "name": "Berthe",
+        "trade": "flecheur",
+        "minecraft_profession": "minecraft:fletcher",
+        "alive": true,
+        "statement": {
+          "location": "puits",
+          "seen": [
+            "mahaut"
+          ],
+          "rumors": [
+            {
+              "about": "mahaut",
+              "motive": "terre_disputee"
+            }
+          ],
+          "recognizes_clue": "flecheur"
+        }
+      },
+      {
+        "id": "douce",
+        "name": "Douce",
+        "trade": "pecheur",
+        "minecraft_profession": "minecraft:fisherman",
+        "alive": true,
+        "statement": {
+          "location": "eglise",
+          "seen": [],
+          "rumors": [],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "enguerrand",
+        "name": "Enguerrand",
+        "trade": "flecheur",
+        "minecraft_profession": "minecraft:fletcher",
+        "alive": true,
+        "statement": {
+          "location": "champs",
+          "seen": [
+            "lothaire"
+          ],
+          "rumors": [],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "fleur",
+        "name": "Fleur",
+        "trade": "bibliothecaire",
+        "minecraft_profession": "minecraft:librarian",
+        "alive": true,
+        "statement": {
+          "location": "forge",
+          "seen": [],
+          "rumors": [],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "hersende",
+        "name": "Hersende",
+        "trade": "fermier",
+        "minecraft_profession": "minecraft:farmer",
+        "alive": false
+      },
+      {
+        "id": "lothaire",
+        "name": "Lothaire",
+        "trade": "pretre",
+        "minecraft_profession": "minecraft:cleric",
+        "alive": true,
+        "statement": {
+          "location": "champs",
+          "seen": [],
+          "rumors": [
+            {
+              "about": "enguerrand",
+              "motive": "heritage"
+            }
+          ],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "mahaut",
+        "name": "Mahaut",
+        "trade": "pecheur",
+        "minecraft_profession": "minecraft:fisherman",
+        "alive": true,
+        "statement": {
+          "location": "puits",
+          "seen": [
+            "berthe"
+          ],
+          "rumors": [],
+          "recognizes_clue": null
+        }
+      }
+    ]
+  },
+  "solution": {
+    "culprit": "enguerrand",
+    "red_herring": "mahaut",
+    "motives": {
+      "enguerrand": "heritage",
+      "mahaut": "terre_disputee"
+    },
+    "true_locations": {
+      "hersende": "moulin",
+      "enguerrand": "moulin",
+      "lothaire": "champs",
+      "mahaut": "puits",
+      "berthe": "puits",
+      "douce": "eglise",
+      "fleur": "forge",
+      "aldric": "bergerie"
+    },
+    "witnesses": [
+      "lothaire"
+    ],
+    "clue": {
+      "trade": "flecheur",
+      "object": "un bout de corde d'arc"
+    },
+    "false_rumor": null,
+    "explanation": {
+      "fr": [
+        "Enguerrand prétendait être aux champs et y avoir vu Lothaire, mais Lothaire y était sans y voir Enguerrand. Mobile : Enguerrand comptait hériter de Hersende.",
+        "Mahaut avait aussi un motif, mais Berthe confirme sa présence au puits.",
+        "L'objet trouvé près du corps, un bout de fil tressé, était un bout de corde d'arc, comme Berthe l'a reconnu. Il désignait le métier de flécheur : Berthe et Enguerrand. Parmi eux, Enguerrand était la seule personne avec un motif."
+      ]
+    }
+  },
+  "texts": {
+    "fr": {
+      "scene": [
+        "Ce matin, on a retrouvé le corps de Hersende au moulin. Le crime a eu lieu dans la nuit.",
+        "Les villageois ont tous une version de la soirée. À toi de trouver qui ment."
+      ],
+      "examine": "Tu fouilles le lieu du crime, au moulin. Près du corps, tu trouves un bout de fil tressé. Difficile de dire d'où ça vient : montre-le aux villageois en les interrogeant, quelqu'un du métier saura le reconnaître.",
+      "statements": {
+        "aldric": {
+          "without_clue": [
+            "J'étais à la bergerie.",
+            "Je n'y ai vu personne."
+          ],
+          "with_clue": [
+            "J'étais à la bergerie.",
+            "Je n'y ai vu personne."
+          ]
+        },
+        "berthe": {
+          "without_clue": [
+            "J'étais au puits.",
+            "J'y ai vu Mahaut.",
+            "Et puis on raconte que Mahaut se disputait une terre avec Hersende."
+          ],
+          "with_clue": [
+            "J'étais au puits.",
+            "J'y ai vu Mahaut.",
+            "Et puis on raconte que Mahaut se disputait une terre avec Hersende.",
+            "L'objet trouvé près du corps ? Je reconnais un bout de corde d'arc, on en trouve chez tous les flécheurs."
+          ]
+        },
+        "douce": {
+          "without_clue": [
+            "J'étais à l'église.",
+            "Je n'y ai vu personne."
+          ],
+          "with_clue": [
+            "J'étais à l'église.",
+            "Je n'y ai vu personne."
+          ]
+        },
+        "enguerrand": {
+          "without_clue": [
+            "J'étais aux champs.",
+            "J'y ai vu Lothaire."
+          ],
+          "with_clue": [
+            "J'étais aux champs.",
+            "J'y ai vu Lothaire."
+          ]
+        },
+        "fleur": {
+          "without_clue": [
+            "J'étais à la forge.",
+            "Je n'y ai vu personne."
+          ],
+          "with_clue": [
+            "J'étais à la forge.",
+            "Je n'y ai vu personne."
+          ]
+        },
+        "lothaire": {
+          "without_clue": [
+            "J'étais aux champs.",
+            "Je n'y ai vu personne.",
+            "Et puis on raconte qu'Enguerrand comptait hériter de Hersende."
+          ],
+          "with_clue": [
+            "J'étais aux champs.",
+            "Je n'y ai vu personne.",
+            "Et puis on raconte qu'Enguerrand comptait hériter de Hersende."
+          ]
+        },
+        "mahaut": {
+          "without_clue": [
+            "J'étais au puits.",
+            "J'y ai vu Berthe."
+          ],
+          "with_clue": [
+            "J'étais au puits.",
+            "J'y ai vu Berthe."
+          ]
+        }
+      },
+      "locations": {
+        "forge": "à la forge",
+        "moulin": "au moulin",
+        "puits": "au puits",
+        "eglise": "à l'église",
+        "marche": "au marché",
+        "taverne": "à la taverne",
+        "champs": "aux champs",
+        "bergerie": "à la bergerie"
+      },
+      "trades": {
+        "bibliothecaire": "bibliothécaire",
+        "fermier": "fermier",
+        "flecheur": "flécheur",
+        "macon": "maçon",
+        "pretre": "prêtre",
+        "pecheur": "pêcheur"
+      }
+    }
+  }
+}

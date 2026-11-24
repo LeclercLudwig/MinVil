@@ -1,0 +1,280 @@
+{
+  "format": "minvil-enquete",
+  "version": 1,
+  "seed": 50,
+  "public": {
+    "victim": "enguerrand",
+    "crime_location": "eglise",
+    "clue": {
+      "description": "un bout de fil tressé",
+      "could_be": [
+        "pecheur",
+        "flecheur"
+      ]
+    },
+    "villagers": [
+      {
+        "id": "aldric",
+        "name": "Aldric",
+        "trade": "macon",
+        "minecraft_profession": "minecraft:mason",
+        "alive": true,
+        "statement": {
+          "location": "forge",
+          "seen": [],
+          "rumors": [],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "clovis",
+        "name": "Clovis",
+        "trade": "tanneur",
+        "minecraft_profession": "minecraft:leatherworker",
+        "alive": true,
+        "statement": {
+          "location": "puits",
+          "seen": [],
+          "rumors": [],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "douce",
+        "name": "Douce",
+        "trade": "pecheur",
+        "minecraft_profession": "minecraft:fisherman",
+        "alive": true,
+        "statement": {
+          "location": "champs",
+          "seen": [],
+          "rumors": [
+            {
+              "about": "lothaire",
+              "motive": "heritage"
+            }
+          ],
+          "recognizes_clue": "pecheur"
+        }
+      },
+      {
+        "id": "enguerrand",
+        "name": "Enguerrand",
+        "trade": "berger",
+        "minecraft_profession": "minecraft:shepherd",
+        "alive": false
+      },
+      {
+        "id": "fleur",
+        "name": "Fleur",
+        "trade": "pecheur",
+        "minecraft_profession": "minecraft:fisherman",
+        "alive": true,
+        "statement": {
+          "location": "champs",
+          "seen": [
+            "douce"
+          ],
+          "rumors": [],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "hersende",
+        "name": "Hersende",
+        "trade": "flecheur",
+        "minecraft_profession": "minecraft:fletcher",
+        "alive": true,
+        "statement": {
+          "location": "taverne",
+          "seen": [
+            "lothaire"
+          ],
+          "rumors": [],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "lothaire",
+        "name": "Lothaire",
+        "trade": "pretre",
+        "minecraft_profession": "minecraft:cleric",
+        "alive": true,
+        "statement": {
+          "location": "taverne",
+          "seen": [
+            "hersende"
+          ],
+          "rumors": [
+            {
+              "about": "fleur",
+              "motive": "dette"
+            },
+            {
+              "about": "hersende",
+              "motive": "heritage"
+            }
+          ],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "mahaut",
+        "name": "Mahaut",
+        "trade": "macon",
+        "minecraft_profession": "minecraft:mason",
+        "alive": true,
+        "statement": {
+          "location": "moulin",
+          "seen": [],
+          "rumors": [],
+          "recognizes_clue": null
+        }
+      }
+    ]
+  },
+  "solution": {
+    "culprit": "fleur",
+    "red_herring": "hersende",
+    "motives": {
+      "fleur": "dette",
+      "hersende": "heritage"
+    },
+    "true_locations": {
+      "enguerrand": "eglise",
+      "fleur": "eglise",
+      "douce": "champs",
+      "hersende": "taverne",
+      "lothaire": "taverne",
+      "aldric": "forge",
+      "mahaut": "moulin",
+      "clovis": "puits"
+    },
+    "witnesses": [
+      "douce"
+    ],
+    "clue": {
+      "trade": "pecheur",
+      "object": "un morceau de filet de pêche"
+    },
+    "false_rumor": {
+      "teller": "douce",
+      "about": "lothaire",
+      "motive": "heritage"
+    },
+    "explanation": {
+      "fr": [
+        "Fleur prétendait être aux champs et y avoir vu Douce, mais Douce y était sans y voir Fleur. Mobile : Fleur devait de l'argent à Enguerrand.",
+        "Hersende avait aussi un motif, mais Lothaire confirme sa présence à la taverne.",
+        "L'objet trouvé près du corps, un bout de fil tressé, était un morceau de filet de pêche, comme Douce l'a reconnu. Il désignait le métier de pêcheur : Douce et Fleur. Parmi eux, Fleur était la seule personne avec un motif.",
+        "La rumeur selon laquelle Lothaire comptait hériter de Enguerrand était fausse : Douce ne faisait que répéter un ragot."
+      ]
+    }
+  },
+  "texts": {
+    "fr": {
+      "scene": [
+        "Ce matin, on a retrouvé le corps de Enguerrand à l'église. Le crime a eu lieu dans la nuit.",
+        "Les villageois ont tous une version de la soirée. À toi de trouver qui ment."
+      ],
+      "examine": "Tu fouilles le lieu du crime, à l'église. Près du corps, tu trouves un bout de fil tressé. Difficile de dire d'où ça vient : montre-le aux villageois en les interrogeant, quelqu'un du métier saura le reconnaître.",
+      "statements": {
+        "aldric": {
+          "without_clue": [
+            "J'étais à la forge.",
+            "Je n'y ai vu personne."
+          ],
+          "with_clue": [
+            "J'étais à la forge.",
+            "Je n'y ai vu personne."
+          ]
+        },
+        "clovis": {
+          "without_clue": [
+            "J'étais au puits.",
+            "Je n'y ai vu personne."
+          ],
+          "with_clue": [
+            "J'étais au puits.",
+            "Je n'y ai vu personne."
+          ]
+        },
+        "douce": {
+          "without_clue": [
+            "J'étais aux champs.",
+            "Je n'y ai vu personne.",
+            "Et puis on raconte que Lothaire comptait hériter de Enguerrand."
+          ],
+          "with_clue": [
+            "J'étais aux champs.",
+            "Je n'y ai vu personne.",
+            "Et puis on raconte que Lothaire comptait hériter de Enguerrand.",
+            "L'objet trouvé près du corps ? Je reconnais un morceau de filet de pêche, on en trouve chez tous les pêcheurs."
+          ]
+        },
+        "fleur": {
+          "without_clue": [
+            "J'étais aux champs.",
+            "J'y ai vu Douce."
+          ],
+          "with_clue": [
+            "J'étais aux champs.",
+            "J'y ai vu Douce."
+          ]
+        },
+        "hersende": {
+          "without_clue": [
+            "J'étais à la taverne.",
+            "J'y ai vu Lothaire."
+          ],
+          "with_clue": [
+            "J'étais à la taverne.",
+            "J'y ai vu Lothaire."
+          ]
+        },
+        "lothaire": {
+          "without_clue": [
+            "J'étais à la taverne.",
+            "J'y ai vu Hersende.",
+            "Et puis on raconte que Fleur devait de l'argent à Enguerrand.",
+            "Et puis on raconte que Hersende comptait hériter de Enguerrand."
+          ],
+          "with_clue": [
+            "J'étais à la taverne.",
+            "J'y ai vu Hersende.",
+            "Et puis on raconte que Fleur devait de l'argent à Enguerrand.",
+            "Et puis on raconte que Hersende comptait hériter de Enguerrand."
+          ]
+        },
+        "mahaut": {
+          "without_clue": [
+            "J'étais au moulin.",
+            "Je n'y ai vu personne."
+          ],
+          "with_clue": [
+            "J'étais au moulin.",
+            "Je n'y ai vu personne."
+          ]
+        }
+      },
+      "locations": {
+        "forge": "à la forge",
+        "moulin": "au moulin",
+        "puits": "au puits",
+        "eglise": "à l'église",
+        "marche": "au marché",
+        "taverne": "à la taverne",
+        "champs": "aux champs",
+        "bergerie": "à la bergerie"
+      },
+      "trades": {
+        "berger": "berger",
+        "flecheur": "flécheur",
+        "macon": "maçon",
+        "pretre": "prêtre",
+        "pecheur": "pêcheur",
+        "tanneur": "tanneur"
+      }
+    }
+  }
+}

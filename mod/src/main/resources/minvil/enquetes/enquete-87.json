@@ -1,0 +1,227 @@
+{
+  "format": "minvil-enquete",
+  "version": 1,
+  "seed": 87,
+  "public": {
+    "victim": "mahaut",
+    "crime_location": "taverne",
+    "clue": {
+      "description": "un bout de parchemin déchiré",
+      "could_be": [
+        "bibliothecaire",
+        "pretre",
+        "cartographe"
+      ]
+    },
+    "villagers": [
+      {
+        "id": "berthe",
+        "name": "Berthe",
+        "trade": "pretre",
+        "minecraft_profession": "minecraft:cleric",
+        "alive": true,
+        "statement": {
+          "location": "marche",
+          "seen": [
+            "enguerrand"
+          ],
+          "rumors": [],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "douce",
+        "name": "Douce",
+        "trade": "bibliothecaire",
+        "minecraft_profession": "minecraft:librarian",
+        "alive": true,
+        "statement": {
+          "location": "champs",
+          "seen": [
+            "isembert"
+          ],
+          "rumors": [],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "enguerrand",
+        "name": "Enguerrand",
+        "trade": "bibliothecaire",
+        "minecraft_profession": "minecraft:librarian",
+        "alive": true,
+        "statement": {
+          "location": "marche",
+          "seen": [
+            "berthe"
+          ],
+          "rumors": [
+            {
+              "about": "douce",
+              "motive": "heritage"
+            }
+          ],
+          "recognizes_clue": "bibliothecaire"
+        }
+      },
+      {
+        "id": "gauvain",
+        "name": "Gauvain",
+        "trade": "forgeron",
+        "minecraft_profession": "minecraft:toolsmith",
+        "alive": true,
+        "statement": {
+          "location": "champs",
+          "seen": [
+            "isembert"
+          ],
+          "rumors": [],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "isembert",
+        "name": "Isembert",
+        "trade": "berger",
+        "minecraft_profession": "minecraft:shepherd",
+        "alive": true,
+        "statement": {
+          "location": "champs",
+          "seen": [
+            "gauvain"
+          ],
+          "rumors": [
+            {
+              "about": "berthe",
+              "motive": "dette"
+            }
+          ],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "mahaut",
+        "name": "Mahaut",
+        "trade": "pecheur",
+        "minecraft_profession": "minecraft:fisherman",
+        "alive": false
+      }
+    ]
+  },
+  "solution": {
+    "culprit": "douce",
+    "red_herring": "berthe",
+    "motives": {
+      "douce": "heritage",
+      "berthe": "dette"
+    },
+    "true_locations": {
+      "mahaut": "taverne",
+      "douce": "taverne",
+      "isembert": "champs",
+      "berthe": "marche",
+      "enguerrand": "marche",
+      "gauvain": "champs"
+    },
+    "witnesses": [
+      "gauvain",
+      "isembert"
+    ],
+    "clue": {
+      "trade": "bibliothecaire",
+      "object": "une page arrachée d'un livre"
+    },
+    "false_rumor": null,
+    "explanation": {
+      "fr": [
+        "Douce prétendait être aux champs et y avoir vu Isembert, mais Gauvain et Isembert y étaient sans y voir Douce. Mobile : Douce comptait hériter de Mahaut.",
+        "Berthe avait aussi un motif, mais Enguerrand confirme sa présence au marché.",
+        "L'objet trouvé près du corps, un bout de parchemin déchiré, était une page arrachée d'un livre, comme Enguerrand l'a reconnu. Il désignait le métier de bibliothécaire : Douce et Enguerrand. Parmi eux, Douce était la seule personne avec un motif."
+      ]
+    }
+  },
+  "texts": {
+    "fr": {
+      "scene": [
+        "Ce matin, on a retrouvé le corps de Mahaut à la taverne. Le crime a eu lieu dans la nuit.",
+        "Les villageois ont tous une version de la soirée. À toi de trouver qui ment."
+      ],
+      "examine": "Tu fouilles le lieu du crime, à la taverne. Près du corps, tu trouves un bout de parchemin déchiré. Difficile de dire d'où ça vient : montre-le aux villageois en les interrogeant, quelqu'un du métier saura le reconnaître.",
+      "statements": {
+        "berthe": {
+          "without_clue": [
+            "J'étais au marché.",
+            "J'y ai vu Enguerrand."
+          ],
+          "with_clue": [
+            "J'étais au marché.",
+            "J'y ai vu Enguerrand."
+          ]
+        },
+        "douce": {
+          "without_clue": [
+            "J'étais aux champs.",
+            "J'y ai vu Isembert."
+          ],
+          "with_clue": [
+            "J'étais aux champs.",
+            "J'y ai vu Isembert."
+          ]
+        },
+        "enguerrand": {
+          "without_clue": [
+            "J'étais au marché.",
+            "J'y ai vu Berthe.",
+            "Et puis on raconte que Douce comptait hériter de Mahaut."
+          ],
+          "with_clue": [
+            "J'étais au marché.",
+            "J'y ai vu Berthe.",
+            "Et puis on raconte que Douce comptait hériter de Mahaut.",
+            "L'objet trouvé près du corps ? Je reconnais une page arrachée d'un livre, on en trouve chez tous les bibliothécaires."
+          ]
+        },
+        "gauvain": {
+          "without_clue": [
+            "J'étais aux champs.",
+            "J'y ai vu Isembert."
+          ],
+          "with_clue": [
+            "J'étais aux champs.",
+            "J'y ai vu Isembert."
+          ]
+        },
+        "isembert": {
+          "without_clue": [
+            "J'étais aux champs.",
+            "J'y ai vu Gauvain.",
+            "Et puis on raconte que Berthe devait de l'argent à Mahaut."
+          ],
+          "with_clue": [
+            "J'étais aux champs.",
+            "J'y ai vu Gauvain.",
+            "Et puis on raconte que Berthe devait de l'argent à Mahaut."
+          ]
+        }
+      },
+      "locations": {
+        "forge": "à la forge",
+        "moulin": "au moulin",
+        "puits": "au puits",
+        "eglise": "à l'église",
+        "marche": "au marché",
+        "taverne": "à la taverne",
+        "champs": "aux champs",
+        "bergerie": "à la bergerie"
+      },
+      "trades": {
+        "berger": "berger",
+        "bibliothecaire": "bibliothécaire",
+        "cartographe": "cartographe",
+        "forgeron": "forgeron",
+        "pretre": "prêtre",
+        "pecheur": "pêcheur"
+      }
+    }
+  }
+}

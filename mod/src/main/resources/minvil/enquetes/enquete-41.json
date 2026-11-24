@@ -1,0 +1,285 @@
+{
+  "format": "minvil-enquete",
+  "version": 1,
+  "seed": 41,
+  "public": {
+    "victim": "fleur",
+    "crime_location": "forge",
+    "clue": {
+      "description": "un morceau de cuir",
+      "could_be": [
+        "boucher",
+        "tanneur"
+      ]
+    },
+    "villagers": [
+      {
+        "id": "clovis",
+        "name": "Clovis",
+        "trade": "flecheur",
+        "minecraft_profession": "minecraft:fletcher",
+        "alive": true,
+        "statement": {
+          "location": "bergerie",
+          "seen": [
+            "jehanne"
+          ],
+          "rumors": [],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "douce",
+        "name": "Douce",
+        "trade": "boucher",
+        "minecraft_profession": "minecraft:butcher",
+        "alive": true,
+        "statement": {
+          "location": "bergerie",
+          "seen": [
+            "clovis"
+          ],
+          "rumors": [],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "enguerrand",
+        "name": "Enguerrand",
+        "trade": "macon",
+        "minecraft_profession": "minecraft:mason",
+        "alive": true,
+        "statement": {
+          "location": "puits",
+          "seen": [
+            "gauvain"
+          ],
+          "rumors": [],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "fleur",
+        "name": "Fleur",
+        "trade": "flecheur",
+        "minecraft_profession": "minecraft:fletcher",
+        "alive": false
+      },
+      {
+        "id": "gauvain",
+        "name": "Gauvain",
+        "trade": "tanneur",
+        "minecraft_profession": "minecraft:leatherworker",
+        "alive": true,
+        "statement": {
+          "location": "puits",
+          "seen": [
+            "enguerrand"
+          ],
+          "rumors": [
+            {
+              "about": "douce",
+              "motive": "rancune"
+            }
+          ],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "hersende",
+        "name": "Hersende",
+        "trade": "boucher",
+        "minecraft_profession": "minecraft:butcher",
+        "alive": true,
+        "statement": {
+          "location": "champs",
+          "seen": [],
+          "rumors": [
+            {
+              "about": "gauvain",
+              "motive": "jalousie"
+            }
+          ],
+          "recognizes_clue": "boucher"
+        }
+      },
+      {
+        "id": "jehanne",
+        "name": "Jehanne",
+        "trade": "macon",
+        "minecraft_profession": "minecraft:mason",
+        "alive": true,
+        "statement": {
+          "location": "bergerie",
+          "seen": [
+            "clovis"
+          ],
+          "rumors": [],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "lothaire",
+        "name": "Lothaire",
+        "trade": "fermier",
+        "minecraft_profession": "minecraft:farmer",
+        "alive": true,
+        "statement": {
+          "location": "moulin",
+          "seen": [],
+          "rumors": [
+            {
+              "about": "jehanne",
+              "motive": "jalousie"
+            }
+          ],
+          "recognizes_clue": null
+        }
+      }
+    ]
+  },
+  "solution": {
+    "culprit": "douce",
+    "red_herring": "gauvain",
+    "motives": {
+      "douce": "rancune",
+      "gauvain": "jalousie"
+    },
+    "true_locations": {
+      "fleur": "forge",
+      "douce": "forge",
+      "clovis": "bergerie",
+      "gauvain": "puits",
+      "enguerrand": "puits",
+      "hersende": "champs",
+      "jehanne": "bergerie",
+      "lothaire": "moulin"
+    },
+    "witnesses": [
+      "clovis",
+      "jehanne"
+    ],
+    "clue": {
+      "trade": "boucher",
+      "object": "un lien de cuir taché de sang"
+    },
+    "false_rumor": {
+      "teller": "lothaire",
+      "about": "jehanne",
+      "motive": "jalousie"
+    },
+    "explanation": {
+      "fr": [
+        "Douce prétendait être à la bergerie et y avoir vu Clovis, mais Clovis et Jehanne y étaient sans y voir Douce. Mobile : Douce en voulait à Fleur depuis longtemps.",
+        "Gauvain avait aussi un motif, mais Enguerrand confirme sa présence au puits.",
+        "L'objet trouvé près du corps, un morceau de cuir, était un lien de cuir taché de sang, comme Hersende l'a reconnu. Il désignait le métier de boucher : Douce et Hersende. Parmi eux, Douce était la seule personne avec un motif.",
+        "La rumeur selon laquelle Jehanne jalousait Fleur était fausse : Lothaire ne faisait que répéter un ragot."
+      ]
+    }
+  },
+  "texts": {
+    "fr": {
+      "scene": [
+        "Ce matin, on a retrouvé le corps de Fleur à la forge. Le crime a eu lieu dans la nuit.",
+        "Les villageois ont tous une version de la soirée. À toi de trouver qui ment."
+      ],
+      "examine": "Tu fouilles le lieu du crime, à la forge. Près du corps, tu trouves un morceau de cuir. Difficile de dire d'où ça vient : montre-le aux villageois en les interrogeant, quelqu'un du métier saura le reconnaître.",
+      "statements": {
+        "clovis": {
+          "without_clue": [
+            "J'étais à la bergerie.",
+            "J'y ai vu Jehanne."
+          ],
+          "with_clue": [
+            "J'étais à la bergerie.",
+            "J'y ai vu Jehanne."
+          ]
+        },
+        "douce": {
+          "without_clue": [
+            "J'étais à la bergerie.",
+            "J'y ai vu Clovis."
+          ],
+          "with_clue": [
+            "J'étais à la bergerie.",
+            "J'y ai vu Clovis."
+          ]
+        },
+        "enguerrand": {
+          "without_clue": [
+            "J'étais au puits.",
+            "J'y ai vu Gauvain."
+          ],
+          "with_clue": [
+            "J'étais au puits.",
+            "J'y ai vu Gauvain."
+          ]
+        },
+        "gauvain": {
+          "without_clue": [
+            "J'étais au puits.",
+            "J'y ai vu Enguerrand.",
+            "Et puis on raconte que Douce en voulait à Fleur depuis longtemps."
+          ],
+          "with_clue": [
+            "J'étais au puits.",
+            "J'y ai vu Enguerrand.",
+            "Et puis on raconte que Douce en voulait à Fleur depuis longtemps."
+          ]
+        },
+        "hersende": {
+          "without_clue": [
+            "J'étais aux champs.",
+            "Je n'y ai vu personne.",
+            "Et puis on raconte que Gauvain jalousait Fleur."
+          ],
+          "with_clue": [
+            "J'étais aux champs.",
+            "Je n'y ai vu personne.",
+            "Et puis on raconte que Gauvain jalousait Fleur.",
+            "L'objet trouvé près du corps ? Je reconnais un lien de cuir taché de sang, on en trouve chez tous les bouchers."
+          ]
+        },
+        "jehanne": {
+          "without_clue": [
+            "J'étais à la bergerie.",
+            "J'y ai vu Clovis."
+          ],
+          "with_clue": [
+            "J'étais à la bergerie.",
+            "J'y ai vu Clovis."
+          ]
+        },
+        "lothaire": {
+          "without_clue": [
+            "J'étais au moulin.",
+            "Je n'y ai vu personne.",
+            "Et puis on raconte que Jehanne jalousait Fleur."
+          ],
+          "with_clue": [
+            "J'étais au moulin.",
+            "Je n'y ai vu personne.",
+            "Et puis on raconte que Jehanne jalousait Fleur."
+          ]
+        }
+      },
+      "locations": {
+        "forge": "à la forge",
+        "moulin": "au moulin",
+        "puits": "au puits",
+        "eglise": "à l'église",
+        "marche": "au marché",
+        "taverne": "à la taverne",
+        "champs": "aux champs",
+        "bergerie": "à la bergerie"
+      },
+      "trades": {
+        "boucher": "boucher",
+        "fermier": "fermier",
+        "flecheur": "flécheur",
+        "macon": "maçon",
+        "tanneur": "tanneur"
+      }
+    }
+  }
+}

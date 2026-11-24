@@ -1,0 +1,258 @@
+{
+  "format": "minvil-enquete",
+  "version": 1,
+  "seed": 96,
+  "public": {
+    "victim": "fleur",
+    "crime_location": "forge",
+    "clue": {
+      "description": "un bout de parchemin déchiré",
+      "could_be": [
+        "bibliothecaire",
+        "pretre",
+        "cartographe"
+      ]
+    },
+    "villagers": [
+      {
+        "id": "berthe",
+        "name": "Berthe",
+        "trade": "cartographe",
+        "minecraft_profession": "minecraft:cartographer",
+        "alive": true,
+        "statement": {
+          "location": "moulin",
+          "seen": [
+            "douce"
+          ],
+          "rumors": [
+            {
+              "about": "lothaire",
+              "motive": "heritage"
+            }
+          ],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "clovis",
+        "name": "Clovis",
+        "trade": "fermier",
+        "minecraft_profession": "minecraft:farmer",
+        "alive": true,
+        "statement": {
+          "location": "marche",
+          "seen": [],
+          "rumors": [],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "douce",
+        "name": "Douce",
+        "trade": "cartographe",
+        "minecraft_profession": "minecraft:cartographer",
+        "alive": true,
+        "statement": {
+          "location": "moulin",
+          "seen": [
+            "berthe"
+          ],
+          "rumors": [],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "fleur",
+        "name": "Fleur",
+        "trade": "macon",
+        "minecraft_profession": "minecraft:mason",
+        "alive": false
+      },
+      {
+        "id": "gauvain",
+        "name": "Gauvain",
+        "trade": "boucher",
+        "minecraft_profession": "minecraft:butcher",
+        "alive": true,
+        "statement": {
+          "location": "champs",
+          "seen": [],
+          "rumors": [
+            {
+              "about": "berthe",
+              "motive": "heritage"
+            }
+          ],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "jehanne",
+        "name": "Jehanne",
+        "trade": "pretre",
+        "minecraft_profession": "minecraft:cleric",
+        "alive": true,
+        "statement": {
+          "location": "puits",
+          "seen": [],
+          "rumors": [
+            {
+              "about": "douce",
+              "motive": "dette"
+            }
+          ],
+          "recognizes_clue": "pretre"
+        }
+      },
+      {
+        "id": "lothaire",
+        "name": "Lothaire",
+        "trade": "pretre",
+        "minecraft_profession": "minecraft:cleric",
+        "alive": true,
+        "statement": {
+          "location": "champs",
+          "seen": [
+            "gauvain"
+          ],
+          "rumors": [],
+          "recognizes_clue": null
+        }
+      }
+    ]
+  },
+  "solution": {
+    "culprit": "lothaire",
+    "red_herring": "douce",
+    "motives": {
+      "lothaire": "heritage",
+      "douce": "dette"
+    },
+    "true_locations": {
+      "fleur": "forge",
+      "lothaire": "forge",
+      "gauvain": "champs",
+      "douce": "moulin",
+      "berthe": "moulin",
+      "jehanne": "puits",
+      "clovis": "marche"
+    },
+    "witnesses": [
+      "gauvain"
+    ],
+    "clue": {
+      "trade": "pretre",
+      "object": "une page de psautier"
+    },
+    "false_rumor": {
+      "teller": "gauvain",
+      "about": "berthe",
+      "motive": "heritage"
+    },
+    "explanation": {
+      "fr": [
+        "Lothaire prétendait être aux champs et y avoir vu Gauvain, mais Gauvain y était sans y voir Lothaire. Mobile : Lothaire comptait hériter de Fleur.",
+        "Douce avait aussi un motif, mais Berthe confirme sa présence au moulin.",
+        "L'objet trouvé près du corps, un bout de parchemin déchiré, était une page de psautier, comme Jehanne l'a reconnu. Il désignait le métier de prêtre : Jehanne et Lothaire. Parmi eux, Lothaire était la seule personne avec un motif.",
+        "La rumeur selon laquelle Berthe comptait hériter de Fleur était fausse : Gauvain ne faisait que répéter un ragot."
+      ]
+    }
+  },
+  "texts": {
+    "fr": {
+      "scene": [
+        "Ce matin, on a retrouvé le corps de Fleur à la forge. Le crime a eu lieu dans la nuit.",
+        "Les villageois ont tous une version de la soirée. À toi de trouver qui ment."
+      ],
+      "examine": "Tu fouilles le lieu du crime, à la forge. Près du corps, tu trouves un bout de parchemin déchiré. Difficile de dire d'où ça vient : montre-le aux villageois en les interrogeant, quelqu'un du métier saura le reconnaître.",
+      "statements": {
+        "berthe": {
+          "without_clue": [
+            "J'étais au moulin.",
+            "J'y ai vu Douce.",
+            "Et puis on raconte que Lothaire comptait hériter de Fleur."
+          ],
+          "with_clue": [
+            "J'étais au moulin.",
+            "J'y ai vu Douce.",
+            "Et puis on raconte que Lothaire comptait hériter de Fleur."
+          ]
+        },
+        "clovis": {
+          "without_clue": [
+            "J'étais au marché.",
+            "Je n'y ai vu personne."
+          ],
+          "with_clue": [
+            "J'étais au marché.",
+            "Je n'y ai vu personne."
+          ]
+        },
+        "douce": {
+          "without_clue": [
+            "J'étais au moulin.",
+            "J'y ai vu Berthe."
+          ],
+          "with_clue": [
+            "J'étais au moulin.",
+            "J'y ai vu Berthe."
+          ]
+        },
+        "gauvain": {
+          "without_clue": [
+            "J'étais aux champs.",
+            "Je n'y ai vu personne.",
+            "Et puis on raconte que Berthe comptait hériter de Fleur."
+          ],
+          "with_clue": [
+            "J'étais aux champs.",
+            "Je n'y ai vu personne.",
+            "Et puis on raconte que Berthe comptait hériter de Fleur."
+          ]
+        },
+        "jehanne": {
+          "without_clue": [
+            "J'étais au puits.",
+            "Je n'y ai vu personne.",
+            "Et puis on raconte que Douce devait de l'argent à Fleur."
+          ],
+          "with_clue": [
+            "J'étais au puits.",
+            "Je n'y ai vu personne.",
+            "Et puis on raconte que Douce devait de l'argent à Fleur.",
+            "L'objet trouvé près du corps ? Je reconnais une page de psautier, on en trouve chez tous les prêtres."
+          ]
+        },
+        "lothaire": {
+          "without_clue": [
+            "J'étais aux champs.",
+            "J'y ai vu Gauvain."
+          ],
+          "with_clue": [
+            "J'étais aux champs.",
+            "J'y ai vu Gauvain."
+          ]
+        }
+      },
+      "locations": {
+        "forge": "à la forge",
+        "moulin": "au moulin",
+        "puits": "au puits",
+        "eglise": "à l'église",
+        "marche": "au marché",
+        "taverne": "à la taverne",
+        "champs": "aux champs",
+        "bergerie": "à la bergerie"
+      },
+      "trades": {
+        "bibliothecaire": "bibliothécaire",
+        "boucher": "boucher",
+        "cartographe": "cartographe",
+        "fermier": "fermier",
+        "macon": "maçon",
+        "pretre": "prêtre"
+      }
+    }
+  }
+}

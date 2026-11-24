@@ -1,0 +1,194 @@
+{
+  "format": "minvil-enquete",
+  "version": 1,
+  "seed": 32,
+  "public": {
+    "victim": "douce",
+    "crime_location": "forge",
+    "clue": {
+      "description": "des fibres claires",
+      "could_be": [
+        "fermier",
+        "berger"
+      ]
+    },
+    "villagers": [
+      {
+        "id": "clovis",
+        "name": "Clovis",
+        "trade": "fermier",
+        "minecraft_profession": "minecraft:farmer",
+        "alive": true,
+        "statement": {
+          "location": "champs",
+          "seen": [
+            "enguerrand"
+          ],
+          "rumors": [],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "douce",
+        "name": "Douce",
+        "trade": "macon",
+        "minecraft_profession": "minecraft:mason",
+        "alive": false
+      },
+      {
+        "id": "enguerrand",
+        "name": "Enguerrand",
+        "trade": "pretre",
+        "minecraft_profession": "minecraft:cleric",
+        "alive": true,
+        "statement": {
+          "location": "champs",
+          "seen": [],
+          "rumors": [],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "hersende",
+        "name": "Hersende",
+        "trade": "fermier",
+        "minecraft_profession": "minecraft:farmer",
+        "alive": true,
+        "statement": {
+          "location": "moulin",
+          "seen": [
+            "mahaut"
+          ],
+          "rumors": [
+            {
+              "about": "clovis",
+              "motive": "dette"
+            },
+            {
+              "about": "mahaut",
+              "motive": "heritage"
+            }
+          ],
+          "recognizes_clue": "fermier"
+        }
+      },
+      {
+        "id": "mahaut",
+        "name": "Mahaut",
+        "trade": "berger",
+        "minecraft_profession": "minecraft:shepherd",
+        "alive": true,
+        "statement": {
+          "location": "moulin",
+          "seen": [
+            "hersende"
+          ],
+          "rumors": [],
+          "recognizes_clue": null
+        }
+      }
+    ]
+  },
+  "solution": {
+    "culprit": "clovis",
+    "red_herring": "mahaut",
+    "motives": {
+      "clovis": "dette",
+      "mahaut": "heritage"
+    },
+    "true_locations": {
+      "douce": "forge",
+      "clovis": "forge",
+      "enguerrand": "champs",
+      "mahaut": "moulin",
+      "hersende": "moulin"
+    },
+    "witnesses": [
+      "enguerrand"
+    ],
+    "clue": {
+      "trade": "fermier",
+      "object": "des brins de paille"
+    },
+    "false_rumor": null,
+    "explanation": {
+      "fr": [
+        "Clovis prétendait être aux champs et y avoir vu Enguerrand, mais Enguerrand y était sans y voir Clovis. Mobile : Clovis devait de l'argent à Douce.",
+        "Mahaut avait aussi un motif, mais Hersende confirme sa présence au moulin.",
+        "L'objet trouvé près du corps, des fibres claires, était des brins de paille, comme Hersende l'a reconnu. Il désignait le métier de fermier : Clovis et Hersende. Parmi eux, Clovis était la seule personne avec un motif."
+      ]
+    }
+  },
+  "texts": {
+    "fr": {
+      "scene": [
+        "Ce matin, on a retrouvé le corps de Douce à la forge. Le crime a eu lieu dans la nuit.",
+        "Les villageois ont tous une version de la soirée. À toi de trouver qui ment."
+      ],
+      "examine": "Tu fouilles le lieu du crime, à la forge. Près du corps, tu trouves des fibres claires. Difficile de dire d'où ça vient : montre-le aux villageois en les interrogeant, quelqu'un du métier saura le reconnaître.",
+      "statements": {
+        "clovis": {
+          "without_clue": [
+            "J'étais aux champs.",
+            "J'y ai vu Enguerrand."
+          ],
+          "with_clue": [
+            "J'étais aux champs.",
+            "J'y ai vu Enguerrand."
+          ]
+        },
+        "enguerrand": {
+          "without_clue": [
+            "J'étais aux champs.",
+            "Je n'y ai vu personne."
+          ],
+          "with_clue": [
+            "J'étais aux champs.",
+            "Je n'y ai vu personne."
+          ]
+        },
+        "hersende": {
+          "without_clue": [
+            "J'étais au moulin.",
+            "J'y ai vu Mahaut.",
+            "Et puis on raconte que Clovis devait de l'argent à Douce.",
+            "Et puis on raconte que Mahaut comptait hériter de Douce."
+          ],
+          "with_clue": [
+            "J'étais au moulin.",
+            "J'y ai vu Mahaut.",
+            "Et puis on raconte que Clovis devait de l'argent à Douce.",
+            "Et puis on raconte que Mahaut comptait hériter de Douce.",
+            "L'objet trouvé près du corps ? Je reconnais des brins de paille, on en trouve chez tous les fermiers."
+          ]
+        },
+        "mahaut": {
+          "without_clue": [
+            "J'étais au moulin.",
+            "J'y ai vu Hersende."
+          ],
+          "with_clue": [
+            "J'étais au moulin.",
+            "J'y ai vu Hersende."
+          ]
+        }
+      },
+      "locations": {
+        "forge": "à la forge",
+        "moulin": "au moulin",
+        "puits": "au puits",
+        "eglise": "à l'église",
+        "marche": "au marché",
+        "taverne": "à la taverne",
+        "champs": "aux champs",
+        "bergerie": "à la bergerie"
+      },
+      "trades": {
+        "berger": "berger",
+        "fermier": "fermier",
+        "macon": "maçon",
+        "pretre": "prêtre"
+      }
+    }
+  }
+}

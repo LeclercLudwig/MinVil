@@ -1,0 +1,194 @@
+{
+  "format": "minvil-enquete",
+  "version": 1,
+  "seed": 70,
+  "public": {
+    "victim": "enguerrand",
+    "crime_location": "moulin",
+    "clue": {
+      "description": "un morceau de cuir",
+      "could_be": [
+        "boucher",
+        "tanneur"
+      ]
+    },
+    "villagers": [
+      {
+        "id": "clovis",
+        "name": "Clovis",
+        "trade": "boucher",
+        "minecraft_profession": "minecraft:butcher",
+        "alive": true,
+        "statement": {
+          "location": "bergerie",
+          "seen": [
+            "fleur"
+          ],
+          "rumors": [],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "enguerrand",
+        "name": "Enguerrand",
+        "trade": "macon",
+        "minecraft_profession": "minecraft:mason",
+        "alive": false
+      },
+      {
+        "id": "fleur",
+        "name": "Fleur",
+        "trade": "tanneur",
+        "minecraft_profession": "minecraft:leatherworker",
+        "alive": true,
+        "statement": {
+          "location": "bergerie",
+          "seen": [
+            "clovis"
+          ],
+          "rumors": [
+            {
+              "about": "hersende",
+              "motive": "terre_disputee"
+            },
+            {
+              "about": "clovis",
+              "motive": "jalousie"
+            }
+          ],
+          "recognizes_clue": "tanneur"
+        }
+      },
+      {
+        "id": "hersende",
+        "name": "Hersende",
+        "trade": "tanneur",
+        "minecraft_profession": "minecraft:leatherworker",
+        "alive": true,
+        "statement": {
+          "location": "puits",
+          "seen": [
+            "lothaire"
+          ],
+          "rumors": [],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "lothaire",
+        "name": "Lothaire",
+        "trade": "tanneur",
+        "minecraft_profession": "minecraft:leatherworker",
+        "alive": true,
+        "statement": {
+          "location": "puits",
+          "seen": [],
+          "rumors": [],
+          "recognizes_clue": "tanneur"
+        }
+      }
+    ]
+  },
+  "solution": {
+    "culprit": "hersende",
+    "red_herring": "clovis",
+    "motives": {
+      "hersende": "terre_disputee",
+      "clovis": "jalousie"
+    },
+    "true_locations": {
+      "enguerrand": "moulin",
+      "hersende": "moulin",
+      "lothaire": "puits",
+      "clovis": "bergerie",
+      "fleur": "bergerie"
+    },
+    "witnesses": [
+      "lothaire"
+    ],
+    "clue": {
+      "trade": "tanneur",
+      "object": "une chute de cuir tanné"
+    },
+    "false_rumor": null,
+    "explanation": {
+      "fr": [
+        "Hersende prétendait être au puits et y avoir vu Lothaire, mais Lothaire y était sans y voir Hersende. Mobile : Hersende se disputait une terre avec Enguerrand.",
+        "Clovis avait aussi un motif, mais Fleur confirme sa présence à la bergerie.",
+        "L'objet trouvé près du corps, un morceau de cuir, était une chute de cuir tanné, comme Fleur et Lothaire l'ont reconnu. Il désignait le métier de tanneur : Fleur, Hersende et Lothaire. Parmi eux, Hersende était la seule personne avec un motif."
+      ]
+    }
+  },
+  "texts": {
+    "fr": {
+      "scene": [
+        "Ce matin, on a retrouvé le corps de Enguerrand au moulin. Le crime a eu lieu dans la nuit.",
+        "Les villageois ont tous une version de la soirée. À toi de trouver qui ment."
+      ],
+      "examine": "Tu fouilles le lieu du crime, au moulin. Près du corps, tu trouves un morceau de cuir. Difficile de dire d'où ça vient : montre-le aux villageois en les interrogeant, quelqu'un du métier saura le reconnaître.",
+      "statements": {
+        "clovis": {
+          "without_clue": [
+            "J'étais à la bergerie.",
+            "J'y ai vu Fleur."
+          ],
+          "with_clue": [
+            "J'étais à la bergerie.",
+            "J'y ai vu Fleur."
+          ]
+        },
+        "fleur": {
+          "without_clue": [
+            "J'étais à la bergerie.",
+            "J'y ai vu Clovis.",
+            "Et puis on raconte que Hersende se disputait une terre avec Enguerrand.",
+            "Et puis on raconte que Clovis jalousait Enguerrand."
+          ],
+          "with_clue": [
+            "J'étais à la bergerie.",
+            "J'y ai vu Clovis.",
+            "Et puis on raconte que Hersende se disputait une terre avec Enguerrand.",
+            "Et puis on raconte que Clovis jalousait Enguerrand.",
+            "L'objet trouvé près du corps ? Je reconnais une chute de cuir tanné, on en trouve chez tous les tanneurs."
+          ]
+        },
+        "hersende": {
+          "without_clue": [
+            "J'étais au puits.",
+            "J'y ai vu Lothaire."
+          ],
+          "with_clue": [
+            "J'étais au puits.",
+            "J'y ai vu Lothaire."
+          ]
+        },
+        "lothaire": {
+          "without_clue": [
+            "J'étais au puits.",
+            "Je n'y ai vu personne."
+          ],
+          "with_clue": [
+            "J'étais au puits.",
+            "Je n'y ai vu personne.",
+            "L'objet trouvé près du corps ? Je reconnais une chute de cuir tanné, on en trouve chez tous les tanneurs."
+          ]
+        }
+      },
+      "locations": {
+        "forge": "à la forge",
+        "moulin": "au moulin",
+        "puits": "au puits",
+        "eglise": "à l'église",
+        "marche": "au marché",
+        "taverne": "à la taverne",
+        "champs": "aux champs",
+        "bergerie": "à la bergerie"
+      },
+      "trades": {
+        "boucher": "boucher",
+        "macon": "maçon",
+        "tanneur": "tanneur"
+      }
+    }
+  }
+}

@@ -1,0 +1,197 @@
+{
+  "format": "minvil-enquete",
+  "version": 1,
+  "seed": 10,
+  "public": {
+    "victim": "gauvain",
+    "crime_location": "bergerie",
+    "clue": {
+      "description": "un bout de parchemin déchiré",
+      "could_be": [
+        "bibliothecaire",
+        "pretre",
+        "cartographe"
+      ]
+    },
+    "villagers": [
+      {
+        "id": "aldric",
+        "name": "Aldric",
+        "trade": "cartographe",
+        "minecraft_profession": "minecraft:cartographer",
+        "alive": true,
+        "statement": {
+          "location": "eglise",
+          "seen": [
+            "douce"
+          ],
+          "rumors": [],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "douce",
+        "name": "Douce",
+        "trade": "pecheur",
+        "minecraft_profession": "minecraft:fisherman",
+        "alive": true,
+        "statement": {
+          "location": "eglise",
+          "seen": [
+            "aldric"
+          ],
+          "rumors": [
+            {
+              "about": "aldric",
+              "motive": "jalousie"
+            }
+          ],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "gauvain",
+        "name": "Gauvain",
+        "trade": "fermier",
+        "minecraft_profession": "minecraft:farmer",
+        "alive": false
+      },
+      {
+        "id": "hersende",
+        "name": "Hersende",
+        "trade": "pretre",
+        "minecraft_profession": "minecraft:cleric",
+        "alive": true,
+        "statement": {
+          "location": "champs",
+          "seen": [
+            "jehanne"
+          ],
+          "rumors": [],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "jehanne",
+        "name": "Jehanne",
+        "trade": "pretre",
+        "minecraft_profession": "minecraft:cleric",
+        "alive": true,
+        "statement": {
+          "location": "champs",
+          "seen": [],
+          "rumors": [
+            {
+              "about": "hersende",
+              "motive": "heritage"
+            }
+          ],
+          "recognizes_clue": "pretre"
+        }
+      }
+    ]
+  },
+  "solution": {
+    "culprit": "hersende",
+    "red_herring": "aldric",
+    "motives": {
+      "hersende": "heritage",
+      "aldric": "jalousie"
+    },
+    "true_locations": {
+      "gauvain": "bergerie",
+      "hersende": "bergerie",
+      "jehanne": "champs",
+      "aldric": "eglise",
+      "douce": "eglise"
+    },
+    "witnesses": [
+      "jehanne"
+    ],
+    "clue": {
+      "trade": "pretre",
+      "object": "une page de psautier"
+    },
+    "false_rumor": null,
+    "explanation": {
+      "fr": [
+        "Hersende prétendait être aux champs et y avoir vu Jehanne, mais Jehanne y était sans y voir Hersende. Mobile : Hersende comptait hériter de Gauvain.",
+        "Aldric avait aussi un motif, mais Douce confirme sa présence à l'église.",
+        "L'objet trouvé près du corps, un bout de parchemin déchiré, était une page de psautier, comme Jehanne l'a reconnu. Il désignait le métier de prêtre : Hersende et Jehanne. Parmi eux, Hersende était la seule personne avec un motif."
+      ]
+    }
+  },
+  "texts": {
+    "fr": {
+      "scene": [
+        "Ce matin, on a retrouvé le corps de Gauvain à la bergerie. Le crime a eu lieu dans la nuit.",
+        "Les villageois ont tous une version de la soirée. À toi de trouver qui ment."
+      ],
+      "examine": "Tu fouilles le lieu du crime, à la bergerie. Près du corps, tu trouves un bout de parchemin déchiré. Difficile de dire d'où ça vient : montre-le aux villageois en les interrogeant, quelqu'un du métier saura le reconnaître.",
+      "statements": {
+        "aldric": {
+          "without_clue": [
+            "J'étais à l'église.",
+            "J'y ai vu Douce."
+          ],
+          "with_clue": [
+            "J'étais à l'église.",
+            "J'y ai vu Douce."
+          ]
+        },
+        "douce": {
+          "without_clue": [
+            "J'étais à l'église.",
+            "J'y ai vu Aldric.",
+            "Et puis on raconte qu'Aldric jalousait Gauvain."
+          ],
+          "with_clue": [
+            "J'étais à l'église.",
+            "J'y ai vu Aldric.",
+            "Et puis on raconte qu'Aldric jalousait Gauvain."
+          ]
+        },
+        "hersende": {
+          "without_clue": [
+            "J'étais aux champs.",
+            "J'y ai vu Jehanne."
+          ],
+          "with_clue": [
+            "J'étais aux champs.",
+            "J'y ai vu Jehanne."
+          ]
+        },
+        "jehanne": {
+          "without_clue": [
+            "J'étais aux champs.",
+            "Je n'y ai vu personne.",
+            "Et puis on raconte que Hersende comptait hériter de Gauvain."
+          ],
+          "with_clue": [
+            "J'étais aux champs.",
+            "Je n'y ai vu personne.",
+            "Et puis on raconte que Hersende comptait hériter de Gauvain.",
+            "L'objet trouvé près du corps ? Je reconnais une page de psautier, on en trouve chez tous les prêtres."
+          ]
+        }
+      },
+      "locations": {
+        "forge": "à la forge",
+        "moulin": "au moulin",
+        "puits": "au puits",
+        "eglise": "à l'église",
+        "marche": "au marché",
+        "taverne": "à la taverne",
+        "champs": "aux champs",
+        "bergerie": "à la bergerie"
+      },
+      "trades": {
+        "bibliothecaire": "bibliothécaire",
+        "cartographe": "cartographe",
+        "fermier": "fermier",
+        "pretre": "prêtre",
+        "pecheur": "pêcheur"
+      }
+    }
+  }
+}

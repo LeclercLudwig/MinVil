@@ -1,0 +1,224 @@
+{
+  "format": "minvil-enquete",
+  "version": 1,
+  "seed": 59,
+  "public": {
+    "victim": "berthe",
+    "crime_location": "marche",
+    "clue": {
+      "description": "un petit éclat gris et dur",
+      "could_be": [
+        "forgeron",
+        "macon"
+      ]
+    },
+    "villagers": [
+      {
+        "id": "aldric",
+        "name": "Aldric",
+        "trade": "macon",
+        "minecraft_profession": "minecraft:mason",
+        "alive": true,
+        "statement": {
+          "location": "forge",
+          "seen": [
+            "clovis"
+          ],
+          "rumors": [],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "berthe",
+        "name": "Berthe",
+        "trade": "boucher",
+        "minecraft_profession": "minecraft:butcher",
+        "alive": false
+      },
+      {
+        "id": "clovis",
+        "name": "Clovis",
+        "trade": "boucher",
+        "minecraft_profession": "minecraft:butcher",
+        "alive": true,
+        "statement": {
+          "location": "forge",
+          "seen": [
+            "aldric"
+          ],
+          "rumors": [
+            {
+              "about": "aldric",
+              "motive": "dette"
+            }
+          ],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "gauvain",
+        "name": "Gauvain",
+        "trade": "forgeron",
+        "minecraft_profession": "minecraft:toolsmith",
+        "alive": true,
+        "statement": {
+          "location": "champs",
+          "seen": [
+            "hersende"
+          ],
+          "rumors": [
+            {
+              "about": "lothaire",
+              "motive": "terre_disputee"
+            }
+          ],
+          "recognizes_clue": "forgeron"
+        }
+      },
+      {
+        "id": "hersende",
+        "name": "Hersende",
+        "trade": "bibliothecaire",
+        "minecraft_profession": "minecraft:librarian",
+        "alive": true,
+        "statement": {
+          "location": "champs",
+          "seen": [
+            "gauvain"
+          ],
+          "rumors": [],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "lothaire",
+        "name": "Lothaire",
+        "trade": "forgeron",
+        "minecraft_profession": "minecraft:toolsmith",
+        "alive": true,
+        "statement": {
+          "location": "champs",
+          "seen": [
+            "gauvain"
+          ],
+          "rumors": [],
+          "recognizes_clue": null
+        }
+      }
+    ]
+  },
+  "solution": {
+    "culprit": "lothaire",
+    "red_herring": "aldric",
+    "motives": {
+      "lothaire": "terre_disputee",
+      "aldric": "dette"
+    },
+    "true_locations": {
+      "berthe": "marche",
+      "lothaire": "marche",
+      "hersende": "champs",
+      "aldric": "forge",
+      "clovis": "forge",
+      "gauvain": "champs"
+    },
+    "witnesses": [
+      "gauvain",
+      "hersende"
+    ],
+    "clue": {
+      "trade": "forgeron",
+      "object": "de la limaille de fer"
+    },
+    "false_rumor": null,
+    "explanation": {
+      "fr": [
+        "Lothaire prétendait être aux champs et y avoir vu Gauvain, mais Gauvain et Hersende y étaient sans y voir Lothaire. Mobile : Lothaire se disputait une terre avec Berthe.",
+        "Aldric avait aussi un motif, mais Clovis confirme sa présence à la forge.",
+        "L'objet trouvé près du corps, un petit éclat gris et dur, était de la limaille de fer, comme Gauvain l'a reconnu. Il désignait le métier de forgeron : Gauvain et Lothaire. Parmi eux, Lothaire était la seule personne avec un motif."
+      ]
+    }
+  },
+  "texts": {
+    "fr": {
+      "scene": [
+        "Ce matin, on a retrouvé le corps de Berthe au marché. Le crime a eu lieu dans la nuit.",
+        "Les villageois ont tous une version de la soirée. À toi de trouver qui ment."
+      ],
+      "examine": "Tu fouilles le lieu du crime, au marché. Près du corps, tu trouves un petit éclat gris et dur. Difficile de dire d'où ça vient : montre-le aux villageois en les interrogeant, quelqu'un du métier saura le reconnaître.",
+      "statements": {
+        "aldric": {
+          "without_clue": [
+            "J'étais à la forge.",
+            "J'y ai vu Clovis."
+          ],
+          "with_clue": [
+            "J'étais à la forge.",
+            "J'y ai vu Clovis."
+          ]
+        },
+        "clovis": {
+          "without_clue": [
+            "J'étais à la forge.",
+            "J'y ai vu Aldric.",
+            "Et puis on raconte qu'Aldric devait de l'argent à Berthe."
+          ],
+          "with_clue": [
+            "J'étais à la forge.",
+            "J'y ai vu Aldric.",
+            "Et puis on raconte qu'Aldric devait de l'argent à Berthe."
+          ]
+        },
+        "gauvain": {
+          "without_clue": [
+            "J'étais aux champs.",
+            "J'y ai vu Hersende.",
+            "Et puis on raconte que Lothaire se disputait une terre avec Berthe."
+          ],
+          "with_clue": [
+            "J'étais aux champs.",
+            "J'y ai vu Hersende.",
+            "Et puis on raconte que Lothaire se disputait une terre avec Berthe.",
+            "L'objet trouvé près du corps ? Je reconnais de la limaille de fer, on en trouve chez tous les forgerons."
+          ]
+        },
+        "hersende": {
+          "without_clue": [
+            "J'étais aux champs.",
+            "J'y ai vu Gauvain."
+          ],
+          "with_clue": [
+            "J'étais aux champs.",
+            "J'y ai vu Gauvain."
+          ]
+        },
+        "lothaire": {
+          "without_clue": [
+            "J'étais aux champs.",
+            "J'y ai vu Gauvain."
+          ],
+          "with_clue": [
+            "J'étais aux champs.",
+            "J'y ai vu Gauvain."
+          ]
+        }
+      },
+      "locations": {
+        "forge": "à la forge",
+        "moulin": "au moulin",
+        "puits": "au puits",
+        "eglise": "à l'église",
+        "marche": "au marché",
+        "taverne": "à la taverne",
+        "champs": "aux champs",
+        "bergerie": "à la bergerie"
+      },
+      "trades": {
+        "bibliothecaire": "bibliothécaire",
+        "boucher": "boucher",
+        "forgeron": "forgeron",
+        "macon": "maçon"
+      }
+    }
+  }
+}

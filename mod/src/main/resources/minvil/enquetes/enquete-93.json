@@ -1,0 +1,273 @@
+{
+  "format": "minvil-enquete",
+  "version": 1,
+  "seed": 93,
+  "public": {
+    "victim": "jehanne",
+    "crime_location": "moulin",
+    "clue": {
+      "description": "un bout de parchemin déchiré",
+      "could_be": [
+        "bibliothecaire",
+        "pretre",
+        "cartographe"
+      ]
+    },
+    "villagers": [
+      {
+        "id": "berthe",
+        "name": "Berthe",
+        "trade": "berger",
+        "minecraft_profession": "minecraft:shepherd",
+        "alive": true,
+        "statement": {
+          "location": "bergerie",
+          "seen": [],
+          "rumors": [],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "douce",
+        "name": "Douce",
+        "trade": "flecheur",
+        "minecraft_profession": "minecraft:fletcher",
+        "alive": true,
+        "statement": {
+          "location": "taverne",
+          "seen": [
+            "isembert"
+          ],
+          "rumors": [
+            {
+              "about": "fleur",
+              "motive": "terre_disputee"
+            },
+            {
+              "about": "mahaut",
+              "motive": "dette"
+            }
+          ],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "fleur",
+        "name": "Fleur",
+        "trade": "pretre",
+        "minecraft_profession": "minecraft:cleric",
+        "alive": true,
+        "statement": {
+          "location": "bergerie",
+          "seen": [
+            "berthe"
+          ],
+          "rumors": [],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "gauvain",
+        "name": "Gauvain",
+        "trade": "pretre",
+        "minecraft_profession": "minecraft:cleric",
+        "alive": true,
+        "statement": {
+          "location": "forge",
+          "seen": [],
+          "rumors": [],
+          "recognizes_clue": "pretre"
+        }
+      },
+      {
+        "id": "isembert",
+        "name": "Isembert",
+        "trade": "berger",
+        "minecraft_profession": "minecraft:shepherd",
+        "alive": true,
+        "statement": {
+          "location": "taverne",
+          "seen": [
+            "douce"
+          ],
+          "rumors": [],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "jehanne",
+        "name": "Jehanne",
+        "trade": "pecheur",
+        "minecraft_profession": "minecraft:fisherman",
+        "alive": false
+      },
+      {
+        "id": "lothaire",
+        "name": "Lothaire",
+        "trade": "flecheur",
+        "minecraft_profession": "minecraft:fletcher",
+        "alive": true,
+        "statement": {
+          "location": "puits",
+          "seen": [
+            "mahaut"
+          ],
+          "rumors": [],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "mahaut",
+        "name": "Mahaut",
+        "trade": "bibliothecaire",
+        "minecraft_profession": "minecraft:librarian",
+        "alive": true,
+        "statement": {
+          "location": "puits",
+          "seen": [
+            "lothaire"
+          ],
+          "rumors": [],
+          "recognizes_clue": null
+        }
+      }
+    ]
+  },
+  "solution": {
+    "culprit": "fleur",
+    "red_herring": "mahaut",
+    "motives": {
+      "fleur": "terre_disputee",
+      "mahaut": "dette"
+    },
+    "true_locations": {
+      "jehanne": "moulin",
+      "fleur": "moulin",
+      "berthe": "bergerie",
+      "mahaut": "puits",
+      "lothaire": "puits",
+      "isembert": "taverne",
+      "gauvain": "forge",
+      "douce": "taverne"
+    },
+    "witnesses": [
+      "berthe"
+    ],
+    "clue": {
+      "trade": "pretre",
+      "object": "une page de psautier"
+    },
+    "false_rumor": null,
+    "explanation": {
+      "fr": [
+        "Fleur prétendait être à la bergerie et y avoir vu Berthe, mais Berthe y était sans y voir Fleur. Mobile : Fleur se disputait une terre avec Jehanne.",
+        "Mahaut avait aussi un motif, mais Lothaire confirme sa présence au puits.",
+        "L'objet trouvé près du corps, un bout de parchemin déchiré, était une page de psautier, comme Gauvain l'a reconnu. Il désignait le métier de prêtre : Fleur et Gauvain. Parmi eux, Fleur était la seule personne avec un motif."
+      ]
+    }
+  },
+  "texts": {
+    "fr": {
+      "scene": [
+        "Ce matin, on a retrouvé le corps de Jehanne au moulin. Le crime a eu lieu dans la nuit.",
+        "Les villageois ont tous une version de la soirée. À toi de trouver qui ment."
+      ],
+      "examine": "Tu fouilles le lieu du crime, au moulin. Près du corps, tu trouves un bout de parchemin déchiré. Difficile de dire d'où ça vient : montre-le aux villageois en les interrogeant, quelqu'un du métier saura le reconnaître.",
+      "statements": {
+        "berthe": {
+          "without_clue": [
+            "J'étais à la bergerie.",
+            "Je n'y ai vu personne."
+          ],
+          "with_clue": [
+            "J'étais à la bergerie.",
+            "Je n'y ai vu personne."
+          ]
+        },
+        "douce": {
+          "without_clue": [
+            "J'étais à la taverne.",
+            "J'y ai vu Isembert.",
+            "Et puis on raconte que Fleur se disputait une terre avec Jehanne.",
+            "Et puis on raconte que Mahaut devait de l'argent à Jehanne."
+          ],
+          "with_clue": [
+            "J'étais à la taverne.",
+            "J'y ai vu Isembert.",
+            "Et puis on raconte que Fleur se disputait une terre avec Jehanne.",
+            "Et puis on raconte que Mahaut devait de l'argent à Jehanne."
+          ]
+        },
+        "fleur": {
+          "without_clue": [
+            "J'étais à la bergerie.",
+            "J'y ai vu Berthe."
+          ],
+          "with_clue": [
+            "J'étais à la bergerie.",
+            "J'y ai vu Berthe."
+          ]
+        },
+        "gauvain": {
+          "without_clue": [
+            "J'étais à la forge.",
+            "Je n'y ai vu personne."
+          ],
+          "with_clue": [
+            "J'étais à la forge.",
+            "Je n'y ai vu personne.",
+            "L'objet trouvé près du corps ? Je reconnais une page de psautier, on en trouve chez tous les prêtres."
+          ]
+        },
+        "isembert": {
+          "without_clue": [
+            "J'étais à la taverne.",
+            "J'y ai vu Douce."
+          ],
+          "with_clue": [
+            "J'étais à la taverne.",
+            "J'y ai vu Douce."
+          ]
+        },
+        "lothaire": {
+          "without_clue": [
+            "J'étais au puits.",
+            "J'y ai vu Mahaut."
+          ],
+          "with_clue": [
+            "J'étais au puits.",
+            "J'y ai vu Mahaut."
+          ]
+        },
+        "mahaut": {
+          "without_clue": [
+            "J'étais au puits.",
+            "J'y ai vu Lothaire."
+          ],
+          "with_clue": [
+            "J'étais au puits.",
+            "J'y ai vu Lothaire."
+          ]
+        }
+      },
+      "locations": {
+        "forge": "à la forge",
+        "moulin": "au moulin",
+        "puits": "au puits",
+        "eglise": "à l'église",
+        "marche": "au marché",
+        "taverne": "à la taverne",
+        "champs": "aux champs",
+        "bergerie": "à la bergerie"
+      },
+      "trades": {
+        "berger": "berger",
+        "bibliothecaire": "bibliothécaire",
+        "cartographe": "cartographe",
+        "flecheur": "flécheur",
+        "pretre": "prêtre",
+        "pecheur": "pêcheur"
+      }
+    }
+  }
+}

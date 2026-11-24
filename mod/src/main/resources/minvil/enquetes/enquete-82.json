@@ -1,0 +1,232 @@
+{
+  "format": "minvil-enquete",
+  "version": 1,
+  "seed": 82,
+  "public": {
+    "victim": "hersende",
+    "crime_location": "marche",
+    "clue": {
+      "description": "un bout de parchemin déchiré",
+      "could_be": [
+        "bibliothecaire",
+        "pretre",
+        "cartographe"
+      ]
+    },
+    "villagers": [
+      {
+        "id": "clovis",
+        "name": "Clovis",
+        "trade": "cartographe",
+        "minecraft_profession": "minecraft:cartographer",
+        "alive": true,
+        "statement": {
+          "location": "forge",
+          "seen": [
+            "lothaire"
+          ],
+          "rumors": [],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "enguerrand",
+        "name": "Enguerrand",
+        "trade": "boucher",
+        "minecraft_profession": "minecraft:butcher",
+        "alive": true,
+        "statement": {
+          "location": "moulin",
+          "seen": [],
+          "rumors": [
+            {
+              "about": "isembert",
+              "motive": "rancune"
+            },
+            {
+              "about": "clovis",
+              "motive": "terre_disputee"
+            }
+          ],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "fleur",
+        "name": "Fleur",
+        "trade": "bibliothecaire",
+        "minecraft_profession": "minecraft:librarian",
+        "alive": true,
+        "statement": {
+          "location": "eglise",
+          "seen": [],
+          "rumors": [],
+          "recognizes_clue": "bibliothecaire"
+        }
+      },
+      {
+        "id": "hersende",
+        "name": "Hersende",
+        "trade": "berger",
+        "minecraft_profession": "minecraft:shepherd",
+        "alive": false
+      },
+      {
+        "id": "isembert",
+        "name": "Isembert",
+        "trade": "bibliothecaire",
+        "minecraft_profession": "minecraft:librarian",
+        "alive": true,
+        "statement": {
+          "location": "moulin",
+          "seen": [
+            "enguerrand"
+          ],
+          "rumors": [
+            {
+              "about": "lothaire",
+              "motive": "rancune"
+            }
+          ],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "lothaire",
+        "name": "Lothaire",
+        "trade": "berger",
+        "minecraft_profession": "minecraft:shepherd",
+        "alive": true,
+        "statement": {
+          "location": "forge",
+          "seen": [
+            "clovis"
+          ],
+          "rumors": [],
+          "recognizes_clue": null
+        }
+      }
+    ]
+  },
+  "solution": {
+    "culprit": "isembert",
+    "red_herring": "clovis",
+    "motives": {
+      "isembert": "rancune",
+      "clovis": "terre_disputee"
+    },
+    "true_locations": {
+      "hersende": "marche",
+      "isembert": "marche",
+      "enguerrand": "moulin",
+      "clovis": "forge",
+      "lothaire": "forge",
+      "fleur": "eglise"
+    },
+    "witnesses": [
+      "enguerrand"
+    ],
+    "clue": {
+      "trade": "bibliothecaire",
+      "object": "une page arrachée d'un livre"
+    },
+    "false_rumor": {
+      "teller": "isembert",
+      "about": "lothaire",
+      "motive": "rancune"
+    },
+    "explanation": {
+      "fr": [
+        "Isembert prétendait être au moulin et y avoir vu Enguerrand, mais Enguerrand y était sans y voir Isembert. Mobile : Isembert en voulait à Hersende depuis longtemps.",
+        "Clovis avait aussi un motif, mais Lothaire confirme sa présence à la forge.",
+        "L'objet trouvé près du corps, un bout de parchemin déchiré, était une page arrachée d'un livre, comme Fleur l'a reconnu. Il désignait le métier de bibliothécaire : Fleur et Isembert. Parmi eux, Isembert était la seule personne avec un motif.",
+        "La rumeur selon laquelle Lothaire en voulait à Hersende depuis longtemps était fausse : Isembert l'avait inventée pour brouiller les pistes."
+      ]
+    }
+  },
+  "texts": {
+    "fr": {
+      "scene": [
+        "Ce matin, on a retrouvé le corps de Hersende au marché. Le crime a eu lieu dans la nuit.",
+        "Les villageois ont tous une version de la soirée. À toi de trouver qui ment."
+      ],
+      "examine": "Tu fouilles le lieu du crime, au marché. Près du corps, tu trouves un bout de parchemin déchiré. Difficile de dire d'où ça vient : montre-le aux villageois en les interrogeant, quelqu'un du métier saura le reconnaître.",
+      "statements": {
+        "clovis": {
+          "without_clue": [
+            "J'étais à la forge.",
+            "J'y ai vu Lothaire."
+          ],
+          "with_clue": [
+            "J'étais à la forge.",
+            "J'y ai vu Lothaire."
+          ]
+        },
+        "enguerrand": {
+          "without_clue": [
+            "J'étais au moulin.",
+            "Je n'y ai vu personne.",
+            "Et puis on raconte qu'Isembert en voulait à Hersende depuis longtemps.",
+            "Et puis on raconte que Clovis se disputait une terre avec Hersende."
+          ],
+          "with_clue": [
+            "J'étais au moulin.",
+            "Je n'y ai vu personne.",
+            "Et puis on raconte qu'Isembert en voulait à Hersende depuis longtemps.",
+            "Et puis on raconte que Clovis se disputait une terre avec Hersende."
+          ]
+        },
+        "fleur": {
+          "without_clue": [
+            "J'étais à l'église.",
+            "Je n'y ai vu personne."
+          ],
+          "with_clue": [
+            "J'étais à l'église.",
+            "Je n'y ai vu personne.",
+            "L'objet trouvé près du corps ? Je reconnais une page arrachée d'un livre, on en trouve chez tous les bibliothécaires."
+          ]
+        },
+        "isembert": {
+          "without_clue": [
+            "J'étais au moulin.",
+            "J'y ai vu Enguerrand.",
+            "Et puis on raconte que Lothaire en voulait à Hersende depuis longtemps."
+          ],
+          "with_clue": [
+            "J'étais au moulin.",
+            "J'y ai vu Enguerrand.",
+            "Et puis on raconte que Lothaire en voulait à Hersende depuis longtemps."
+          ]
+        },
+        "lothaire": {
+          "without_clue": [
+            "J'étais à la forge.",
+            "J'y ai vu Clovis."
+          ],
+          "with_clue": [
+            "J'étais à la forge.",
+            "J'y ai vu Clovis."
+          ]
+        }
+      },
+      "locations": {
+        "forge": "à la forge",
+        "moulin": "au moulin",
+        "puits": "au puits",
+        "eglise": "à l'église",
+        "marche": "au marché",
+        "taverne": "à la taverne",
+        "champs": "aux champs",
+        "bergerie": "à la bergerie"
+      },
+      "trades": {
+        "berger": "berger",
+        "bibliothecaire": "bibliothécaire",
+        "boucher": "boucher",
+        "cartographe": "cartographe",
+        "pretre": "prêtre"
+      }
+    }
+  }
+}

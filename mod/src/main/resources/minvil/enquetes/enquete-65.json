@@ -1,0 +1,269 @@
+{
+  "format": "minvil-enquete",
+  "version": 1,
+  "seed": 65,
+  "public": {
+    "victim": "enguerrand",
+    "crime_location": "taverne",
+    "clue": {
+      "description": "un bout de fil tressé",
+      "could_be": [
+        "pecheur",
+        "flecheur"
+      ]
+    },
+    "villagers": [
+      {
+        "id": "douce",
+        "name": "Douce",
+        "trade": "pecheur",
+        "minecraft_profession": "minecraft:fisherman",
+        "alive": true,
+        "statement": {
+          "location": "champs",
+          "seen": [
+            "hersende"
+          ],
+          "rumors": [],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "enguerrand",
+        "name": "Enguerrand",
+        "trade": "cartographe",
+        "minecraft_profession": "minecraft:cartographer",
+        "alive": false
+      },
+      {
+        "id": "gauvain",
+        "name": "Gauvain",
+        "trade": "berger",
+        "minecraft_profession": "minecraft:shepherd",
+        "alive": true,
+        "statement": {
+          "location": "forge",
+          "seen": [],
+          "rumors": [],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "hersende",
+        "name": "Hersende",
+        "trade": "fermier",
+        "minecraft_profession": "minecraft:farmer",
+        "alive": true,
+        "statement": {
+          "location": "champs",
+          "seen": [
+            "douce"
+          ],
+          "rumors": [
+            {
+              "about": "mahaut",
+              "motive": "terre_disputee"
+            },
+            {
+              "about": "douce",
+              "motive": "rancune"
+            }
+          ],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "isembert",
+        "name": "Isembert",
+        "trade": "macon",
+        "minecraft_profession": "minecraft:mason",
+        "alive": true,
+        "statement": {
+          "location": "bergerie",
+          "seen": [],
+          "rumors": [],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "jehanne",
+        "name": "Jehanne",
+        "trade": "bibliothecaire",
+        "minecraft_profession": "minecraft:librarian",
+        "alive": true,
+        "statement": {
+          "location": "eglise",
+          "seen": [],
+          "rumors": [],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "lothaire",
+        "name": "Lothaire",
+        "trade": "flecheur",
+        "minecraft_profession": "minecraft:fletcher",
+        "alive": true,
+        "statement": {
+          "location": "moulin",
+          "seen": [],
+          "rumors": [],
+          "recognizes_clue": "flecheur"
+        }
+      },
+      {
+        "id": "mahaut",
+        "name": "Mahaut",
+        "trade": "flecheur",
+        "minecraft_profession": "minecraft:fletcher",
+        "alive": true,
+        "statement": {
+          "location": "bergerie",
+          "seen": [
+            "isembert"
+          ],
+          "rumors": [],
+          "recognizes_clue": null
+        }
+      }
+    ]
+  },
+  "solution": {
+    "culprit": "mahaut",
+    "red_herring": "douce",
+    "motives": {
+      "mahaut": "terre_disputee",
+      "douce": "rancune"
+    },
+    "true_locations": {
+      "enguerrand": "taverne",
+      "mahaut": "taverne",
+      "isembert": "bergerie",
+      "douce": "champs",
+      "hersende": "champs",
+      "jehanne": "eglise",
+      "lothaire": "moulin",
+      "gauvain": "forge"
+    },
+    "witnesses": [
+      "isembert"
+    ],
+    "clue": {
+      "trade": "flecheur",
+      "object": "un bout de corde d'arc"
+    },
+    "false_rumor": null,
+    "explanation": {
+      "fr": [
+        "Mahaut prétendait être à la bergerie et y avoir vu Isembert, mais Isembert y était sans y voir Mahaut. Mobile : Mahaut se disputait une terre avec Enguerrand.",
+        "Douce avait aussi un motif, mais Hersende confirme sa présence aux champs.",
+        "L'objet trouvé près du corps, un bout de fil tressé, était un bout de corde d'arc, comme Lothaire l'a reconnu. Il désignait le métier de flécheur : Lothaire et Mahaut. Parmi eux, Mahaut était la seule personne avec un motif."
+      ]
+    }
+  },
+  "texts": {
+    "fr": {
+      "scene": [
+        "Ce matin, on a retrouvé le corps de Enguerrand à la taverne. Le crime a eu lieu dans la nuit.",
+        "Les villageois ont tous une version de la soirée. À toi de trouver qui ment."
+      ],
+      "examine": "Tu fouilles le lieu du crime, à la taverne. Près du corps, tu trouves un bout de fil tressé. Difficile de dire d'où ça vient : montre-le aux villageois en les interrogeant, quelqu'un du métier saura le reconnaître.",
+      "statements": {
+        "douce": {
+          "without_clue": [
+            "J'étais aux champs.",
+            "J'y ai vu Hersende."
+          ],
+          "with_clue": [
+            "J'étais aux champs.",
+            "J'y ai vu Hersende."
+          ]
+        },
+        "gauvain": {
+          "without_clue": [
+            "J'étais à la forge.",
+            "Je n'y ai vu personne."
+          ],
+          "with_clue": [
+            "J'étais à la forge.",
+            "Je n'y ai vu personne."
+          ]
+        },
+        "hersende": {
+          "without_clue": [
+            "J'étais aux champs.",
+            "J'y ai vu Douce.",
+            "Et puis on raconte que Mahaut se disputait une terre avec Enguerrand.",
+            "Et puis on raconte que Douce en voulait à Enguerrand depuis longtemps."
+          ],
+          "with_clue": [
+            "J'étais aux champs.",
+            "J'y ai vu Douce.",
+            "Et puis on raconte que Mahaut se disputait une terre avec Enguerrand.",
+            "Et puis on raconte que Douce en voulait à Enguerrand depuis longtemps."
+          ]
+        },
+        "isembert": {
+          "without_clue": [
+            "J'étais à la bergerie.",
+            "Je n'y ai vu personne."
+          ],
+          "with_clue": [
+            "J'étais à la bergerie.",
+            "Je n'y ai vu personne."
+          ]
+        },
+        "jehanne": {
+          "without_clue": [
+            "J'étais à l'église.",
+            "Je n'y ai vu personne."
+          ],
+          "with_clue": [
+            "J'étais à l'église.",
+            "Je n'y ai vu personne."
+          ]
+        },
+        "lothaire": {
+          "without_clue": [
+            "J'étais au moulin.",
+            "Je n'y ai vu personne."
+          ],
+          "with_clue": [
+            "J'étais au moulin.",
+            "Je n'y ai vu personne.",
+            "L'objet trouvé près du corps ? Je reconnais un bout de corde d'arc, on en trouve chez tous les flécheurs."
+          ]
+        },
+        "mahaut": {
+          "without_clue": [
+            "J'étais à la bergerie.",
+            "J'y ai vu Isembert."
+          ],
+          "with_clue": [
+            "J'étais à la bergerie.",
+            "J'y ai vu Isembert."
+          ]
+        }
+      },
+      "locations": {
+        "forge": "à la forge",
+        "moulin": "au moulin",
+        "puits": "au puits",
+        "eglise": "à l'église",
+        "marche": "au marché",
+        "taverne": "à la taverne",
+        "champs": "aux champs",
+        "bergerie": "à la bergerie"
+      },
+      "trades": {
+        "berger": "berger",
+        "bibliothecaire": "bibliothécaire",
+        "cartographe": "cartographe",
+        "fermier": "fermier",
+        "flecheur": "flécheur",
+        "macon": "maçon",
+        "pecheur": "pêcheur"
+      }
+    }
+  }
+}

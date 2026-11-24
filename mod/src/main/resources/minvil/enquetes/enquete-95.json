@@ -1,0 +1,219 @@
+{
+  "format": "minvil-enquete",
+  "version": 1,
+  "seed": 95,
+  "public": {
+    "victim": "hersende",
+    "crime_location": "marche",
+    "clue": {
+      "description": "un bout de fil tressé",
+      "could_be": [
+        "pecheur",
+        "flecheur"
+      ]
+    },
+    "villagers": [
+      {
+        "id": "aldric",
+        "name": "Aldric",
+        "trade": "flecheur",
+        "minecraft_profession": "minecraft:fletcher",
+        "alive": true,
+        "statement": {
+          "location": "bergerie",
+          "seen": [
+            "clovis"
+          ],
+          "rumors": [],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "berthe",
+        "name": "Berthe",
+        "trade": "pretre",
+        "minecraft_profession": "minecraft:cleric",
+        "alive": true,
+        "statement": {
+          "location": "moulin",
+          "seen": [
+            "lothaire"
+          ],
+          "rumors": [],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "clovis",
+        "name": "Clovis",
+        "trade": "flecheur",
+        "minecraft_profession": "minecraft:fletcher",
+        "alive": true,
+        "statement": {
+          "location": "bergerie",
+          "seen": [],
+          "rumors": [],
+          "recognizes_clue": "flecheur"
+        }
+      },
+      {
+        "id": "fleur",
+        "name": "Fleur",
+        "trade": "bibliothecaire",
+        "minecraft_profession": "minecraft:librarian",
+        "alive": true,
+        "statement": {
+          "location": "forge",
+          "seen": [],
+          "rumors": [
+            {
+              "about": "lothaire",
+              "motive": "terre_disputee"
+            }
+          ],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "hersende",
+        "name": "Hersende",
+        "trade": "pretre",
+        "minecraft_profession": "minecraft:cleric",
+        "alive": false
+      },
+      {
+        "id": "lothaire",
+        "name": "Lothaire",
+        "trade": "pecheur",
+        "minecraft_profession": "minecraft:fisherman",
+        "alive": true,
+        "statement": {
+          "location": "moulin",
+          "seen": [
+            "berthe"
+          ],
+          "rumors": [
+            {
+              "about": "aldric",
+              "motive": "terre_disputee"
+            }
+          ],
+          "recognizes_clue": null
+        }
+      }
+    ]
+  },
+  "solution": {
+    "culprit": "aldric",
+    "red_herring": "lothaire",
+    "motives": {
+      "aldric": "terre_disputee",
+      "lothaire": "terre_disputee"
+    },
+    "true_locations": {
+      "hersende": "marche",
+      "aldric": "marche",
+      "clovis": "bergerie",
+      "lothaire": "moulin",
+      "berthe": "moulin",
+      "fleur": "forge"
+    },
+    "witnesses": [
+      "clovis"
+    ],
+    "clue": {
+      "trade": "flecheur",
+      "object": "un bout de corde d'arc"
+    },
+    "false_rumor": null,
+    "explanation": {
+      "fr": [
+        "Aldric prétendait être à la bergerie et y avoir vu Clovis, mais Clovis y était sans y voir Aldric. Mobile : Aldric se disputait une terre avec Hersende.",
+        "Lothaire avait aussi un motif, mais Berthe confirme sa présence au moulin.",
+        "L'objet trouvé près du corps, un bout de fil tressé, était un bout de corde d'arc, comme Clovis l'a reconnu. Il désignait le métier de flécheur : Aldric et Clovis. Parmi eux, Aldric était la seule personne avec un motif."
+      ]
+    }
+  },
+  "texts": {
+    "fr": {
+      "scene": [
+        "Ce matin, on a retrouvé le corps de Hersende au marché. Le crime a eu lieu dans la nuit.",
+        "Les villageois ont tous une version de la soirée. À toi de trouver qui ment."
+      ],
+      "examine": "Tu fouilles le lieu du crime, au marché. Près du corps, tu trouves un bout de fil tressé. Difficile de dire d'où ça vient : montre-le aux villageois en les interrogeant, quelqu'un du métier saura le reconnaître.",
+      "statements": {
+        "aldric": {
+          "without_clue": [
+            "J'étais à la bergerie.",
+            "J'y ai vu Clovis."
+          ],
+          "with_clue": [
+            "J'étais à la bergerie.",
+            "J'y ai vu Clovis."
+          ]
+        },
+        "berthe": {
+          "without_clue": [
+            "J'étais au moulin.",
+            "J'y ai vu Lothaire."
+          ],
+          "with_clue": [
+            "J'étais au moulin.",
+            "J'y ai vu Lothaire."
+          ]
+        },
+        "clovis": {
+          "without_clue": [
+            "J'étais à la bergerie.",
+            "Je n'y ai vu personne."
+          ],
+          "with_clue": [
+            "J'étais à la bergerie.",
+            "Je n'y ai vu personne.",
+            "L'objet trouvé près du corps ? Je reconnais un bout de corde d'arc, on en trouve chez tous les flécheurs."
+          ]
+        },
+        "fleur": {
+          "without_clue": [
+            "J'étais à la forge.",
+            "Je n'y ai vu personne.",
+            "Et puis on raconte que Lothaire se disputait une terre avec Hersende."
+          ],
+          "with_clue": [
+            "J'étais à la forge.",
+            "Je n'y ai vu personne.",
+            "Et puis on raconte que Lothaire se disputait une terre avec Hersende."
+          ]
+        },
+        "lothaire": {
+          "without_clue": [
+            "J'étais au moulin.",
+            "J'y ai vu Berthe.",
+            "Et puis on raconte qu'Aldric se disputait une terre avec Hersende."
+          ],
+          "with_clue": [
+            "J'étais au moulin.",
+            "J'y ai vu Berthe.",
+            "Et puis on raconte qu'Aldric se disputait une terre avec Hersende."
+          ]
+        }
+      },
+      "locations": {
+        "forge": "à la forge",
+        "moulin": "au moulin",
+        "puits": "au puits",
+        "eglise": "à l'église",
+        "marche": "au marché",
+        "taverne": "à la taverne",
+        "champs": "aux champs",
+        "bergerie": "à la bergerie"
+      },
+      "trades": {
+        "bibliothecaire": "bibliothécaire",
+        "flecheur": "flécheur",
+        "pretre": "prêtre",
+        "pecheur": "pêcheur"
+      }
+    }
+  }
+}

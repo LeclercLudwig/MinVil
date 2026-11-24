@@ -1,0 +1,194 @@
+{
+  "format": "minvil-enquete",
+  "version": 1,
+  "seed": 43,
+  "public": {
+    "victim": "enguerrand",
+    "crime_location": "bergerie",
+    "clue": {
+      "description": "un petit éclat gris et dur",
+      "could_be": [
+        "forgeron",
+        "macon"
+      ]
+    },
+    "villagers": [
+      {
+        "id": "berthe",
+        "name": "Berthe",
+        "trade": "macon",
+        "minecraft_profession": "minecraft:mason",
+        "alive": true,
+        "statement": {
+          "location": "eglise",
+          "seen": [
+            "fleur"
+          ],
+          "rumors": [
+            {
+              "about": "clovis",
+              "motive": "terre_disputee"
+            },
+            {
+              "about": "fleur",
+              "motive": "dette"
+            }
+          ],
+          "recognizes_clue": "macon"
+        }
+      },
+      {
+        "id": "clovis",
+        "name": "Clovis",
+        "trade": "macon",
+        "minecraft_profession": "minecraft:mason",
+        "alive": true,
+        "statement": {
+          "location": "marche",
+          "seen": [
+            "hersende"
+          ],
+          "rumors": [],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "enguerrand",
+        "name": "Enguerrand",
+        "trade": "tanneur",
+        "minecraft_profession": "minecraft:leatherworker",
+        "alive": false
+      },
+      {
+        "id": "fleur",
+        "name": "Fleur",
+        "trade": "forgeron",
+        "minecraft_profession": "minecraft:toolsmith",
+        "alive": true,
+        "statement": {
+          "location": "eglise",
+          "seen": [
+            "berthe"
+          ],
+          "rumors": [],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "hersende",
+        "name": "Hersende",
+        "trade": "macon",
+        "minecraft_profession": "minecraft:mason",
+        "alive": true,
+        "statement": {
+          "location": "marche",
+          "seen": [],
+          "rumors": [],
+          "recognizes_clue": "macon"
+        }
+      }
+    ]
+  },
+  "solution": {
+    "culprit": "clovis",
+    "red_herring": "fleur",
+    "motives": {
+      "clovis": "terre_disputee",
+      "fleur": "dette"
+    },
+    "true_locations": {
+      "enguerrand": "bergerie",
+      "clovis": "bergerie",
+      "hersende": "marche",
+      "fleur": "eglise",
+      "berthe": "eglise"
+    },
+    "witnesses": [
+      "hersende"
+    ],
+    "clue": {
+      "trade": "macon",
+      "object": "un éclat de pierre taillée"
+    },
+    "false_rumor": null,
+    "explanation": {
+      "fr": [
+        "Clovis prétendait être au marché et y avoir vu Hersende, mais Hersende y était sans y voir Clovis. Mobile : Clovis se disputait une terre avec Enguerrand.",
+        "Fleur avait aussi un motif, mais Berthe confirme sa présence à l'église.",
+        "L'objet trouvé près du corps, un petit éclat gris et dur, était un éclat de pierre taillée, comme Berthe et Hersende l'ont reconnu. Il désignait le métier de maçon : Berthe, Clovis et Hersende. Parmi eux, Clovis était la seule personne avec un motif."
+      ]
+    }
+  },
+  "texts": {
+    "fr": {
+      "scene": [
+        "Ce matin, on a retrouvé le corps de Enguerrand à la bergerie. Le crime a eu lieu dans la nuit.",
+        "Les villageois ont tous une version de la soirée. À toi de trouver qui ment."
+      ],
+      "examine": "Tu fouilles le lieu du crime, à la bergerie. Près du corps, tu trouves un petit éclat gris et dur. Difficile de dire d'où ça vient : montre-le aux villageois en les interrogeant, quelqu'un du métier saura le reconnaître.",
+      "statements": {
+        "berthe": {
+          "without_clue": [
+            "J'étais à l'église.",
+            "J'y ai vu Fleur.",
+            "Et puis on raconte que Clovis se disputait une terre avec Enguerrand.",
+            "Et puis on raconte que Fleur devait de l'argent à Enguerrand."
+          ],
+          "with_clue": [
+            "J'étais à l'église.",
+            "J'y ai vu Fleur.",
+            "Et puis on raconte que Clovis se disputait une terre avec Enguerrand.",
+            "Et puis on raconte que Fleur devait de l'argent à Enguerrand.",
+            "L'objet trouvé près du corps ? Je reconnais un éclat de pierre taillée, on en trouve chez tous les maçons."
+          ]
+        },
+        "clovis": {
+          "without_clue": [
+            "J'étais au marché.",
+            "J'y ai vu Hersende."
+          ],
+          "with_clue": [
+            "J'étais au marché.",
+            "J'y ai vu Hersende."
+          ]
+        },
+        "fleur": {
+          "without_clue": [
+            "J'étais à l'église.",
+            "J'y ai vu Berthe."
+          ],
+          "with_clue": [
+            "J'étais à l'église.",
+            "J'y ai vu Berthe."
+          ]
+        },
+        "hersende": {
+          "without_clue": [
+            "J'étais au marché.",
+            "Je n'y ai vu personne."
+          ],
+          "with_clue": [
+            "J'étais au marché.",
+            "Je n'y ai vu personne.",
+            "L'objet trouvé près du corps ? Je reconnais un éclat de pierre taillée, on en trouve chez tous les maçons."
+          ]
+        }
+      },
+      "locations": {
+        "forge": "à la forge",
+        "moulin": "au moulin",
+        "puits": "au puits",
+        "eglise": "à l'église",
+        "marche": "au marché",
+        "taverne": "à la taverne",
+        "champs": "aux champs",
+        "bergerie": "à la bergerie"
+      },
+      "trades": {
+        "forgeron": "forgeron",
+        "macon": "maçon",
+        "tanneur": "tanneur"
+      }
+    }
+  }
+}

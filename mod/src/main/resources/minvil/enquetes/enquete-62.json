@@ -1,0 +1,232 @@
+{
+  "format": "minvil-enquete",
+  "version": 1,
+  "seed": 62,
+  "public": {
+    "victim": "berthe",
+    "crime_location": "puits",
+    "clue": {
+      "description": "un petit éclat gris et dur",
+      "could_be": [
+        "forgeron",
+        "macon"
+      ]
+    },
+    "villagers": [
+      {
+        "id": "berthe",
+        "name": "Berthe",
+        "trade": "pecheur",
+        "minecraft_profession": "minecraft:fisherman",
+        "alive": false
+      },
+      {
+        "id": "douce",
+        "name": "Douce",
+        "trade": "forgeron",
+        "minecraft_profession": "minecraft:toolsmith",
+        "alive": true,
+        "statement": {
+          "location": "moulin",
+          "seen": [
+            "hersende"
+          ],
+          "rumors": [
+            {
+              "about": "fleur",
+              "motive": "terre_disputee"
+            }
+          ],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "enguerrand",
+        "name": "Enguerrand",
+        "trade": "macon",
+        "minecraft_profession": "minecraft:mason",
+        "alive": true,
+        "statement": {
+          "location": "forge",
+          "seen": [
+            "fleur"
+          ],
+          "rumors": [],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "fleur",
+        "name": "Fleur",
+        "trade": "pretre",
+        "minecraft_profession": "minecraft:cleric",
+        "alive": true,
+        "statement": {
+          "location": "forge",
+          "seen": [
+            "enguerrand"
+          ],
+          "rumors": [
+            {
+              "about": "enguerrand",
+              "motive": "dette"
+            }
+          ],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "hersende",
+        "name": "Hersende",
+        "trade": "fermier",
+        "minecraft_profession": "minecraft:farmer",
+        "alive": true,
+        "statement": {
+          "location": "moulin",
+          "seen": [],
+          "rumors": [
+            {
+              "about": "douce",
+              "motive": "jalousie"
+            }
+          ],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "mahaut",
+        "name": "Mahaut",
+        "trade": "forgeron",
+        "minecraft_profession": "minecraft:toolsmith",
+        "alive": true,
+        "statement": {
+          "location": "eglise",
+          "seen": [],
+          "rumors": [],
+          "recognizes_clue": "forgeron"
+        }
+      }
+    ]
+  },
+  "solution": {
+    "culprit": "douce",
+    "red_herring": "enguerrand",
+    "motives": {
+      "douce": "jalousie",
+      "enguerrand": "dette"
+    },
+    "true_locations": {
+      "berthe": "puits",
+      "douce": "puits",
+      "hersende": "moulin",
+      "enguerrand": "forge",
+      "fleur": "forge",
+      "mahaut": "eglise"
+    },
+    "witnesses": [
+      "hersende"
+    ],
+    "clue": {
+      "trade": "forgeron",
+      "object": "de la limaille de fer"
+    },
+    "false_rumor": {
+      "teller": "douce",
+      "about": "fleur",
+      "motive": "terre_disputee"
+    },
+    "explanation": {
+      "fr": [
+        "Douce prétendait être au moulin et y avoir vu Hersende, mais Hersende y était sans y voir Douce. Mobile : Douce jalousait Berthe.",
+        "Enguerrand avait aussi un motif, mais Fleur confirme sa présence à la forge.",
+        "L'objet trouvé près du corps, un petit éclat gris et dur, était de la limaille de fer, comme Mahaut l'a reconnu. Il désignait le métier de forgeron : Douce et Mahaut. Parmi eux, Douce était la seule personne avec un motif.",
+        "La rumeur selon laquelle Fleur se disputait une terre avec Berthe était fausse : Douce l'avait inventée pour brouiller les pistes."
+      ]
+    }
+  },
+  "texts": {
+    "fr": {
+      "scene": [
+        "Ce matin, on a retrouvé le corps de Berthe au puits. Le crime a eu lieu dans la nuit.",
+        "Les villageois ont tous une version de la soirée. À toi de trouver qui ment."
+      ],
+      "examine": "Tu fouilles le lieu du crime, au puits. Près du corps, tu trouves un petit éclat gris et dur. Difficile de dire d'où ça vient : montre-le aux villageois en les interrogeant, quelqu'un du métier saura le reconnaître.",
+      "statements": {
+        "douce": {
+          "without_clue": [
+            "J'étais au moulin.",
+            "J'y ai vu Hersende.",
+            "Et puis on raconte que Fleur se disputait une terre avec Berthe."
+          ],
+          "with_clue": [
+            "J'étais au moulin.",
+            "J'y ai vu Hersende.",
+            "Et puis on raconte que Fleur se disputait une terre avec Berthe."
+          ]
+        },
+        "enguerrand": {
+          "without_clue": [
+            "J'étais à la forge.",
+            "J'y ai vu Fleur."
+          ],
+          "with_clue": [
+            "J'étais à la forge.",
+            "J'y ai vu Fleur."
+          ]
+        },
+        "fleur": {
+          "without_clue": [
+            "J'étais à la forge.",
+            "J'y ai vu Enguerrand.",
+            "Et puis on raconte qu'Enguerrand devait de l'argent à Berthe."
+          ],
+          "with_clue": [
+            "J'étais à la forge.",
+            "J'y ai vu Enguerrand.",
+            "Et puis on raconte qu'Enguerrand devait de l'argent à Berthe."
+          ]
+        },
+        "hersende": {
+          "without_clue": [
+            "J'étais au moulin.",
+            "Je n'y ai vu personne.",
+            "Et puis on raconte que Douce jalousait Berthe."
+          ],
+          "with_clue": [
+            "J'étais au moulin.",
+            "Je n'y ai vu personne.",
+            "Et puis on raconte que Douce jalousait Berthe."
+          ]
+        },
+        "mahaut": {
+          "without_clue": [
+            "J'étais à l'église.",
+            "Je n'y ai vu personne."
+          ],
+          "with_clue": [
+            "J'étais à l'église.",
+            "Je n'y ai vu personne.",
+            "L'objet trouvé près du corps ? Je reconnais de la limaille de fer, on en trouve chez tous les forgerons."
+          ]
+        }
+      },
+      "locations": {
+        "forge": "à la forge",
+        "moulin": "au moulin",
+        "puits": "au puits",
+        "eglise": "à l'église",
+        "marche": "au marché",
+        "taverne": "à la taverne",
+        "champs": "aux champs",
+        "bergerie": "à la bergerie"
+      },
+      "trades": {
+        "fermier": "fermier",
+        "forgeron": "forgeron",
+        "macon": "maçon",
+        "pretre": "prêtre",
+        "pecheur": "pêcheur"
+      }
+    }
+  }
+}

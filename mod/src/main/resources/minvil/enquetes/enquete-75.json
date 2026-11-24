@@ -1,0 +1,274 @@
+{
+  "format": "minvil-enquete",
+  "version": 1,
+  "seed": 75,
+  "public": {
+    "victim": "jehanne",
+    "crime_location": "moulin",
+    "clue": {
+      "description": "un petit éclat gris et dur",
+      "could_be": [
+        "forgeron",
+        "macon"
+      ]
+    },
+    "villagers": [
+      {
+        "id": "aldric",
+        "name": "Aldric",
+        "trade": "forgeron",
+        "minecraft_profession": "minecraft:toolsmith",
+        "alive": true,
+        "statement": {
+          "location": "eglise",
+          "seen": [
+            "clovis",
+            "mahaut"
+          ],
+          "rumors": [],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "clovis",
+        "name": "Clovis",
+        "trade": "tanneur",
+        "minecraft_profession": "minecraft:leatherworker",
+        "alive": true,
+        "statement": {
+          "location": "eglise",
+          "seen": [
+            "aldric",
+            "mahaut"
+          ],
+          "rumors": [
+            {
+              "about": "gauvain",
+              "motive": "heritage"
+            }
+          ],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "fleur",
+        "name": "Fleur",
+        "trade": "fermier",
+        "minecraft_profession": "minecraft:farmer",
+        "alive": true,
+        "statement": {
+          "location": "forge",
+          "seen": [],
+          "rumors": [
+            {
+              "about": "aldric",
+              "motive": "rancune"
+            }
+          ],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "gauvain",
+        "name": "Gauvain",
+        "trade": "macon",
+        "minecraft_profession": "minecraft:mason",
+        "alive": true,
+        "statement": {
+          "location": "champs",
+          "seen": [
+            "hersende"
+          ],
+          "rumors": [],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "hersende",
+        "name": "Hersende",
+        "trade": "bibliothecaire",
+        "minecraft_profession": "minecraft:librarian",
+        "alive": true,
+        "statement": {
+          "location": "champs",
+          "seen": [],
+          "rumors": [],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "jehanne",
+        "name": "Jehanne",
+        "trade": "pecheur",
+        "minecraft_profession": "minecraft:fisherman",
+        "alive": false
+      },
+      {
+        "id": "lothaire",
+        "name": "Lothaire",
+        "trade": "macon",
+        "minecraft_profession": "minecraft:mason",
+        "alive": true,
+        "statement": {
+          "location": "bergerie",
+          "seen": [],
+          "rumors": [],
+          "recognizes_clue": "macon"
+        }
+      },
+      {
+        "id": "mahaut",
+        "name": "Mahaut",
+        "trade": "tanneur",
+        "minecraft_profession": "minecraft:leatherworker",
+        "alive": true,
+        "statement": {
+          "location": "eglise",
+          "seen": [
+            "aldric",
+            "clovis"
+          ],
+          "rumors": [],
+          "recognizes_clue": null
+        }
+      }
+    ]
+  },
+  "solution": {
+    "culprit": "gauvain",
+    "red_herring": "aldric",
+    "motives": {
+      "gauvain": "heritage",
+      "aldric": "rancune"
+    },
+    "true_locations": {
+      "jehanne": "moulin",
+      "gauvain": "moulin",
+      "hersende": "champs",
+      "aldric": "eglise",
+      "mahaut": "eglise",
+      "fleur": "forge",
+      "lothaire": "bergerie",
+      "clovis": "eglise"
+    },
+    "witnesses": [
+      "hersende"
+    ],
+    "clue": {
+      "trade": "macon",
+      "object": "un éclat de pierre taillée"
+    },
+    "false_rumor": null,
+    "explanation": {
+      "fr": [
+        "Gauvain prétendait être aux champs et y avoir vu Hersende, mais Hersende y était sans y voir Gauvain. Mobile : Gauvain comptait hériter de Jehanne.",
+        "Aldric avait aussi un motif, mais Clovis et Mahaut confirment sa présence à l'église.",
+        "L'objet trouvé près du corps, un petit éclat gris et dur, était un éclat de pierre taillée, comme Lothaire l'a reconnu. Il désignait le métier de maçon : Gauvain et Lothaire. Parmi eux, Gauvain était la seule personne avec un motif."
+      ]
+    }
+  },
+  "texts": {
+    "fr": {
+      "scene": [
+        "Ce matin, on a retrouvé le corps de Jehanne au moulin. Le crime a eu lieu dans la nuit.",
+        "Les villageois ont tous une version de la soirée. À toi de trouver qui ment."
+      ],
+      "examine": "Tu fouilles le lieu du crime, au moulin. Près du corps, tu trouves un petit éclat gris et dur. Difficile de dire d'où ça vient : montre-le aux villageois en les interrogeant, quelqu'un du métier saura le reconnaître.",
+      "statements": {
+        "aldric": {
+          "without_clue": [
+            "J'étais à l'église.",
+            "J'y ai vu Clovis et Mahaut."
+          ],
+          "with_clue": [
+            "J'étais à l'église.",
+            "J'y ai vu Clovis et Mahaut."
+          ]
+        },
+        "clovis": {
+          "without_clue": [
+            "J'étais à l'église.",
+            "J'y ai vu Aldric et Mahaut.",
+            "Et puis on raconte que Gauvain comptait hériter de Jehanne."
+          ],
+          "with_clue": [
+            "J'étais à l'église.",
+            "J'y ai vu Aldric et Mahaut.",
+            "Et puis on raconte que Gauvain comptait hériter de Jehanne."
+          ]
+        },
+        "fleur": {
+          "without_clue": [
+            "J'étais à la forge.",
+            "Je n'y ai vu personne.",
+            "Et puis on raconte qu'Aldric en voulait à Jehanne depuis longtemps."
+          ],
+          "with_clue": [
+            "J'étais à la forge.",
+            "Je n'y ai vu personne.",
+            "Et puis on raconte qu'Aldric en voulait à Jehanne depuis longtemps."
+          ]
+        },
+        "gauvain": {
+          "without_clue": [
+            "J'étais aux champs.",
+            "J'y ai vu Hersende."
+          ],
+          "with_clue": [
+            "J'étais aux champs.",
+            "J'y ai vu Hersende."
+          ]
+        },
+        "hersende": {
+          "without_clue": [
+            "J'étais aux champs.",
+            "Je n'y ai vu personne."
+          ],
+          "with_clue": [
+            "J'étais aux champs.",
+            "Je n'y ai vu personne."
+          ]
+        },
+        "lothaire": {
+          "without_clue": [
+            "J'étais à la bergerie.",
+            "Je n'y ai vu personne."
+          ],
+          "with_clue": [
+            "J'étais à la bergerie.",
+            "Je n'y ai vu personne.",
+            "L'objet trouvé près du corps ? Je reconnais un éclat de pierre taillée, on en trouve chez tous les maçons."
+          ]
+        },
+        "mahaut": {
+          "without_clue": [
+            "J'étais à l'église.",
+            "J'y ai vu Aldric et Clovis."
+          ],
+          "with_clue": [
+            "J'étais à l'église.",
+            "J'y ai vu Aldric et Clovis."
+          ]
+        }
+      },
+      "locations": {
+        "forge": "à la forge",
+        "moulin": "au moulin",
+        "puits": "au puits",
+        "eglise": "à l'église",
+        "marche": "au marché",
+        "taverne": "à la taverne",
+        "champs": "aux champs",
+        "bergerie": "à la bergerie"
+      },
+      "trades": {
+        "bibliothecaire": "bibliothécaire",
+        "fermier": "fermier",
+        "forgeron": "forgeron",
+        "macon": "maçon",
+        "pecheur": "pêcheur",
+        "tanneur": "tanneur"
+      }
+    }
+  }
+}

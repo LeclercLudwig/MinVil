@@ -1,0 +1,225 @@
+{
+  "format": "minvil-enquete",
+  "version": 1,
+  "seed": 97,
+  "public": {
+    "victim": "gauvain",
+    "crime_location": "marche",
+    "clue": {
+      "description": "un bout de fil tressé",
+      "could_be": [
+        "pecheur",
+        "flecheur"
+      ]
+    },
+    "villagers": [
+      {
+        "id": "aldric",
+        "name": "Aldric",
+        "trade": "boucher",
+        "minecraft_profession": "minecraft:butcher",
+        "alive": true,
+        "statement": {
+          "location": "puits",
+          "seen": [],
+          "rumors": [
+            {
+              "about": "fleur",
+              "motive": "rancune"
+            }
+          ],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "fleur",
+        "name": "Fleur",
+        "trade": "pecheur",
+        "minecraft_profession": "minecraft:fisherman",
+        "alive": true,
+        "statement": {
+          "location": "puits",
+          "seen": [
+            "aldric"
+          ],
+          "rumors": [],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "gauvain",
+        "name": "Gauvain",
+        "trade": "macon",
+        "minecraft_profession": "minecraft:mason",
+        "alive": false
+      },
+      {
+        "id": "hersende",
+        "name": "Hersende",
+        "trade": "bibliothecaire",
+        "minecraft_profession": "minecraft:librarian",
+        "alive": true,
+        "statement": {
+          "location": "forge",
+          "seen": [
+            "isembert",
+            "jehanne"
+          ],
+          "rumors": [],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "isembert",
+        "name": "Isembert",
+        "trade": "pecheur",
+        "minecraft_profession": "minecraft:fisherman",
+        "alive": true,
+        "statement": {
+          "location": "forge",
+          "seen": [
+            "hersende",
+            "jehanne"
+          ],
+          "rumors": [
+            {
+              "about": "jehanne",
+              "motive": "rancune"
+            }
+          ],
+          "recognizes_clue": "pecheur"
+        }
+      },
+      {
+        "id": "jehanne",
+        "name": "Jehanne",
+        "trade": "flecheur",
+        "minecraft_profession": "minecraft:fletcher",
+        "alive": true,
+        "statement": {
+          "location": "forge",
+          "seen": [
+            "hersende",
+            "isembert"
+          ],
+          "rumors": [],
+          "recognizes_clue": null
+        }
+      }
+    ]
+  },
+  "solution": {
+    "culprit": "fleur",
+    "red_herring": "jehanne",
+    "motives": {
+      "fleur": "rancune",
+      "jehanne": "rancune"
+    },
+    "true_locations": {
+      "gauvain": "marche",
+      "fleur": "marche",
+      "aldric": "puits",
+      "jehanne": "forge",
+      "isembert": "forge",
+      "hersende": "forge"
+    },
+    "witnesses": [
+      "aldric"
+    ],
+    "clue": {
+      "trade": "pecheur",
+      "object": "un morceau de filet de pêche"
+    },
+    "false_rumor": null,
+    "explanation": {
+      "fr": [
+        "Fleur prétendait être au puits et y avoir vu Aldric, mais Aldric y était sans y voir Fleur. Mobile : Fleur en voulait à Gauvain depuis longtemps.",
+        "Jehanne avait aussi un motif, mais Hersende et Isembert confirment sa présence à la forge.",
+        "L'objet trouvé près du corps, un bout de fil tressé, était un morceau de filet de pêche, comme Isembert l'a reconnu. Il désignait le métier de pêcheur : Fleur et Isembert. Parmi eux, Fleur était la seule personne avec un motif."
+      ]
+    }
+  },
+  "texts": {
+    "fr": {
+      "scene": [
+        "Ce matin, on a retrouvé le corps de Gauvain au marché. Le crime a eu lieu dans la nuit.",
+        "Les villageois ont tous une version de la soirée. À toi de trouver qui ment."
+      ],
+      "examine": "Tu fouilles le lieu du crime, au marché. Près du corps, tu trouves un bout de fil tressé. Difficile de dire d'où ça vient : montre-le aux villageois en les interrogeant, quelqu'un du métier saura le reconnaître.",
+      "statements": {
+        "aldric": {
+          "without_clue": [
+            "J'étais au puits.",
+            "Je n'y ai vu personne.",
+            "Et puis on raconte que Fleur en voulait à Gauvain depuis longtemps."
+          ],
+          "with_clue": [
+            "J'étais au puits.",
+            "Je n'y ai vu personne.",
+            "Et puis on raconte que Fleur en voulait à Gauvain depuis longtemps."
+          ]
+        },
+        "fleur": {
+          "without_clue": [
+            "J'étais au puits.",
+            "J'y ai vu Aldric."
+          ],
+          "with_clue": [
+            "J'étais au puits.",
+            "J'y ai vu Aldric."
+          ]
+        },
+        "hersende": {
+          "without_clue": [
+            "J'étais à la forge.",
+            "J'y ai vu Isembert et Jehanne."
+          ],
+          "with_clue": [
+            "J'étais à la forge.",
+            "J'y ai vu Isembert et Jehanne."
+          ]
+        },
+        "isembert": {
+          "without_clue": [
+            "J'étais à la forge.",
+            "J'y ai vu Hersende et Jehanne.",
+            "Et puis on raconte que Jehanne en voulait à Gauvain depuis longtemps."
+          ],
+          "with_clue": [
+            "J'étais à la forge.",
+            "J'y ai vu Hersende et Jehanne.",
+            "Et puis on raconte que Jehanne en voulait à Gauvain depuis longtemps.",
+            "L'objet trouvé près du corps ? Je reconnais un morceau de filet de pêche, on en trouve chez tous les pêcheurs."
+          ]
+        },
+        "jehanne": {
+          "without_clue": [
+            "J'étais à la forge.",
+            "J'y ai vu Hersende et Isembert."
+          ],
+          "with_clue": [
+            "J'étais à la forge.",
+            "J'y ai vu Hersende et Isembert."
+          ]
+        }
+      },
+      "locations": {
+        "forge": "à la forge",
+        "moulin": "au moulin",
+        "puits": "au puits",
+        "eglise": "à l'église",
+        "marche": "au marché",
+        "taverne": "à la taverne",
+        "champs": "aux champs",
+        "bergerie": "à la bergerie"
+      },
+      "trades": {
+        "bibliothecaire": "bibliothécaire",
+        "boucher": "boucher",
+        "flecheur": "flécheur",
+        "macon": "maçon",
+        "pecheur": "pêcheur"
+      }
+    }
+  }
+}

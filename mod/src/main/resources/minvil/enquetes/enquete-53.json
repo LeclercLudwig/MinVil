@@ -1,0 +1,231 @@
+{
+  "format": "minvil-enquete",
+  "version": 1,
+  "seed": 53,
+  "public": {
+    "victim": "hersende",
+    "crime_location": "bergerie",
+    "clue": {
+      "description": "un morceau de cuir",
+      "could_be": [
+        "boucher",
+        "tanneur"
+      ]
+    },
+    "villagers": [
+      {
+        "id": "fleur",
+        "name": "Fleur",
+        "trade": "boucher",
+        "minecraft_profession": "minecraft:butcher",
+        "alive": true,
+        "statement": {
+          "location": "forge",
+          "seen": [
+            "lothaire"
+          ],
+          "rumors": [
+            {
+              "about": "isembert",
+              "motive": "dette"
+            }
+          ],
+          "recognizes_clue": "boucher"
+        }
+      },
+      {
+        "id": "hersende",
+        "name": "Hersende",
+        "trade": "tanneur",
+        "minecraft_profession": "minecraft:leatherworker",
+        "alive": false
+      },
+      {
+        "id": "isembert",
+        "name": "Isembert",
+        "trade": "boucher",
+        "minecraft_profession": "minecraft:butcher",
+        "alive": true,
+        "statement": {
+          "location": "taverne",
+          "seen": [
+            "mahaut"
+          ],
+          "rumors": [],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "jehanne",
+        "name": "Jehanne",
+        "trade": "boucher",
+        "minecraft_profession": "minecraft:butcher",
+        "alive": true,
+        "statement": {
+          "location": "champs",
+          "seen": [],
+          "rumors": [
+            {
+              "about": "lothaire",
+              "motive": "jalousie"
+            }
+          ],
+          "recognizes_clue": "boucher"
+        }
+      },
+      {
+        "id": "lothaire",
+        "name": "Lothaire",
+        "trade": "tanneur",
+        "minecraft_profession": "minecraft:leatherworker",
+        "alive": true,
+        "statement": {
+          "location": "forge",
+          "seen": [
+            "fleur"
+          ],
+          "rumors": [
+            {
+              "about": "mahaut",
+              "motive": "jalousie"
+            }
+          ],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "mahaut",
+        "name": "Mahaut",
+        "trade": "fermier",
+        "minecraft_profession": "minecraft:farmer",
+        "alive": true,
+        "statement": {
+          "location": "taverne",
+          "seen": [],
+          "rumors": [],
+          "recognizes_clue": null
+        }
+      }
+    ]
+  },
+  "solution": {
+    "culprit": "isembert",
+    "red_herring": "lothaire",
+    "motives": {
+      "isembert": "dette",
+      "lothaire": "jalousie"
+    },
+    "true_locations": {
+      "hersende": "bergerie",
+      "isembert": "bergerie",
+      "mahaut": "taverne",
+      "lothaire": "forge",
+      "fleur": "forge",
+      "jehanne": "champs"
+    },
+    "witnesses": [
+      "mahaut"
+    ],
+    "clue": {
+      "trade": "boucher",
+      "object": "un lien de cuir taché de sang"
+    },
+    "false_rumor": {
+      "teller": "lothaire",
+      "about": "mahaut",
+      "motive": "jalousie"
+    },
+    "explanation": {
+      "fr": [
+        "Isembert prétendait être à la taverne et y avoir vu Mahaut, mais Mahaut y était sans y voir Isembert. Mobile : Isembert devait de l'argent à Hersende.",
+        "Lothaire avait aussi un motif, mais Fleur confirme sa présence à la forge.",
+        "L'objet trouvé près du corps, un morceau de cuir, était un lien de cuir taché de sang, comme Fleur et Jehanne l'ont reconnu. Il désignait le métier de boucher : Fleur, Isembert et Jehanne. Parmi eux, Isembert était la seule personne avec un motif.",
+        "La rumeur selon laquelle Mahaut jalousait Hersende était fausse : Lothaire ne faisait que répéter un ragot."
+      ]
+    }
+  },
+  "texts": {
+    "fr": {
+      "scene": [
+        "Ce matin, on a retrouvé le corps de Hersende à la bergerie. Le crime a eu lieu dans la nuit.",
+        "Les villageois ont tous une version de la soirée. À toi de trouver qui ment."
+      ],
+      "examine": "Tu fouilles le lieu du crime, à la bergerie. Près du corps, tu trouves un morceau de cuir. Difficile de dire d'où ça vient : montre-le aux villageois en les interrogeant, quelqu'un du métier saura le reconnaître.",
+      "statements": {
+        "fleur": {
+          "without_clue": [
+            "J'étais à la forge.",
+            "J'y ai vu Lothaire.",
+            "Et puis on raconte qu'Isembert devait de l'argent à Hersende."
+          ],
+          "with_clue": [
+            "J'étais à la forge.",
+            "J'y ai vu Lothaire.",
+            "Et puis on raconte qu'Isembert devait de l'argent à Hersende.",
+            "L'objet trouvé près du corps ? Je reconnais un lien de cuir taché de sang, on en trouve chez tous les bouchers."
+          ]
+        },
+        "isembert": {
+          "without_clue": [
+            "J'étais à la taverne.",
+            "J'y ai vu Mahaut."
+          ],
+          "with_clue": [
+            "J'étais à la taverne.",
+            "J'y ai vu Mahaut."
+          ]
+        },
+        "jehanne": {
+          "without_clue": [
+            "J'étais aux champs.",
+            "Je n'y ai vu personne.",
+            "Et puis on raconte que Lothaire jalousait Hersende."
+          ],
+          "with_clue": [
+            "J'étais aux champs.",
+            "Je n'y ai vu personne.",
+            "Et puis on raconte que Lothaire jalousait Hersende.",
+            "L'objet trouvé près du corps ? Je reconnais un lien de cuir taché de sang, on en trouve chez tous les bouchers."
+          ]
+        },
+        "lothaire": {
+          "without_clue": [
+            "J'étais à la forge.",
+            "J'y ai vu Fleur.",
+            "Et puis on raconte que Mahaut jalousait Hersende."
+          ],
+          "with_clue": [
+            "J'étais à la forge.",
+            "J'y ai vu Fleur.",
+            "Et puis on raconte que Mahaut jalousait Hersende."
+          ]
+        },
+        "mahaut": {
+          "without_clue": [
+            "J'étais à la taverne.",
+            "Je n'y ai vu personne."
+          ],
+          "with_clue": [
+            "J'étais à la taverne.",
+            "Je n'y ai vu personne."
+          ]
+        }
+      },
+      "locations": {
+        "forge": "à la forge",
+        "moulin": "au moulin",
+        "puits": "au puits",
+        "eglise": "à l'église",
+        "marche": "au marché",
+        "taverne": "à la taverne",
+        "champs": "aux champs",
+        "bergerie": "à la bergerie"
+      },
+      "trades": {
+        "boucher": "boucher",
+        "fermier": "fermier",
+        "tanneur": "tanneur"
+      }
+    }
+  }
+}

@@ -1,0 +1,224 @@
+{
+  "format": "minvil-enquete",
+  "version": 1,
+  "seed": 94,
+  "public": {
+    "victim": "berthe",
+    "crime_location": "bergerie",
+    "clue": {
+      "description": "des fibres claires",
+      "could_be": [
+        "fermier",
+        "berger"
+      ]
+    },
+    "villagers": [
+      {
+        "id": "aldric",
+        "name": "Aldric",
+        "trade": "pretre",
+        "minecraft_profession": "minecraft:cleric",
+        "alive": true,
+        "statement": {
+          "location": "eglise",
+          "seen": [
+            "fleur",
+            "gauvain"
+          ],
+          "rumors": [
+            {
+              "about": "gauvain",
+              "motive": "heritage"
+            }
+          ],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "berthe",
+        "name": "Berthe",
+        "trade": "tanneur",
+        "minecraft_profession": "minecraft:leatherworker",
+        "alive": false
+      },
+      {
+        "id": "enguerrand",
+        "name": "Enguerrand",
+        "trade": "fermier",
+        "minecraft_profession": "minecraft:farmer",
+        "alive": true,
+        "statement": {
+          "location": "puits",
+          "seen": [
+            "lothaire"
+          ],
+          "rumors": [],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "fleur",
+        "name": "Fleur",
+        "trade": "fermier",
+        "minecraft_profession": "minecraft:farmer",
+        "alive": true,
+        "statement": {
+          "location": "eglise",
+          "seen": [
+            "aldric",
+            "gauvain"
+          ],
+          "rumors": [],
+          "recognizes_clue": "fermier"
+        }
+      },
+      {
+        "id": "gauvain",
+        "name": "Gauvain",
+        "trade": "berger",
+        "minecraft_profession": "minecraft:shepherd",
+        "alive": true,
+        "statement": {
+          "location": "eglise",
+          "seen": [
+            "aldric",
+            "fleur"
+          ],
+          "rumors": [],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "lothaire",
+        "name": "Lothaire",
+        "trade": "tanneur",
+        "minecraft_profession": "minecraft:leatherworker",
+        "alive": true,
+        "statement": {
+          "location": "puits",
+          "seen": [],
+          "rumors": [
+            {
+              "about": "enguerrand",
+              "motive": "terre_disputee"
+            }
+          ],
+          "recognizes_clue": null
+        }
+      }
+    ]
+  },
+  "solution": {
+    "culprit": "enguerrand",
+    "red_herring": "gauvain",
+    "motives": {
+      "enguerrand": "terre_disputee",
+      "gauvain": "heritage"
+    },
+    "true_locations": {
+      "berthe": "bergerie",
+      "enguerrand": "bergerie",
+      "lothaire": "puits",
+      "gauvain": "eglise",
+      "aldric": "eglise",
+      "fleur": "eglise"
+    },
+    "witnesses": [
+      "lothaire"
+    ],
+    "clue": {
+      "trade": "fermier",
+      "object": "des brins de paille"
+    },
+    "false_rumor": null,
+    "explanation": {
+      "fr": [
+        "Enguerrand prétendait être au puits et y avoir vu Lothaire, mais Lothaire y était sans y voir Enguerrand. Mobile : Enguerrand se disputait une terre avec Berthe.",
+        "Gauvain avait aussi un motif, mais Aldric et Fleur confirment sa présence à l'église.",
+        "L'objet trouvé près du corps, des fibres claires, était des brins de paille, comme Fleur l'a reconnu. Il désignait le métier de fermier : Enguerrand et Fleur. Parmi eux, Enguerrand était la seule personne avec un motif."
+      ]
+    }
+  },
+  "texts": {
+    "fr": {
+      "scene": [
+        "Ce matin, on a retrouvé le corps de Berthe à la bergerie. Le crime a eu lieu dans la nuit.",
+        "Les villageois ont tous une version de la soirée. À toi de trouver qui ment."
+      ],
+      "examine": "Tu fouilles le lieu du crime, à la bergerie. Près du corps, tu trouves des fibres claires. Difficile de dire d'où ça vient : montre-le aux villageois en les interrogeant, quelqu'un du métier saura le reconnaître.",
+      "statements": {
+        "aldric": {
+          "without_clue": [
+            "J'étais à l'église.",
+            "J'y ai vu Fleur et Gauvain.",
+            "Et puis on raconte que Gauvain comptait hériter de Berthe."
+          ],
+          "with_clue": [
+            "J'étais à l'église.",
+            "J'y ai vu Fleur et Gauvain.",
+            "Et puis on raconte que Gauvain comptait hériter de Berthe."
+          ]
+        },
+        "enguerrand": {
+          "without_clue": [
+            "J'étais au puits.",
+            "J'y ai vu Lothaire."
+          ],
+          "with_clue": [
+            "J'étais au puits.",
+            "J'y ai vu Lothaire."
+          ]
+        },
+        "fleur": {
+          "without_clue": [
+            "J'étais à l'église.",
+            "J'y ai vu Aldric et Gauvain."
+          ],
+          "with_clue": [
+            "J'étais à l'église.",
+            "J'y ai vu Aldric et Gauvain.",
+            "L'objet trouvé près du corps ? Je reconnais des brins de paille, on en trouve chez tous les fermiers."
+          ]
+        },
+        "gauvain": {
+          "without_clue": [
+            "J'étais à l'église.",
+            "J'y ai vu Aldric et Fleur."
+          ],
+          "with_clue": [
+            "J'étais à l'église.",
+            "J'y ai vu Aldric et Fleur."
+          ]
+        },
+        "lothaire": {
+          "without_clue": [
+            "J'étais au puits.",
+            "Je n'y ai vu personne.",
+            "Et puis on raconte qu'Enguerrand se disputait une terre avec Berthe."
+          ],
+          "with_clue": [
+            "J'étais au puits.",
+            "Je n'y ai vu personne.",
+            "Et puis on raconte qu'Enguerrand se disputait une terre avec Berthe."
+          ]
+        }
+      },
+      "locations": {
+        "forge": "à la forge",
+        "moulin": "au moulin",
+        "puits": "au puits",
+        "eglise": "à l'église",
+        "marche": "au marché",
+        "taverne": "à la taverne",
+        "champs": "aux champs",
+        "bergerie": "à la bergerie"
+      },
+      "trades": {
+        "berger": "berger",
+        "fermier": "fermier",
+        "pretre": "prêtre",
+        "tanneur": "tanneur"
+      }
+    }
+  }
+}

@@ -1,0 +1,219 @@
+{
+  "format": "minvil-enquete",
+  "version": 1,
+  "seed": 15,
+  "public": {
+    "victim": "aldric",
+    "crime_location": "forge",
+    "clue": {
+      "description": "un petit éclat gris et dur",
+      "could_be": [
+        "forgeron",
+        "macon"
+      ]
+    },
+    "villagers": [
+      {
+        "id": "aldric",
+        "name": "Aldric",
+        "trade": "bibliothecaire",
+        "minecraft_profession": "minecraft:librarian",
+        "alive": false
+      },
+      {
+        "id": "clovis",
+        "name": "Clovis",
+        "trade": "macon",
+        "minecraft_profession": "minecraft:mason",
+        "alive": true,
+        "statement": {
+          "location": "champs",
+          "seen": [
+            "douce"
+          ],
+          "rumors": [],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "douce",
+        "name": "Douce",
+        "trade": "bibliothecaire",
+        "minecraft_profession": "minecraft:librarian",
+        "alive": true,
+        "statement": {
+          "location": "champs",
+          "seen": [
+            "clovis"
+          ],
+          "rumors": [
+            {
+              "about": "clovis",
+              "motive": "jalousie"
+            }
+          ],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "isembert",
+        "name": "Isembert",
+        "trade": "forgeron",
+        "minecraft_profession": "minecraft:toolsmith",
+        "alive": true,
+        "statement": {
+          "location": "bergerie",
+          "seen": [
+            "mahaut"
+          ],
+          "rumors": [],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "jehanne",
+        "name": "Jehanne",
+        "trade": "forgeron",
+        "minecraft_profession": "minecraft:toolsmith",
+        "alive": true,
+        "statement": {
+          "location": "puits",
+          "seen": [],
+          "rumors": [],
+          "recognizes_clue": "forgeron"
+        }
+      },
+      {
+        "id": "mahaut",
+        "name": "Mahaut",
+        "trade": "pretre",
+        "minecraft_profession": "minecraft:cleric",
+        "alive": true,
+        "statement": {
+          "location": "bergerie",
+          "seen": [],
+          "rumors": [
+            {
+              "about": "isembert",
+              "motive": "heritage"
+            }
+          ],
+          "recognizes_clue": null
+        }
+      }
+    ]
+  },
+  "solution": {
+    "culprit": "isembert",
+    "red_herring": "clovis",
+    "motives": {
+      "isembert": "heritage",
+      "clovis": "jalousie"
+    },
+    "true_locations": {
+      "aldric": "forge",
+      "isembert": "forge",
+      "mahaut": "bergerie",
+      "clovis": "champs",
+      "douce": "champs",
+      "jehanne": "puits"
+    },
+    "witnesses": [
+      "mahaut"
+    ],
+    "clue": {
+      "trade": "forgeron",
+      "object": "de la limaille de fer"
+    },
+    "false_rumor": null,
+    "explanation": {
+      "fr": [
+        "Isembert prétendait être à la bergerie et y avoir vu Mahaut, mais Mahaut y était sans y voir Isembert. Mobile : Isembert comptait hériter de Aldric.",
+        "Clovis avait aussi un motif, mais Douce confirme sa présence aux champs.",
+        "L'objet trouvé près du corps, un petit éclat gris et dur, était de la limaille de fer, comme Jehanne l'a reconnu. Il désignait le métier de forgeron : Isembert et Jehanne. Parmi eux, Isembert était la seule personne avec un motif."
+      ]
+    }
+  },
+  "texts": {
+    "fr": {
+      "scene": [
+        "Ce matin, on a retrouvé le corps de Aldric à la forge. Le crime a eu lieu dans la nuit.",
+        "Les villageois ont tous une version de la soirée. À toi de trouver qui ment."
+      ],
+      "examine": "Tu fouilles le lieu du crime, à la forge. Près du corps, tu trouves un petit éclat gris et dur. Difficile de dire d'où ça vient : montre-le aux villageois en les interrogeant, quelqu'un du métier saura le reconnaître.",
+      "statements": {
+        "clovis": {
+          "without_clue": [
+            "J'étais aux champs.",
+            "J'y ai vu Douce."
+          ],
+          "with_clue": [
+            "J'étais aux champs.",
+            "J'y ai vu Douce."
+          ]
+        },
+        "douce": {
+          "without_clue": [
+            "J'étais aux champs.",
+            "J'y ai vu Clovis.",
+            "Et puis on raconte que Clovis jalousait Aldric."
+          ],
+          "with_clue": [
+            "J'étais aux champs.",
+            "J'y ai vu Clovis.",
+            "Et puis on raconte que Clovis jalousait Aldric."
+          ]
+        },
+        "isembert": {
+          "without_clue": [
+            "J'étais à la bergerie.",
+            "J'y ai vu Mahaut."
+          ],
+          "with_clue": [
+            "J'étais à la bergerie.",
+            "J'y ai vu Mahaut."
+          ]
+        },
+        "jehanne": {
+          "without_clue": [
+            "J'étais au puits.",
+            "Je n'y ai vu personne."
+          ],
+          "with_clue": [
+            "J'étais au puits.",
+            "Je n'y ai vu personne.",
+            "L'objet trouvé près du corps ? Je reconnais de la limaille de fer, on en trouve chez tous les forgerons."
+          ]
+        },
+        "mahaut": {
+          "without_clue": [
+            "J'étais à la bergerie.",
+            "Je n'y ai vu personne.",
+            "Et puis on raconte qu'Isembert comptait hériter de Aldric."
+          ],
+          "with_clue": [
+            "J'étais à la bergerie.",
+            "Je n'y ai vu personne.",
+            "Et puis on raconte qu'Isembert comptait hériter de Aldric."
+          ]
+        }
+      },
+      "locations": {
+        "forge": "à la forge",
+        "moulin": "au moulin",
+        "puits": "au puits",
+        "eglise": "à l'église",
+        "marche": "au marché",
+        "taverne": "à la taverne",
+        "champs": "aux champs",
+        "bergerie": "à la bergerie"
+      },
+      "trades": {
+        "bibliothecaire": "bibliothécaire",
+        "forgeron": "forgeron",
+        "macon": "maçon",
+        "pretre": "prêtre"
+      }
+    }
+  }
+}

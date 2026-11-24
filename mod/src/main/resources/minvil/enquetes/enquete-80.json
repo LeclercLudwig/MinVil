@@ -1,0 +1,247 @@
+{
+  "format": "minvil-enquete",
+  "version": 1,
+  "seed": 80,
+  "public": {
+    "victim": "gauvain",
+    "crime_location": "taverne",
+    "clue": {
+      "description": "un morceau de cuir",
+      "could_be": [
+        "boucher",
+        "tanneur"
+      ]
+    },
+    "villagers": [
+      {
+        "id": "douce",
+        "name": "Douce",
+        "trade": "macon",
+        "minecraft_profession": "minecraft:mason",
+        "alive": true,
+        "statement": {
+          "location": "bergerie",
+          "seen": [
+            "enguerrand"
+          ],
+          "rumors": [
+            {
+              "about": "isembert",
+              "motive": "rancune"
+            }
+          ],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "enguerrand",
+        "name": "Enguerrand",
+        "trade": "cartographe",
+        "minecraft_profession": "minecraft:cartographer",
+        "alive": true,
+        "statement": {
+          "location": "bergerie",
+          "seen": [
+            "douce"
+          ],
+          "rumors": [],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "fleur",
+        "name": "Fleur",
+        "trade": "boucher",
+        "minecraft_profession": "minecraft:butcher",
+        "alive": true,
+        "statement": {
+          "location": "champs",
+          "seen": [
+            "lothaire"
+          ],
+          "rumors": [],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "gauvain",
+        "name": "Gauvain",
+        "trade": "boucher",
+        "minecraft_profession": "minecraft:butcher",
+        "alive": false
+      },
+      {
+        "id": "isembert",
+        "name": "Isembert",
+        "trade": "tanneur",
+        "minecraft_profession": "minecraft:leatherworker",
+        "alive": true,
+        "statement": {
+          "location": "forge",
+          "seen": [
+            "mahaut"
+          ],
+          "rumors": [],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "lothaire",
+        "name": "Lothaire",
+        "trade": "tanneur",
+        "minecraft_profession": "minecraft:leatherworker",
+        "alive": true,
+        "statement": {
+          "location": "champs",
+          "seen": [
+            "fleur"
+          ],
+          "rumors": [],
+          "recognizes_clue": "tanneur"
+        }
+      },
+      {
+        "id": "mahaut",
+        "name": "Mahaut",
+        "trade": "boucher",
+        "minecraft_profession": "minecraft:butcher",
+        "alive": true,
+        "statement": {
+          "location": "forge",
+          "seen": [],
+          "rumors": [
+            {
+              "about": "fleur",
+              "motive": "jalousie"
+            }
+          ],
+          "recognizes_clue": null
+        }
+      }
+    ]
+  },
+  "solution": {
+    "culprit": "isembert",
+    "red_herring": "fleur",
+    "motives": {
+      "isembert": "rancune",
+      "fleur": "jalousie"
+    },
+    "true_locations": {
+      "gauvain": "taverne",
+      "isembert": "taverne",
+      "mahaut": "forge",
+      "fleur": "champs",
+      "lothaire": "champs",
+      "enguerrand": "bergerie",
+      "douce": "bergerie"
+    },
+    "witnesses": [
+      "mahaut"
+    ],
+    "clue": {
+      "trade": "tanneur",
+      "object": "une chute de cuir tanné"
+    },
+    "false_rumor": null,
+    "explanation": {
+      "fr": [
+        "Isembert prétendait être à la forge et y avoir vu Mahaut, mais Mahaut y était sans y voir Isembert. Mobile : Isembert en voulait à Gauvain depuis longtemps.",
+        "Fleur avait aussi un motif, mais Lothaire confirme sa présence aux champs.",
+        "L'objet trouvé près du corps, un morceau de cuir, était une chute de cuir tanné, comme Lothaire l'a reconnu. Il désignait le métier de tanneur : Isembert et Lothaire. Parmi eux, Isembert était la seule personne avec un motif."
+      ]
+    }
+  },
+  "texts": {
+    "fr": {
+      "scene": [
+        "Ce matin, on a retrouvé le corps de Gauvain à la taverne. Le crime a eu lieu dans la nuit.",
+        "Les villageois ont tous une version de la soirée. À toi de trouver qui ment."
+      ],
+      "examine": "Tu fouilles le lieu du crime, à la taverne. Près du corps, tu trouves un morceau de cuir. Difficile de dire d'où ça vient : montre-le aux villageois en les interrogeant, quelqu'un du métier saura le reconnaître.",
+      "statements": {
+        "douce": {
+          "without_clue": [
+            "J'étais à la bergerie.",
+            "J'y ai vu Enguerrand.",
+            "Et puis on raconte qu'Isembert en voulait à Gauvain depuis longtemps."
+          ],
+          "with_clue": [
+            "J'étais à la bergerie.",
+            "J'y ai vu Enguerrand.",
+            "Et puis on raconte qu'Isembert en voulait à Gauvain depuis longtemps."
+          ]
+        },
+        "enguerrand": {
+          "without_clue": [
+            "J'étais à la bergerie.",
+            "J'y ai vu Douce."
+          ],
+          "with_clue": [
+            "J'étais à la bergerie.",
+            "J'y ai vu Douce."
+          ]
+        },
+        "fleur": {
+          "without_clue": [
+            "J'étais aux champs.",
+            "J'y ai vu Lothaire."
+          ],
+          "with_clue": [
+            "J'étais aux champs.",
+            "J'y ai vu Lothaire."
+          ]
+        },
+        "isembert": {
+          "without_clue": [
+            "J'étais à la forge.",
+            "J'y ai vu Mahaut."
+          ],
+          "with_clue": [
+            "J'étais à la forge.",
+            "J'y ai vu Mahaut."
+          ]
+        },
+        "lothaire": {
+          "without_clue": [
+            "J'étais aux champs.",
+            "J'y ai vu Fleur."
+          ],
+          "with_clue": [
+            "J'étais aux champs.",
+            "J'y ai vu Fleur.",
+            "L'objet trouvé près du corps ? Je reconnais une chute de cuir tanné, on en trouve chez tous les tanneurs."
+          ]
+        },
+        "mahaut": {
+          "without_clue": [
+            "J'étais à la forge.",
+            "Je n'y ai vu personne.",
+            "Et puis on raconte que Fleur jalousait Gauvain."
+          ],
+          "with_clue": [
+            "J'étais à la forge.",
+            "Je n'y ai vu personne.",
+            "Et puis on raconte que Fleur jalousait Gauvain."
+          ]
+        }
+      },
+      "locations": {
+        "forge": "à la forge",
+        "moulin": "au moulin",
+        "puits": "au puits",
+        "eglise": "à l'église",
+        "marche": "au marché",
+        "taverne": "à la taverne",
+        "champs": "aux champs",
+        "bergerie": "à la bergerie"
+      },
+      "trades": {
+        "boucher": "boucher",
+        "cartographe": "cartographe",
+        "macon": "maçon",
+        "tanneur": "tanneur"
+      }
+    }
+  }
+}

@@ -1,0 +1,233 @@
+{
+  "format": "minvil-enquete",
+  "version": 1,
+  "seed": 22,
+  "public": {
+    "victim": "douce",
+    "crime_location": "moulin",
+    "clue": {
+      "description": "un bout de parchemin déchiré",
+      "could_be": [
+        "bibliothecaire",
+        "pretre",
+        "cartographe"
+      ]
+    },
+    "villagers": [
+      {
+        "id": "aldric",
+        "name": "Aldric",
+        "trade": "pretre",
+        "minecraft_profession": "minecraft:cleric",
+        "alive": true,
+        "statement": {
+          "location": "champs",
+          "seen": [
+            "jehanne"
+          ],
+          "rumors": [],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "clovis",
+        "name": "Clovis",
+        "trade": "cartographe",
+        "minecraft_profession": "minecraft:cartographer",
+        "alive": true,
+        "statement": {
+          "location": "bergerie",
+          "seen": [
+            "hersende"
+          ],
+          "rumors": [
+            {
+              "about": "aldric",
+              "motive": "dette"
+            }
+          ],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "douce",
+        "name": "Douce",
+        "trade": "fermier",
+        "minecraft_profession": "minecraft:farmer",
+        "alive": false
+      },
+      {
+        "id": "fleur",
+        "name": "Fleur",
+        "trade": "pretre",
+        "minecraft_profession": "minecraft:cleric",
+        "alive": true,
+        "statement": {
+          "location": "eglise",
+          "seen": [],
+          "rumors": [
+            {
+              "about": "clovis",
+              "motive": "jalousie"
+            }
+          ],
+          "recognizes_clue": "pretre"
+        }
+      },
+      {
+        "id": "hersende",
+        "name": "Hersende",
+        "trade": "cartographe",
+        "minecraft_profession": "minecraft:cartographer",
+        "alive": true,
+        "statement": {
+          "location": "bergerie",
+          "seen": [
+            "clovis"
+          ],
+          "rumors": [],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "jehanne",
+        "name": "Jehanne",
+        "trade": "boucher",
+        "minecraft_profession": "minecraft:butcher",
+        "alive": true,
+        "statement": {
+          "location": "champs",
+          "seen": [],
+          "rumors": [
+            {
+              "about": "hersende",
+              "motive": "jalousie"
+            }
+          ],
+          "recognizes_clue": null
+        }
+      }
+    ]
+  },
+  "solution": {
+    "culprit": "aldric",
+    "red_herring": "hersende",
+    "motives": {
+      "aldric": "dette",
+      "hersende": "jalousie"
+    },
+    "true_locations": {
+      "douce": "moulin",
+      "aldric": "moulin",
+      "jehanne": "champs",
+      "hersende": "bergerie",
+      "clovis": "bergerie",
+      "fleur": "eglise"
+    },
+    "witnesses": [
+      "jehanne"
+    ],
+    "clue": {
+      "trade": "pretre",
+      "object": "une page de psautier"
+    },
+    "false_rumor": {
+      "teller": "fleur",
+      "about": "clovis",
+      "motive": "jalousie"
+    },
+    "explanation": {
+      "fr": [
+        "Aldric prétendait être aux champs et y avoir vu Jehanne, mais Jehanne y était sans y voir Aldric. Mobile : Aldric devait de l'argent à Douce.",
+        "Hersende avait aussi un motif, mais Clovis confirme sa présence à la bergerie.",
+        "L'objet trouvé près du corps, un bout de parchemin déchiré, était une page de psautier, comme Fleur l'a reconnu. Il désignait le métier de prêtre : Aldric et Fleur. Parmi eux, Aldric était la seule personne avec un motif.",
+        "La rumeur selon laquelle Clovis jalousait Douce était fausse : Fleur ne faisait que répéter un ragot."
+      ]
+    }
+  },
+  "texts": {
+    "fr": {
+      "scene": [
+        "Ce matin, on a retrouvé le corps de Douce au moulin. Le crime a eu lieu dans la nuit.",
+        "Les villageois ont tous une version de la soirée. À toi de trouver qui ment."
+      ],
+      "examine": "Tu fouilles le lieu du crime, au moulin. Près du corps, tu trouves un bout de parchemin déchiré. Difficile de dire d'où ça vient : montre-le aux villageois en les interrogeant, quelqu'un du métier saura le reconnaître.",
+      "statements": {
+        "aldric": {
+          "without_clue": [
+            "J'étais aux champs.",
+            "J'y ai vu Jehanne."
+          ],
+          "with_clue": [
+            "J'étais aux champs.",
+            "J'y ai vu Jehanne."
+          ]
+        },
+        "clovis": {
+          "without_clue": [
+            "J'étais à la bergerie.",
+            "J'y ai vu Hersende.",
+            "Et puis on raconte qu'Aldric devait de l'argent à Douce."
+          ],
+          "with_clue": [
+            "J'étais à la bergerie.",
+            "J'y ai vu Hersende.",
+            "Et puis on raconte qu'Aldric devait de l'argent à Douce."
+          ]
+        },
+        "fleur": {
+          "without_clue": [
+            "J'étais à l'église.",
+            "Je n'y ai vu personne.",
+            "Et puis on raconte que Clovis jalousait Douce."
+          ],
+          "with_clue": [
+            "J'étais à l'église.",
+            "Je n'y ai vu personne.",
+            "Et puis on raconte que Clovis jalousait Douce.",
+            "L'objet trouvé près du corps ? Je reconnais une page de psautier, on en trouve chez tous les prêtres."
+          ]
+        },
+        "hersende": {
+          "without_clue": [
+            "J'étais à la bergerie.",
+            "J'y ai vu Clovis."
+          ],
+          "with_clue": [
+            "J'étais à la bergerie.",
+            "J'y ai vu Clovis."
+          ]
+        },
+        "jehanne": {
+          "without_clue": [
+            "J'étais aux champs.",
+            "Je n'y ai vu personne.",
+            "Et puis on raconte que Hersende jalousait Douce."
+          ],
+          "with_clue": [
+            "J'étais aux champs.",
+            "Je n'y ai vu personne.",
+            "Et puis on raconte que Hersende jalousait Douce."
+          ]
+        }
+      },
+      "locations": {
+        "forge": "à la forge",
+        "moulin": "au moulin",
+        "puits": "au puits",
+        "eglise": "à l'église",
+        "marche": "au marché",
+        "taverne": "à la taverne",
+        "champs": "aux champs",
+        "bergerie": "à la bergerie"
+      },
+      "trades": {
+        "bibliothecaire": "bibliothécaire",
+        "boucher": "boucher",
+        "cartographe": "cartographe",
+        "fermier": "fermier",
+        "pretre": "prêtre"
+      }
+    }
+  }
+}

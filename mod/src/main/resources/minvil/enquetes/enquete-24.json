@@ -1,0 +1,291 @@
+{
+  "format": "minvil-enquete",
+  "version": 1,
+  "seed": 24,
+  "public": {
+    "victim": "jehanne",
+    "crime_location": "puits",
+    "clue": {
+      "description": "des fibres claires",
+      "could_be": [
+        "fermier",
+        "berger"
+      ]
+    },
+    "villagers": [
+      {
+        "id": "aldric",
+        "name": "Aldric",
+        "trade": "fermier",
+        "minecraft_profession": "minecraft:farmer",
+        "alive": true,
+        "statement": {
+          "location": "bergerie",
+          "seen": [
+            "douce"
+          ],
+          "rumors": [
+            {
+              "about": "mahaut",
+              "motive": "heritage"
+            }
+          ],
+          "recognizes_clue": "fermier"
+        }
+      },
+      {
+        "id": "berthe",
+        "name": "Berthe",
+        "trade": "forgeron",
+        "minecraft_profession": "minecraft:toolsmith",
+        "alive": true,
+        "statement": {
+          "location": "eglise",
+          "seen": [],
+          "rumors": [
+            {
+              "about": "clovis",
+              "motive": "dette"
+            }
+          ],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "clovis",
+        "name": "Clovis",
+        "trade": "fermier",
+        "minecraft_profession": "minecraft:farmer",
+        "alive": true,
+        "statement": {
+          "location": "bergerie",
+          "seen": [
+            "aldric"
+          ],
+          "rumors": [],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "douce",
+        "name": "Douce",
+        "trade": "boucher",
+        "minecraft_profession": "minecraft:butcher",
+        "alive": true,
+        "statement": {
+          "location": "bergerie",
+          "seen": [
+            "aldric"
+          ],
+          "rumors": [
+            {
+              "about": "lothaire",
+              "motive": "rancune"
+            }
+          ],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "fleur",
+        "name": "Fleur",
+        "trade": "flecheur",
+        "minecraft_profession": "minecraft:fletcher",
+        "alive": true,
+        "statement": {
+          "location": "champs",
+          "seen": [
+            "lothaire",
+            "mahaut"
+          ],
+          "rumors": [],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "jehanne",
+        "name": "Jehanne",
+        "trade": "cartographe",
+        "minecraft_profession": "minecraft:cartographer",
+        "alive": false
+      },
+      {
+        "id": "lothaire",
+        "name": "Lothaire",
+        "trade": "berger",
+        "minecraft_profession": "minecraft:shepherd",
+        "alive": true,
+        "statement": {
+          "location": "champs",
+          "seen": [
+            "fleur",
+            "mahaut"
+          ],
+          "rumors": [],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "mahaut",
+        "name": "Mahaut",
+        "trade": "forgeron",
+        "minecraft_profession": "minecraft:toolsmith",
+        "alive": true,
+        "statement": {
+          "location": "champs",
+          "seen": [
+            "fleur",
+            "lothaire"
+          ],
+          "rumors": [],
+          "recognizes_clue": null
+        }
+      }
+    ]
+  },
+  "solution": {
+    "culprit": "clovis",
+    "red_herring": "lothaire",
+    "motives": {
+      "clovis": "dette",
+      "lothaire": "rancune"
+    },
+    "true_locations": {
+      "jehanne": "puits",
+      "clovis": "puits",
+      "douce": "bergerie",
+      "lothaire": "champs",
+      "mahaut": "champs",
+      "berthe": "eglise",
+      "fleur": "champs",
+      "aldric": "bergerie"
+    },
+    "witnesses": [
+      "aldric",
+      "douce"
+    ],
+    "clue": {
+      "trade": "fermier",
+      "object": "des brins de paille"
+    },
+    "false_rumor": {
+      "teller": "aldric",
+      "about": "mahaut",
+      "motive": "heritage"
+    },
+    "explanation": {
+      "fr": [
+        "Clovis prétendait être à la bergerie et y avoir vu Aldric, mais Aldric et Douce y étaient sans y voir Clovis. Mobile : Clovis devait de l'argent à Jehanne.",
+        "Lothaire avait aussi un motif, mais Fleur et Mahaut confirment sa présence aux champs.",
+        "L'objet trouvé près du corps, des fibres claires, était des brins de paille, comme Aldric l'a reconnu. Il désignait le métier de fermier : Aldric et Clovis. Parmi eux, Clovis était la seule personne avec un motif.",
+        "La rumeur selon laquelle Mahaut comptait hériter de Jehanne était fausse : Aldric ne faisait que répéter un ragot."
+      ]
+    }
+  },
+  "texts": {
+    "fr": {
+      "scene": [
+        "Ce matin, on a retrouvé le corps de Jehanne au puits. Le crime a eu lieu dans la nuit.",
+        "Les villageois ont tous une version de la soirée. À toi de trouver qui ment."
+      ],
+      "examine": "Tu fouilles le lieu du crime, au puits. Près du corps, tu trouves des fibres claires. Difficile de dire d'où ça vient : montre-le aux villageois en les interrogeant, quelqu'un du métier saura le reconnaître.",
+      "statements": {
+        "aldric": {
+          "without_clue": [
+            "J'étais à la bergerie.",
+            "J'y ai vu Douce.",
+            "Et puis on raconte que Mahaut comptait hériter de Jehanne."
+          ],
+          "with_clue": [
+            "J'étais à la bergerie.",
+            "J'y ai vu Douce.",
+            "Et puis on raconte que Mahaut comptait hériter de Jehanne.",
+            "L'objet trouvé près du corps ? Je reconnais des brins de paille, on en trouve chez tous les fermiers."
+          ]
+        },
+        "berthe": {
+          "without_clue": [
+            "J'étais à l'église.",
+            "Je n'y ai vu personne.",
+            "Et puis on raconte que Clovis devait de l'argent à Jehanne."
+          ],
+          "with_clue": [
+            "J'étais à l'église.",
+            "Je n'y ai vu personne.",
+            "Et puis on raconte que Clovis devait de l'argent à Jehanne."
+          ]
+        },
+        "clovis": {
+          "without_clue": [
+            "J'étais à la bergerie.",
+            "J'y ai vu Aldric."
+          ],
+          "with_clue": [
+            "J'étais à la bergerie.",
+            "J'y ai vu Aldric."
+          ]
+        },
+        "douce": {
+          "without_clue": [
+            "J'étais à la bergerie.",
+            "J'y ai vu Aldric.",
+            "Et puis on raconte que Lothaire en voulait à Jehanne depuis longtemps."
+          ],
+          "with_clue": [
+            "J'étais à la bergerie.",
+            "J'y ai vu Aldric.",
+            "Et puis on raconte que Lothaire en voulait à Jehanne depuis longtemps."
+          ]
+        },
+        "fleur": {
+          "without_clue": [
+            "J'étais aux champs.",
+            "J'y ai vu Lothaire et Mahaut."
+          ],
+          "with_clue": [
+            "J'étais aux champs.",
+            "J'y ai vu Lothaire et Mahaut."
+          ]
+        },
+        "lothaire": {
+          "without_clue": [
+            "J'étais aux champs.",
+            "J'y ai vu Fleur et Mahaut."
+          ],
+          "with_clue": [
+            "J'étais aux champs.",
+            "J'y ai vu Fleur et Mahaut."
+          ]
+        },
+        "mahaut": {
+          "without_clue": [
+            "J'étais aux champs.",
+            "J'y ai vu Fleur et Lothaire."
+          ],
+          "with_clue": [
+            "J'étais aux champs.",
+            "J'y ai vu Fleur et Lothaire."
+          ]
+        }
+      },
+      "locations": {
+        "forge": "à la forge",
+        "moulin": "au moulin",
+        "puits": "au puits",
+        "eglise": "à l'église",
+        "marche": "au marché",
+        "taverne": "à la taverne",
+        "champs": "aux champs",
+        "bergerie": "à la bergerie"
+      },
+      "trades": {
+        "berger": "berger",
+        "boucher": "boucher",
+        "cartographe": "cartographe",
+        "fermier": "fermier",
+        "flecheur": "flécheur",
+        "forgeron": "forgeron"
+      }
+    }
+  }
+}

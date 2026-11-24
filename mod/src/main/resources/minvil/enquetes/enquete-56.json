@@ -1,0 +1,206 @@
+{
+  "format": "minvil-enquete",
+  "version": 1,
+  "seed": 56,
+  "public": {
+    "victim": "hersende",
+    "crime_location": "eglise",
+    "clue": {
+      "description": "un petit éclat gris et dur",
+      "could_be": [
+        "forgeron",
+        "macon"
+      ]
+    },
+    "villagers": [
+      {
+        "id": "enguerrand",
+        "name": "Enguerrand",
+        "trade": "forgeron",
+        "minecraft_profession": "minecraft:toolsmith",
+        "alive": true,
+        "statement": {
+          "location": "marche",
+          "seen": [
+            "gauvain"
+          ],
+          "rumors": [
+            {
+              "about": "lothaire",
+              "motive": "terre_disputee"
+            }
+          ],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "gauvain",
+        "name": "Gauvain",
+        "trade": "fermier",
+        "minecraft_profession": "minecraft:farmer",
+        "alive": true,
+        "statement": {
+          "location": "marche",
+          "seen": [
+            "enguerrand"
+          ],
+          "rumors": [
+            {
+              "about": "enguerrand",
+              "motive": "dette"
+            }
+          ],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "hersende",
+        "name": "Hersende",
+        "trade": "fermier",
+        "minecraft_profession": "minecraft:farmer",
+        "alive": false
+      },
+      {
+        "id": "isembert",
+        "name": "Isembert",
+        "trade": "macon",
+        "minecraft_profession": "minecraft:mason",
+        "alive": true,
+        "statement": {
+          "location": "forge",
+          "seen": [],
+          "rumors": [],
+          "recognizes_clue": "macon"
+        }
+      },
+      {
+        "id": "lothaire",
+        "name": "Lothaire",
+        "trade": "macon",
+        "minecraft_profession": "minecraft:mason",
+        "alive": true,
+        "statement": {
+          "location": "forge",
+          "seen": [
+            "isembert"
+          ],
+          "rumors": [
+            {
+              "about": "gauvain",
+              "motive": "rancune"
+            }
+          ],
+          "recognizes_clue": null
+        }
+      }
+    ]
+  },
+  "solution": {
+    "culprit": "lothaire",
+    "red_herring": "enguerrand",
+    "motives": {
+      "lothaire": "terre_disputee",
+      "enguerrand": "dette"
+    },
+    "true_locations": {
+      "hersende": "eglise",
+      "lothaire": "eglise",
+      "isembert": "forge",
+      "enguerrand": "marche",
+      "gauvain": "marche"
+    },
+    "witnesses": [
+      "isembert"
+    ],
+    "clue": {
+      "trade": "macon",
+      "object": "un éclat de pierre taillée"
+    },
+    "false_rumor": {
+      "teller": "lothaire",
+      "about": "gauvain",
+      "motive": "rancune"
+    },
+    "explanation": {
+      "fr": [
+        "Lothaire prétendait être à la forge et y avoir vu Isembert, mais Isembert y était sans y voir Lothaire. Mobile : Lothaire se disputait une terre avec Hersende.",
+        "Enguerrand avait aussi un motif, mais Gauvain confirme sa présence au marché.",
+        "L'objet trouvé près du corps, un petit éclat gris et dur, était un éclat de pierre taillée, comme Isembert l'a reconnu. Il désignait le métier de maçon : Isembert et Lothaire. Parmi eux, Lothaire était la seule personne avec un motif.",
+        "La rumeur selon laquelle Gauvain en voulait à Hersende depuis longtemps était fausse : Lothaire l'avait inventée pour brouiller les pistes."
+      ]
+    }
+  },
+  "texts": {
+    "fr": {
+      "scene": [
+        "Ce matin, on a retrouvé le corps de Hersende à l'église. Le crime a eu lieu dans la nuit.",
+        "Les villageois ont tous une version de la soirée. À toi de trouver qui ment."
+      ],
+      "examine": "Tu fouilles le lieu du crime, à l'église. Près du corps, tu trouves un petit éclat gris et dur. Difficile de dire d'où ça vient : montre-le aux villageois en les interrogeant, quelqu'un du métier saura le reconnaître.",
+      "statements": {
+        "enguerrand": {
+          "without_clue": [
+            "J'étais au marché.",
+            "J'y ai vu Gauvain.",
+            "Et puis on raconte que Lothaire se disputait une terre avec Hersende."
+          ],
+          "with_clue": [
+            "J'étais au marché.",
+            "J'y ai vu Gauvain.",
+            "Et puis on raconte que Lothaire se disputait une terre avec Hersende."
+          ]
+        },
+        "gauvain": {
+          "without_clue": [
+            "J'étais au marché.",
+            "J'y ai vu Enguerrand.",
+            "Et puis on raconte qu'Enguerrand devait de l'argent à Hersende."
+          ],
+          "with_clue": [
+            "J'étais au marché.",
+            "J'y ai vu Enguerrand.",
+            "Et puis on raconte qu'Enguerrand devait de l'argent à Hersende."
+          ]
+        },
+        "isembert": {
+          "without_clue": [
+            "J'étais à la forge.",
+            "Je n'y ai vu personne."
+          ],
+          "with_clue": [
+            "J'étais à la forge.",
+            "Je n'y ai vu personne.",
+            "L'objet trouvé près du corps ? Je reconnais un éclat de pierre taillée, on en trouve chez tous les maçons."
+          ]
+        },
+        "lothaire": {
+          "without_clue": [
+            "J'étais à la forge.",
+            "J'y ai vu Isembert.",
+            "Et puis on raconte que Gauvain en voulait à Hersende depuis longtemps."
+          ],
+          "with_clue": [
+            "J'étais à la forge.",
+            "J'y ai vu Isembert.",
+            "Et puis on raconte que Gauvain en voulait à Hersende depuis longtemps."
+          ]
+        }
+      },
+      "locations": {
+        "forge": "à la forge",
+        "moulin": "au moulin",
+        "puits": "au puits",
+        "eglise": "à l'église",
+        "marche": "au marché",
+        "taverne": "à la taverne",
+        "champs": "aux champs",
+        "bergerie": "à la bergerie"
+      },
+      "trades": {
+        "fermier": "fermier",
+        "forgeron": "forgeron",
+        "macon": "maçon"
+      }
+    }
+  }
+}

@@ -1,0 +1,220 @@
+{
+  "format": "minvil-enquete",
+  "version": 1,
+  "seed": 79,
+  "public": {
+    "victim": "hersende",
+    "crime_location": "bergerie",
+    "clue": {
+      "description": "un petit éclat gris et dur",
+      "could_be": [
+        "forgeron",
+        "macon"
+      ]
+    },
+    "villagers": [
+      {
+        "id": "berthe",
+        "name": "Berthe",
+        "trade": "forgeron",
+        "minecraft_profession": "minecraft:toolsmith",
+        "alive": true,
+        "statement": {
+          "location": "puits",
+          "seen": [],
+          "rumors": [
+            {
+              "about": "clovis",
+              "motive": "jalousie"
+            }
+          ],
+          "recognizes_clue": "forgeron"
+        }
+      },
+      {
+        "id": "clovis",
+        "name": "Clovis",
+        "trade": "macon",
+        "minecraft_profession": "minecraft:mason",
+        "alive": true,
+        "statement": {
+          "location": "forge",
+          "seen": [
+            "douce"
+          ],
+          "rumors": [],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "douce",
+        "name": "Douce",
+        "trade": "boucher",
+        "minecraft_profession": "minecraft:butcher",
+        "alive": true,
+        "statement": {
+          "location": "forge",
+          "seen": [
+            "clovis"
+          ],
+          "rumors": [],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "fleur",
+        "name": "Fleur",
+        "trade": "forgeron",
+        "minecraft_profession": "minecraft:toolsmith",
+        "alive": true,
+        "statement": {
+          "location": "moulin",
+          "seen": [
+            "jehanne"
+          ],
+          "rumors": [],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "hersende",
+        "name": "Hersende",
+        "trade": "cartographe",
+        "minecraft_profession": "minecraft:cartographer",
+        "alive": false
+      },
+      {
+        "id": "jehanne",
+        "name": "Jehanne",
+        "trade": "bibliothecaire",
+        "minecraft_profession": "minecraft:librarian",
+        "alive": true,
+        "statement": {
+          "location": "moulin",
+          "seen": [],
+          "rumors": [
+            {
+              "about": "fleur",
+              "motive": "dette"
+            }
+          ],
+          "recognizes_clue": null
+        }
+      }
+    ]
+  },
+  "solution": {
+    "culprit": "fleur",
+    "red_herring": "clovis",
+    "motives": {
+      "fleur": "dette",
+      "clovis": "jalousie"
+    },
+    "true_locations": {
+      "hersende": "bergerie",
+      "fleur": "bergerie",
+      "jehanne": "moulin",
+      "clovis": "forge",
+      "douce": "forge",
+      "berthe": "puits"
+    },
+    "witnesses": [
+      "jehanne"
+    ],
+    "clue": {
+      "trade": "forgeron",
+      "object": "de la limaille de fer"
+    },
+    "false_rumor": null,
+    "explanation": {
+      "fr": [
+        "Fleur prétendait être au moulin et y avoir vu Jehanne, mais Jehanne y était sans y voir Fleur. Mobile : Fleur devait de l'argent à Hersende.",
+        "Clovis avait aussi un motif, mais Douce confirme sa présence à la forge.",
+        "L'objet trouvé près du corps, un petit éclat gris et dur, était de la limaille de fer, comme Berthe l'a reconnu. Il désignait le métier de forgeron : Berthe et Fleur. Parmi eux, Fleur était la seule personne avec un motif."
+      ]
+    }
+  },
+  "texts": {
+    "fr": {
+      "scene": [
+        "Ce matin, on a retrouvé le corps de Hersende à la bergerie. Le crime a eu lieu dans la nuit.",
+        "Les villageois ont tous une version de la soirée. À toi de trouver qui ment."
+      ],
+      "examine": "Tu fouilles le lieu du crime, à la bergerie. Près du corps, tu trouves un petit éclat gris et dur. Difficile de dire d'où ça vient : montre-le aux villageois en les interrogeant, quelqu'un du métier saura le reconnaître.",
+      "statements": {
+        "berthe": {
+          "without_clue": [
+            "J'étais au puits.",
+            "Je n'y ai vu personne.",
+            "Et puis on raconte que Clovis jalousait Hersende."
+          ],
+          "with_clue": [
+            "J'étais au puits.",
+            "Je n'y ai vu personne.",
+            "Et puis on raconte que Clovis jalousait Hersende.",
+            "L'objet trouvé près du corps ? Je reconnais de la limaille de fer, on en trouve chez tous les forgerons."
+          ]
+        },
+        "clovis": {
+          "without_clue": [
+            "J'étais à la forge.",
+            "J'y ai vu Douce."
+          ],
+          "with_clue": [
+            "J'étais à la forge.",
+            "J'y ai vu Douce."
+          ]
+        },
+        "douce": {
+          "without_clue": [
+            "J'étais à la forge.",
+            "J'y ai vu Clovis."
+          ],
+          "with_clue": [
+            "J'étais à la forge.",
+            "J'y ai vu Clovis."
+          ]
+        },
+        "fleur": {
+          "without_clue": [
+            "J'étais au moulin.",
+            "J'y ai vu Jehanne."
+          ],
+          "with_clue": [
+            "J'étais au moulin.",
+            "J'y ai vu Jehanne."
+          ]
+        },
+        "jehanne": {
+          "without_clue": [
+            "J'étais au moulin.",
+            "Je n'y ai vu personne.",
+            "Et puis on raconte que Fleur devait de l'argent à Hersende."
+          ],
+          "with_clue": [
+            "J'étais au moulin.",
+            "Je n'y ai vu personne.",
+            "Et puis on raconte que Fleur devait de l'argent à Hersende."
+          ]
+        }
+      },
+      "locations": {
+        "forge": "à la forge",
+        "moulin": "au moulin",
+        "puits": "au puits",
+        "eglise": "à l'église",
+        "marche": "au marché",
+        "taverne": "à la taverne",
+        "champs": "aux champs",
+        "bergerie": "à la bergerie"
+      },
+      "trades": {
+        "bibliothecaire": "bibliothécaire",
+        "boucher": "boucher",
+        "cartographe": "cartographe",
+        "forgeron": "forgeron",
+        "macon": "maçon"
+      }
+    }
+  }
+}

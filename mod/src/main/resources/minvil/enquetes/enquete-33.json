@@ -1,0 +1,231 @@
+{
+  "format": "minvil-enquete",
+  "version": 1,
+  "seed": 33,
+  "public": {
+    "victim": "lothaire",
+    "crime_location": "taverne",
+    "clue": {
+      "description": "un morceau de cuir",
+      "could_be": [
+        "boucher",
+        "tanneur"
+      ]
+    },
+    "villagers": [
+      {
+        "id": "clovis",
+        "name": "Clovis",
+        "trade": "tanneur",
+        "minecraft_profession": "minecraft:leatherworker",
+        "alive": true,
+        "statement": {
+          "location": "marche",
+          "seen": [
+            "hersende"
+          ],
+          "rumors": [
+            {
+              "about": "hersende",
+              "motive": "heritage"
+            }
+          ],
+          "recognizes_clue": "tanneur"
+        }
+      },
+      {
+        "id": "douce",
+        "name": "Douce",
+        "trade": "tanneur",
+        "minecraft_profession": "minecraft:leatherworker",
+        "alive": true,
+        "statement": {
+          "location": "champs",
+          "seen": [
+            "enguerrand"
+          ],
+          "rumors": [],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "enguerrand",
+        "name": "Enguerrand",
+        "trade": "cartographe",
+        "minecraft_profession": "minecraft:cartographer",
+        "alive": true,
+        "statement": {
+          "location": "champs",
+          "seen": [],
+          "rumors": [
+            {
+              "about": "douce",
+              "motive": "rancune"
+            },
+            {
+              "about": "fleur",
+              "motive": "dette"
+            }
+          ],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "fleur",
+        "name": "Fleur",
+        "trade": "forgeron",
+        "minecraft_profession": "minecraft:toolsmith",
+        "alive": true,
+        "statement": {
+          "location": "eglise",
+          "seen": [],
+          "rumors": [],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "hersende",
+        "name": "Hersende",
+        "trade": "boucher",
+        "minecraft_profession": "minecraft:butcher",
+        "alive": true,
+        "statement": {
+          "location": "marche",
+          "seen": [
+            "clovis"
+          ],
+          "rumors": [],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "lothaire",
+        "name": "Lothaire",
+        "trade": "flecheur",
+        "minecraft_profession": "minecraft:fletcher",
+        "alive": false
+      }
+    ]
+  },
+  "solution": {
+    "culprit": "douce",
+    "red_herring": "hersende",
+    "motives": {
+      "douce": "rancune",
+      "hersende": "heritage"
+    },
+    "true_locations": {
+      "lothaire": "taverne",
+      "douce": "taverne",
+      "enguerrand": "champs",
+      "hersende": "marche",
+      "clovis": "marche",
+      "fleur": "eglise"
+    },
+    "witnesses": [
+      "enguerrand"
+    ],
+    "clue": {
+      "trade": "tanneur",
+      "object": "une chute de cuir tanné"
+    },
+    "false_rumor": {
+      "teller": "enguerrand",
+      "about": "fleur",
+      "motive": "dette"
+    },
+    "explanation": {
+      "fr": [
+        "Douce prétendait être aux champs et y avoir vu Enguerrand, mais Enguerrand y était sans y voir Douce. Mobile : Douce en voulait à Lothaire depuis longtemps.",
+        "Hersende avait aussi un motif, mais Clovis confirme sa présence au marché.",
+        "L'objet trouvé près du corps, un morceau de cuir, était une chute de cuir tanné, comme Clovis l'a reconnu. Il désignait le métier de tanneur : Clovis et Douce. Parmi eux, Douce était la seule personne avec un motif.",
+        "La rumeur selon laquelle Fleur devait de l'argent à Lothaire était fausse : Enguerrand ne faisait que répéter un ragot."
+      ]
+    }
+  },
+  "texts": {
+    "fr": {
+      "scene": [
+        "Ce matin, on a retrouvé le corps de Lothaire à la taverne. Le crime a eu lieu dans la nuit.",
+        "Les villageois ont tous une version de la soirée. À toi de trouver qui ment."
+      ],
+      "examine": "Tu fouilles le lieu du crime, à la taverne. Près du corps, tu trouves un morceau de cuir. Difficile de dire d'où ça vient : montre-le aux villageois en les interrogeant, quelqu'un du métier saura le reconnaître.",
+      "statements": {
+        "clovis": {
+          "without_clue": [
+            "J'étais au marché.",
+            "J'y ai vu Hersende.",
+            "Et puis on raconte que Hersende comptait hériter de Lothaire."
+          ],
+          "with_clue": [
+            "J'étais au marché.",
+            "J'y ai vu Hersende.",
+            "Et puis on raconte que Hersende comptait hériter de Lothaire.",
+            "L'objet trouvé près du corps ? Je reconnais une chute de cuir tanné, on en trouve chez tous les tanneurs."
+          ]
+        },
+        "douce": {
+          "without_clue": [
+            "J'étais aux champs.",
+            "J'y ai vu Enguerrand."
+          ],
+          "with_clue": [
+            "J'étais aux champs.",
+            "J'y ai vu Enguerrand."
+          ]
+        },
+        "enguerrand": {
+          "without_clue": [
+            "J'étais aux champs.",
+            "Je n'y ai vu personne.",
+            "Et puis on raconte que Douce en voulait à Lothaire depuis longtemps.",
+            "Et puis on raconte que Fleur devait de l'argent à Lothaire."
+          ],
+          "with_clue": [
+            "J'étais aux champs.",
+            "Je n'y ai vu personne.",
+            "Et puis on raconte que Douce en voulait à Lothaire depuis longtemps.",
+            "Et puis on raconte que Fleur devait de l'argent à Lothaire."
+          ]
+        },
+        "fleur": {
+          "without_clue": [
+            "J'étais à l'église.",
+            "Je n'y ai vu personne."
+          ],
+          "with_clue": [
+            "J'étais à l'église.",
+            "Je n'y ai vu personne."
+          ]
+        },
+        "hersende": {
+          "without_clue": [
+            "J'étais au marché.",
+            "J'y ai vu Clovis."
+          ],
+          "with_clue": [
+            "J'étais au marché.",
+            "J'y ai vu Clovis."
+          ]
+        }
+      },
+      "locations": {
+        "forge": "à la forge",
+        "moulin": "au moulin",
+        "puits": "au puits",
+        "eglise": "à l'église",
+        "marche": "au marché",
+        "taverne": "à la taverne",
+        "champs": "aux champs",
+        "bergerie": "à la bergerie"
+      },
+      "trades": {
+        "boucher": "boucher",
+        "cartographe": "cartographe",
+        "flecheur": "flécheur",
+        "forgeron": "forgeron",
+        "tanneur": "tanneur"
+      }
+    }
+  }
+}

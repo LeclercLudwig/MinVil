@@ -1,0 +1,275 @@
+{
+  "format": "minvil-enquete",
+  "version": 1,
+  "seed": 25,
+  "public": {
+    "victim": "aldric",
+    "crime_location": "marche",
+    "clue": {
+      "description": "un bout de parchemin déchiré",
+      "could_be": [
+        "bibliothecaire",
+        "pretre",
+        "cartographe"
+      ]
+    },
+    "villagers": [
+      {
+        "id": "aldric",
+        "name": "Aldric",
+        "trade": "macon",
+        "minecraft_profession": "minecraft:mason",
+        "alive": false
+      },
+      {
+        "id": "clovis",
+        "name": "Clovis",
+        "trade": "pretre",
+        "minecraft_profession": "minecraft:cleric",
+        "alive": true,
+        "statement": {
+          "location": "taverne",
+          "seen": [
+            "enguerrand"
+          ],
+          "rumors": [],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "douce",
+        "name": "Douce",
+        "trade": "cartographe",
+        "minecraft_profession": "minecraft:cartographer",
+        "alive": true,
+        "statement": {
+          "location": "taverne",
+          "seen": [
+            "clovis"
+          ],
+          "rumors": [],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "enguerrand",
+        "name": "Enguerrand",
+        "trade": "pretre",
+        "minecraft_profession": "minecraft:cleric",
+        "alive": true,
+        "statement": {
+          "location": "taverne",
+          "seen": [
+            "clovis"
+          ],
+          "rumors": [],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "gauvain",
+        "name": "Gauvain",
+        "trade": "cartographe",
+        "minecraft_profession": "minecraft:cartographer",
+        "alive": true,
+        "statement": {
+          "location": "forge",
+          "seen": [],
+          "rumors": [],
+          "recognizes_clue": "cartographe"
+        }
+      },
+      {
+        "id": "hersende",
+        "name": "Hersende",
+        "trade": "pretre",
+        "minecraft_profession": "minecraft:cleric",
+        "alive": true,
+        "statement": {
+          "location": "eglise",
+          "seen": [
+            "mahaut"
+          ],
+          "rumors": [],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "isembert",
+        "name": "Isembert",
+        "trade": "cartographe",
+        "minecraft_profession": "minecraft:cartographer",
+        "alive": true,
+        "statement": {
+          "location": "bergerie",
+          "seen": [],
+          "rumors": [
+            {
+              "about": "douce",
+              "motive": "dette"
+            }
+          ],
+          "recognizes_clue": "cartographe"
+        }
+      },
+      {
+        "id": "mahaut",
+        "name": "Mahaut",
+        "trade": "boucher",
+        "minecraft_profession": "minecraft:butcher",
+        "alive": true,
+        "statement": {
+          "location": "eglise",
+          "seen": [
+            "hersende"
+          ],
+          "rumors": [
+            {
+              "about": "hersende",
+              "motive": "terre_disputee"
+            }
+          ],
+          "recognizes_clue": null
+        }
+      }
+    ]
+  },
+  "solution": {
+    "culprit": "douce",
+    "red_herring": "hersende",
+    "motives": {
+      "douce": "dette",
+      "hersende": "terre_disputee"
+    },
+    "true_locations": {
+      "aldric": "marche",
+      "douce": "marche",
+      "enguerrand": "taverne",
+      "hersende": "eglise",
+      "mahaut": "eglise",
+      "gauvain": "forge",
+      "clovis": "taverne",
+      "isembert": "bergerie"
+    },
+    "witnesses": [
+      "clovis",
+      "enguerrand"
+    ],
+    "clue": {
+      "trade": "cartographe",
+      "object": "un morceau de carte"
+    },
+    "false_rumor": null,
+    "explanation": {
+      "fr": [
+        "Douce prétendait être à la taverne et y avoir vu Clovis, mais Clovis et Enguerrand y étaient sans y voir Douce. Mobile : Douce devait de l'argent à Aldric.",
+        "Hersende avait aussi un motif, mais Mahaut confirme sa présence à l'église.",
+        "L'objet trouvé près du corps, un bout de parchemin déchiré, était un morceau de carte, comme Gauvain et Isembert l'ont reconnu. Il désignait le métier de cartographe : Douce, Gauvain et Isembert. Parmi eux, Douce était la seule personne avec un motif."
+      ]
+    }
+  },
+  "texts": {
+    "fr": {
+      "scene": [
+        "Ce matin, on a retrouvé le corps de Aldric au marché. Le crime a eu lieu dans la nuit.",
+        "Les villageois ont tous une version de la soirée. À toi de trouver qui ment."
+      ],
+      "examine": "Tu fouilles le lieu du crime, au marché. Près du corps, tu trouves un bout de parchemin déchiré. Difficile de dire d'où ça vient : montre-le aux villageois en les interrogeant, quelqu'un du métier saura le reconnaître.",
+      "statements": {
+        "clovis": {
+          "without_clue": [
+            "J'étais à la taverne.",
+            "J'y ai vu Enguerrand."
+          ],
+          "with_clue": [
+            "J'étais à la taverne.",
+            "J'y ai vu Enguerrand."
+          ]
+        },
+        "douce": {
+          "without_clue": [
+            "J'étais à la taverne.",
+            "J'y ai vu Clovis."
+          ],
+          "with_clue": [
+            "J'étais à la taverne.",
+            "J'y ai vu Clovis."
+          ]
+        },
+        "enguerrand": {
+          "without_clue": [
+            "J'étais à la taverne.",
+            "J'y ai vu Clovis."
+          ],
+          "with_clue": [
+            "J'étais à la taverne.",
+            "J'y ai vu Clovis."
+          ]
+        },
+        "gauvain": {
+          "without_clue": [
+            "J'étais à la forge.",
+            "Je n'y ai vu personne."
+          ],
+          "with_clue": [
+            "J'étais à la forge.",
+            "Je n'y ai vu personne.",
+            "L'objet trouvé près du corps ? Je reconnais un morceau de carte, on en trouve chez tous les cartographes."
+          ]
+        },
+        "hersende": {
+          "without_clue": [
+            "J'étais à l'église.",
+            "J'y ai vu Mahaut."
+          ],
+          "with_clue": [
+            "J'étais à l'église.",
+            "J'y ai vu Mahaut."
+          ]
+        },
+        "isembert": {
+          "without_clue": [
+            "J'étais à la bergerie.",
+            "Je n'y ai vu personne.",
+            "Et puis on raconte que Douce devait de l'argent à Aldric."
+          ],
+          "with_clue": [
+            "J'étais à la bergerie.",
+            "Je n'y ai vu personne.",
+            "Et puis on raconte que Douce devait de l'argent à Aldric.",
+            "L'objet trouvé près du corps ? Je reconnais un morceau de carte, on en trouve chez tous les cartographes."
+          ]
+        },
+        "mahaut": {
+          "without_clue": [
+            "J'étais à l'église.",
+            "J'y ai vu Hersende.",
+            "Et puis on raconte que Hersende se disputait une terre avec Aldric."
+          ],
+          "with_clue": [
+            "J'étais à l'église.",
+            "J'y ai vu Hersende.",
+            "Et puis on raconte que Hersende se disputait une terre avec Aldric."
+          ]
+        }
+      },
+      "locations": {
+        "forge": "à la forge",
+        "moulin": "au moulin",
+        "puits": "au puits",
+        "eglise": "à l'église",
+        "marche": "au marché",
+        "taverne": "à la taverne",
+        "champs": "aux champs",
+        "bergerie": "à la bergerie"
+      },
+      "trades": {
+        "bibliothecaire": "bibliothécaire",
+        "boucher": "boucher",
+        "cartographe": "cartographe",
+        "macon": "maçon",
+        "pretre": "prêtre"
+      }
+    }
+  }
+}

@@ -1,0 +1,219 @@
+{
+  "format": "minvil-enquete",
+  "version": 1,
+  "seed": 26,
+  "public": {
+    "victim": "lothaire",
+    "crime_location": "bergerie",
+    "clue": {
+      "description": "un morceau de cuir",
+      "could_be": [
+        "boucher",
+        "tanneur"
+      ]
+    },
+    "villagers": [
+      {
+        "id": "aldric",
+        "name": "Aldric",
+        "trade": "tanneur",
+        "minecraft_profession": "minecraft:leatherworker",
+        "alive": true,
+        "statement": {
+          "location": "champs",
+          "seen": [
+            "isembert"
+          ],
+          "rumors": [],
+          "recognizes_clue": "tanneur"
+        }
+      },
+      {
+        "id": "berthe",
+        "name": "Berthe",
+        "trade": "pecheur",
+        "minecraft_profession": "minecraft:fisherman",
+        "alive": true,
+        "statement": {
+          "location": "taverne",
+          "seen": [],
+          "rumors": [
+            {
+              "about": "isembert",
+              "motive": "terre_disputee"
+            }
+          ],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "douce",
+        "name": "Douce",
+        "trade": "tanneur",
+        "minecraft_profession": "minecraft:leatherworker",
+        "alive": true,
+        "statement": {
+          "location": "forge",
+          "seen": [
+            "gauvain"
+          ],
+          "rumors": [],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "gauvain",
+        "name": "Gauvain",
+        "trade": "tanneur",
+        "minecraft_profession": "minecraft:leatherworker",
+        "alive": true,
+        "statement": {
+          "location": "forge",
+          "seen": [],
+          "rumors": [],
+          "recognizes_clue": "tanneur"
+        }
+      },
+      {
+        "id": "isembert",
+        "name": "Isembert",
+        "trade": "boucher",
+        "minecraft_profession": "minecraft:butcher",
+        "alive": true,
+        "statement": {
+          "location": "champs",
+          "seen": [
+            "aldric"
+          ],
+          "rumors": [
+            {
+              "about": "douce",
+              "motive": "terre_disputee"
+            }
+          ],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "lothaire",
+        "name": "Lothaire",
+        "trade": "pecheur",
+        "minecraft_profession": "minecraft:fisherman",
+        "alive": false
+      }
+    ]
+  },
+  "solution": {
+    "culprit": "douce",
+    "red_herring": "isembert",
+    "motives": {
+      "douce": "terre_disputee",
+      "isembert": "terre_disputee"
+    },
+    "true_locations": {
+      "lothaire": "bergerie",
+      "douce": "bergerie",
+      "gauvain": "forge",
+      "isembert": "champs",
+      "aldric": "champs",
+      "berthe": "taverne"
+    },
+    "witnesses": [
+      "gauvain"
+    ],
+    "clue": {
+      "trade": "tanneur",
+      "object": "une chute de cuir tanné"
+    },
+    "false_rumor": null,
+    "explanation": {
+      "fr": [
+        "Douce prétendait être à la forge et y avoir vu Gauvain, mais Gauvain y était sans y voir Douce. Mobile : Douce se disputait une terre avec Lothaire.",
+        "Isembert avait aussi un motif, mais Aldric confirme sa présence aux champs.",
+        "L'objet trouvé près du corps, un morceau de cuir, était une chute de cuir tanné, comme Aldric et Gauvain l'ont reconnu. Il désignait le métier de tanneur : Aldric, Douce et Gauvain. Parmi eux, Douce était la seule personne avec un motif."
+      ]
+    }
+  },
+  "texts": {
+    "fr": {
+      "scene": [
+        "Ce matin, on a retrouvé le corps de Lothaire à la bergerie. Le crime a eu lieu dans la nuit.",
+        "Les villageois ont tous une version de la soirée. À toi de trouver qui ment."
+      ],
+      "examine": "Tu fouilles le lieu du crime, à la bergerie. Près du corps, tu trouves un morceau de cuir. Difficile de dire d'où ça vient : montre-le aux villageois en les interrogeant, quelqu'un du métier saura le reconnaître.",
+      "statements": {
+        "aldric": {
+          "without_clue": [
+            "J'étais aux champs.",
+            "J'y ai vu Isembert."
+          ],
+          "with_clue": [
+            "J'étais aux champs.",
+            "J'y ai vu Isembert.",
+            "L'objet trouvé près du corps ? Je reconnais une chute de cuir tanné, on en trouve chez tous les tanneurs."
+          ]
+        },
+        "berthe": {
+          "without_clue": [
+            "J'étais à la taverne.",
+            "Je n'y ai vu personne.",
+            "Et puis on raconte qu'Isembert se disputait une terre avec Lothaire."
+          ],
+          "with_clue": [
+            "J'étais à la taverne.",
+            "Je n'y ai vu personne.",
+            "Et puis on raconte qu'Isembert se disputait une terre avec Lothaire."
+          ]
+        },
+        "douce": {
+          "without_clue": [
+            "J'étais à la forge.",
+            "J'y ai vu Gauvain."
+          ],
+          "with_clue": [
+            "J'étais à la forge.",
+            "J'y ai vu Gauvain."
+          ]
+        },
+        "gauvain": {
+          "without_clue": [
+            "J'étais à la forge.",
+            "Je n'y ai vu personne."
+          ],
+          "with_clue": [
+            "J'étais à la forge.",
+            "Je n'y ai vu personne.",
+            "L'objet trouvé près du corps ? Je reconnais une chute de cuir tanné, on en trouve chez tous les tanneurs."
+          ]
+        },
+        "isembert": {
+          "without_clue": [
+            "J'étais aux champs.",
+            "J'y ai vu Aldric.",
+            "Et puis on raconte que Douce se disputait une terre avec Lothaire."
+          ],
+          "with_clue": [
+            "J'étais aux champs.",
+            "J'y ai vu Aldric.",
+            "Et puis on raconte que Douce se disputait une terre avec Lothaire."
+          ]
+        }
+      },
+      "locations": {
+        "forge": "à la forge",
+        "moulin": "au moulin",
+        "puits": "au puits",
+        "eglise": "à l'église",
+        "marche": "au marché",
+        "taverne": "à la taverne",
+        "champs": "aux champs",
+        "bergerie": "à la bergerie"
+      },
+      "trades": {
+        "boucher": "boucher",
+        "pecheur": "pêcheur",
+        "tanneur": "tanneur"
+      }
+    }
+  }
+}

@@ -1,0 +1,261 @@
+{
+  "format": "minvil-enquete",
+  "version": 1,
+  "seed": 98,
+  "public": {
+    "victim": "jehanne",
+    "crime_location": "moulin",
+    "clue": {
+      "description": "un morceau de cuir",
+      "could_be": [
+        "boucher",
+        "tanneur"
+      ]
+    },
+    "villagers": [
+      {
+        "id": "aldric",
+        "name": "Aldric",
+        "trade": "tanneur",
+        "minecraft_profession": "minecraft:leatherworker",
+        "alive": true,
+        "statement": {
+          "location": "bergerie",
+          "seen": [
+            "fleur"
+          ],
+          "rumors": [],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "clovis",
+        "name": "Clovis",
+        "trade": "flecheur",
+        "minecraft_profession": "minecraft:fletcher",
+        "alive": true,
+        "statement": {
+          "location": "marche",
+          "seen": [
+            "gauvain",
+            "lothaire"
+          ],
+          "rumors": [
+            {
+              "about": "fleur",
+              "motive": "terre_disputee"
+            }
+          ],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "douce",
+        "name": "Douce",
+        "trade": "tanneur",
+        "minecraft_profession": "minecraft:leatherworker",
+        "alive": true,
+        "statement": {
+          "location": "puits",
+          "seen": [],
+          "rumors": [],
+          "recognizes_clue": "tanneur"
+        }
+      },
+      {
+        "id": "fleur",
+        "name": "Fleur",
+        "trade": "pretre",
+        "minecraft_profession": "minecraft:cleric",
+        "alive": true,
+        "statement": {
+          "location": "bergerie",
+          "seen": [],
+          "rumors": [
+            {
+              "about": "aldric",
+              "motive": "dette"
+            },
+            {
+              "about": "gauvain",
+              "motive": "heritage"
+            }
+          ],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "gauvain",
+        "name": "Gauvain",
+        "trade": "boucher",
+        "minecraft_profession": "minecraft:butcher",
+        "alive": true,
+        "statement": {
+          "location": "marche",
+          "seen": [
+            "clovis",
+            "lothaire"
+          ],
+          "rumors": [],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "jehanne",
+        "name": "Jehanne",
+        "trade": "pecheur",
+        "minecraft_profession": "minecraft:fisherman",
+        "alive": false
+      },
+      {
+        "id": "lothaire",
+        "name": "Lothaire",
+        "trade": "fermier",
+        "minecraft_profession": "minecraft:farmer",
+        "alive": true,
+        "statement": {
+          "location": "marche",
+          "seen": [
+            "clovis",
+            "gauvain"
+          ],
+          "rumors": [],
+          "recognizes_clue": null
+        }
+      }
+    ]
+  },
+  "solution": {
+    "culprit": "aldric",
+    "red_herring": "gauvain",
+    "motives": {
+      "aldric": "dette",
+      "gauvain": "heritage"
+    },
+    "true_locations": {
+      "jehanne": "moulin",
+      "aldric": "moulin",
+      "fleur": "bergerie",
+      "gauvain": "marche",
+      "lothaire": "marche",
+      "douce": "puits",
+      "clovis": "marche"
+    },
+    "witnesses": [
+      "fleur"
+    ],
+    "clue": {
+      "trade": "tanneur",
+      "object": "une chute de cuir tanné"
+    },
+    "false_rumor": {
+      "teller": "clovis",
+      "about": "fleur",
+      "motive": "terre_disputee"
+    },
+    "explanation": {
+      "fr": [
+        "Aldric prétendait être à la bergerie et y avoir vu Fleur, mais Fleur y était sans y voir Aldric. Mobile : Aldric devait de l'argent à Jehanne.",
+        "Gauvain avait aussi un motif, mais Clovis et Lothaire confirment sa présence au marché.",
+        "L'objet trouvé près du corps, un morceau de cuir, était une chute de cuir tanné, comme Douce l'a reconnu. Il désignait le métier de tanneur : Aldric et Douce. Parmi eux, Aldric était la seule personne avec un motif.",
+        "La rumeur selon laquelle Fleur se disputait une terre avec Jehanne était fausse : Clovis ne faisait que répéter un ragot."
+      ]
+    }
+  },
+  "texts": {
+    "fr": {
+      "scene": [
+        "Ce matin, on a retrouvé le corps de Jehanne au moulin. Le crime a eu lieu dans la nuit.",
+        "Les villageois ont tous une version de la soirée. À toi de trouver qui ment."
+      ],
+      "examine": "Tu fouilles le lieu du crime, au moulin. Près du corps, tu trouves un morceau de cuir. Difficile de dire d'où ça vient : montre-le aux villageois en les interrogeant, quelqu'un du métier saura le reconnaître.",
+      "statements": {
+        "aldric": {
+          "without_clue": [
+            "J'étais à la bergerie.",
+            "J'y ai vu Fleur."
+          ],
+          "with_clue": [
+            "J'étais à la bergerie.",
+            "J'y ai vu Fleur."
+          ]
+        },
+        "clovis": {
+          "without_clue": [
+            "J'étais au marché.",
+            "J'y ai vu Gauvain et Lothaire.",
+            "Et puis on raconte que Fleur se disputait une terre avec Jehanne."
+          ],
+          "with_clue": [
+            "J'étais au marché.",
+            "J'y ai vu Gauvain et Lothaire.",
+            "Et puis on raconte que Fleur se disputait une terre avec Jehanne."
+          ]
+        },
+        "douce": {
+          "without_clue": [
+            "J'étais au puits.",
+            "Je n'y ai vu personne."
+          ],
+          "with_clue": [
+            "J'étais au puits.",
+            "Je n'y ai vu personne.",
+            "L'objet trouvé près du corps ? Je reconnais une chute de cuir tanné, on en trouve chez tous les tanneurs."
+          ]
+        },
+        "fleur": {
+          "without_clue": [
+            "J'étais à la bergerie.",
+            "Je n'y ai vu personne.",
+            "Et puis on raconte qu'Aldric devait de l'argent à Jehanne.",
+            "Et puis on raconte que Gauvain comptait hériter de Jehanne."
+          ],
+          "with_clue": [
+            "J'étais à la bergerie.",
+            "Je n'y ai vu personne.",
+            "Et puis on raconte qu'Aldric devait de l'argent à Jehanne.",
+            "Et puis on raconte que Gauvain comptait hériter de Jehanne."
+          ]
+        },
+        "gauvain": {
+          "without_clue": [
+            "J'étais au marché.",
+            "J'y ai vu Clovis et Lothaire."
+          ],
+          "with_clue": [
+            "J'étais au marché.",
+            "J'y ai vu Clovis et Lothaire."
+          ]
+        },
+        "lothaire": {
+          "without_clue": [
+            "J'étais au marché.",
+            "J'y ai vu Clovis et Gauvain."
+          ],
+          "with_clue": [
+            "J'étais au marché.",
+            "J'y ai vu Clovis et Gauvain."
+          ]
+        }
+      },
+      "locations": {
+        "forge": "à la forge",
+        "moulin": "au moulin",
+        "puits": "au puits",
+        "eglise": "à l'église",
+        "marche": "au marché",
+        "taverne": "à la taverne",
+        "champs": "aux champs",
+        "bergerie": "à la bergerie"
+      },
+      "trades": {
+        "boucher": "boucher",
+        "fermier": "fermier",
+        "flecheur": "flécheur",
+        "pretre": "prêtre",
+        "pecheur": "pêcheur",
+        "tanneur": "tanneur"
+      }
+    }
+  }
+}

@@ -1,0 +1,255 @@
+{
+  "format": "minvil-enquete",
+  "version": 1,
+  "seed": 47,
+  "public": {
+    "victim": "berthe",
+    "crime_location": "champs",
+    "clue": {
+      "description": "un bout de parchemin déchiré",
+      "could_be": [
+        "bibliothecaire",
+        "pretre",
+        "cartographe"
+      ]
+    },
+    "villagers": [
+      {
+        "id": "berthe",
+        "name": "Berthe",
+        "trade": "pecheur",
+        "minecraft_profession": "minecraft:fisherman",
+        "alive": false
+      },
+      {
+        "id": "clovis",
+        "name": "Clovis",
+        "trade": "pretre",
+        "minecraft_profession": "minecraft:cleric",
+        "alive": true,
+        "statement": {
+          "location": "forge",
+          "seen": [],
+          "rumors": [],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "enguerrand",
+        "name": "Enguerrand",
+        "trade": "bibliothecaire",
+        "minecraft_profession": "minecraft:librarian",
+        "alive": true,
+        "statement": {
+          "location": "bergerie",
+          "seen": [],
+          "rumors": [],
+          "recognizes_clue": "bibliothecaire"
+        }
+      },
+      {
+        "id": "fleur",
+        "name": "Fleur",
+        "trade": "fermier",
+        "minecraft_profession": "minecraft:farmer",
+        "alive": true,
+        "statement": {
+          "location": "taverne",
+          "seen": [
+            "hersende"
+          ],
+          "rumors": [],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "gauvain",
+        "name": "Gauvain",
+        "trade": "bibliothecaire",
+        "minecraft_profession": "minecraft:librarian",
+        "alive": true,
+        "statement": {
+          "location": "eglise",
+          "seen": [
+            "isembert"
+          ],
+          "rumors": [],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "hersende",
+        "name": "Hersende",
+        "trade": "cartographe",
+        "minecraft_profession": "minecraft:cartographer",
+        "alive": true,
+        "statement": {
+          "location": "taverne",
+          "seen": [
+            "fleur"
+          ],
+          "rumors": [],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "isembert",
+        "name": "Isembert",
+        "trade": "cartographe",
+        "minecraft_profession": "minecraft:cartographer",
+        "alive": true,
+        "statement": {
+          "location": "eglise",
+          "seen": [],
+          "rumors": [
+            {
+              "about": "gauvain",
+              "motive": "rancune"
+            },
+            {
+              "about": "hersende",
+              "motive": "dette"
+            },
+            {
+              "about": "fleur",
+              "motive": "dette"
+            }
+          ],
+          "recognizes_clue": null
+        }
+      }
+    ]
+  },
+  "solution": {
+    "culprit": "gauvain",
+    "red_herring": "hersende",
+    "motives": {
+      "gauvain": "rancune",
+      "hersende": "dette"
+    },
+    "true_locations": {
+      "berthe": "champs",
+      "gauvain": "champs",
+      "isembert": "eglise",
+      "hersende": "taverne",
+      "fleur": "taverne",
+      "clovis": "forge",
+      "enguerrand": "bergerie"
+    },
+    "witnesses": [
+      "isembert"
+    ],
+    "clue": {
+      "trade": "bibliothecaire",
+      "object": "une page arrachée d'un livre"
+    },
+    "false_rumor": {
+      "teller": "isembert",
+      "about": "fleur",
+      "motive": "dette"
+    },
+    "explanation": {
+      "fr": [
+        "Gauvain prétendait être à l'église et y avoir vu Isembert, mais Isembert y était sans y voir Gauvain. Mobile : Gauvain en voulait à Berthe depuis longtemps.",
+        "Hersende avait aussi un motif, mais Fleur confirme sa présence à la taverne.",
+        "L'objet trouvé près du corps, un bout de parchemin déchiré, était une page arrachée d'un livre, comme Enguerrand l'a reconnu. Il désignait le métier de bibliothécaire : Enguerrand et Gauvain. Parmi eux, Gauvain était la seule personne avec un motif.",
+        "La rumeur selon laquelle Fleur devait de l'argent à Berthe était fausse : Isembert ne faisait que répéter un ragot."
+      ]
+    }
+  },
+  "texts": {
+    "fr": {
+      "scene": [
+        "Ce matin, on a retrouvé le corps de Berthe aux champs. Le crime a eu lieu dans la nuit.",
+        "Les villageois ont tous une version de la soirée. À toi de trouver qui ment."
+      ],
+      "examine": "Tu fouilles le lieu du crime, aux champs. Près du corps, tu trouves un bout de parchemin déchiré. Difficile de dire d'où ça vient : montre-le aux villageois en les interrogeant, quelqu'un du métier saura le reconnaître.",
+      "statements": {
+        "clovis": {
+          "without_clue": [
+            "J'étais à la forge.",
+            "Je n'y ai vu personne."
+          ],
+          "with_clue": [
+            "J'étais à la forge.",
+            "Je n'y ai vu personne."
+          ]
+        },
+        "enguerrand": {
+          "without_clue": [
+            "J'étais à la bergerie.",
+            "Je n'y ai vu personne."
+          ],
+          "with_clue": [
+            "J'étais à la bergerie.",
+            "Je n'y ai vu personne.",
+            "L'objet trouvé près du corps ? Je reconnais une page arrachée d'un livre, on en trouve chez tous les bibliothécaires."
+          ]
+        },
+        "fleur": {
+          "without_clue": [
+            "J'étais à la taverne.",
+            "J'y ai vu Hersende."
+          ],
+          "with_clue": [
+            "J'étais à la taverne.",
+            "J'y ai vu Hersende."
+          ]
+        },
+        "gauvain": {
+          "without_clue": [
+            "J'étais à l'église.",
+            "J'y ai vu Isembert."
+          ],
+          "with_clue": [
+            "J'étais à l'église.",
+            "J'y ai vu Isembert."
+          ]
+        },
+        "hersende": {
+          "without_clue": [
+            "J'étais à la taverne.",
+            "J'y ai vu Fleur."
+          ],
+          "with_clue": [
+            "J'étais à la taverne.",
+            "J'y ai vu Fleur."
+          ]
+        },
+        "isembert": {
+          "without_clue": [
+            "J'étais à l'église.",
+            "Je n'y ai vu personne.",
+            "Et puis on raconte que Gauvain en voulait à Berthe depuis longtemps.",
+            "Et puis on raconte que Hersende devait de l'argent à Berthe.",
+            "Et puis on raconte que Fleur devait de l'argent à Berthe."
+          ],
+          "with_clue": [
+            "J'étais à l'église.",
+            "Je n'y ai vu personne.",
+            "Et puis on raconte que Gauvain en voulait à Berthe depuis longtemps.",
+            "Et puis on raconte que Hersende devait de l'argent à Berthe.",
+            "Et puis on raconte que Fleur devait de l'argent à Berthe."
+          ]
+        }
+      },
+      "locations": {
+        "forge": "à la forge",
+        "moulin": "au moulin",
+        "puits": "au puits",
+        "eglise": "à l'église",
+        "marche": "au marché",
+        "taverne": "à la taverne",
+        "champs": "aux champs",
+        "bergerie": "à la bergerie"
+      },
+      "trades": {
+        "bibliothecaire": "bibliothécaire",
+        "cartographe": "cartographe",
+        "fermier": "fermier",
+        "pretre": "prêtre",
+        "pecheur": "pêcheur"
+      }
+    }
+  }
+}

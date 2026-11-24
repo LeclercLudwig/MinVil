@@ -1,0 +1,206 @@
+{
+  "format": "minvil-enquete",
+  "version": 1,
+  "seed": 29,
+  "public": {
+    "victim": "fleur",
+    "crime_location": "taverne",
+    "clue": {
+      "description": "un bout de fil tressé",
+      "could_be": [
+        "pecheur",
+        "flecheur"
+      ]
+    },
+    "villagers": [
+      {
+        "id": "berthe",
+        "name": "Berthe",
+        "trade": "pretre",
+        "minecraft_profession": "minecraft:cleric",
+        "alive": true,
+        "statement": {
+          "location": "marche",
+          "seen": [
+            "enguerrand"
+          ],
+          "rumors": [
+            {
+              "about": "enguerrand",
+              "motive": "dette"
+            }
+          ],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "enguerrand",
+        "name": "Enguerrand",
+        "trade": "pecheur",
+        "minecraft_profession": "minecraft:fisherman",
+        "alive": true,
+        "statement": {
+          "location": "marche",
+          "seen": [
+            "berthe"
+          ],
+          "rumors": [],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "fleur",
+        "name": "Fleur",
+        "trade": "forgeron",
+        "minecraft_profession": "minecraft:toolsmith",
+        "alive": false
+      },
+      {
+        "id": "jehanne",
+        "name": "Jehanne",
+        "trade": "flecheur",
+        "minecraft_profession": "minecraft:fletcher",
+        "alive": true,
+        "statement": {
+          "location": "eglise",
+          "seen": [
+            "lothaire"
+          ],
+          "rumors": [],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "lothaire",
+        "name": "Lothaire",
+        "trade": "flecheur",
+        "minecraft_profession": "minecraft:fletcher",
+        "alive": true,
+        "statement": {
+          "location": "eglise",
+          "seen": [],
+          "rumors": [
+            {
+              "about": "jehanne",
+              "motive": "dette"
+            },
+            {
+              "about": "berthe",
+              "motive": "jalousie"
+            }
+          ],
+          "recognizes_clue": "flecheur"
+        }
+      }
+    ]
+  },
+  "solution": {
+    "culprit": "jehanne",
+    "red_herring": "enguerrand",
+    "motives": {
+      "jehanne": "dette",
+      "enguerrand": "dette"
+    },
+    "true_locations": {
+      "fleur": "taverne",
+      "jehanne": "taverne",
+      "lothaire": "eglise",
+      "enguerrand": "marche",
+      "berthe": "marche"
+    },
+    "witnesses": [
+      "lothaire"
+    ],
+    "clue": {
+      "trade": "flecheur",
+      "object": "un bout de corde d'arc"
+    },
+    "false_rumor": {
+      "teller": "lothaire",
+      "about": "berthe",
+      "motive": "jalousie"
+    },
+    "explanation": {
+      "fr": [
+        "Jehanne prétendait être à l'église et y avoir vu Lothaire, mais Lothaire y était sans y voir Jehanne. Mobile : Jehanne devait de l'argent à Fleur.",
+        "Enguerrand avait aussi un motif, mais Berthe confirme sa présence au marché.",
+        "L'objet trouvé près du corps, un bout de fil tressé, était un bout de corde d'arc, comme Lothaire l'a reconnu. Il désignait le métier de flécheur : Jehanne et Lothaire. Parmi eux, Jehanne était la seule personne avec un motif.",
+        "La rumeur selon laquelle Berthe jalousait Fleur était fausse : Lothaire ne faisait que répéter un ragot."
+      ]
+    }
+  },
+  "texts": {
+    "fr": {
+      "scene": [
+        "Ce matin, on a retrouvé le corps de Fleur à la taverne. Le crime a eu lieu dans la nuit.",
+        "Les villageois ont tous une version de la soirée. À toi de trouver qui ment."
+      ],
+      "examine": "Tu fouilles le lieu du crime, à la taverne. Près du corps, tu trouves un bout de fil tressé. Difficile de dire d'où ça vient : montre-le aux villageois en les interrogeant, quelqu'un du métier saura le reconnaître.",
+      "statements": {
+        "berthe": {
+          "without_clue": [
+            "J'étais au marché.",
+            "J'y ai vu Enguerrand.",
+            "Et puis on raconte qu'Enguerrand devait de l'argent à Fleur."
+          ],
+          "with_clue": [
+            "J'étais au marché.",
+            "J'y ai vu Enguerrand.",
+            "Et puis on raconte qu'Enguerrand devait de l'argent à Fleur."
+          ]
+        },
+        "enguerrand": {
+          "without_clue": [
+            "J'étais au marché.",
+            "J'y ai vu Berthe."
+          ],
+          "with_clue": [
+            "J'étais au marché.",
+            "J'y ai vu Berthe."
+          ]
+        },
+        "jehanne": {
+          "without_clue": [
+            "J'étais à l'église.",
+            "J'y ai vu Lothaire."
+          ],
+          "with_clue": [
+            "J'étais à l'église.",
+            "J'y ai vu Lothaire."
+          ]
+        },
+        "lothaire": {
+          "without_clue": [
+            "J'étais à l'église.",
+            "Je n'y ai vu personne.",
+            "Et puis on raconte que Jehanne devait de l'argent à Fleur.",
+            "Et puis on raconte que Berthe jalousait Fleur."
+          ],
+          "with_clue": [
+            "J'étais à l'église.",
+            "Je n'y ai vu personne.",
+            "Et puis on raconte que Jehanne devait de l'argent à Fleur.",
+            "Et puis on raconte que Berthe jalousait Fleur.",
+            "L'objet trouvé près du corps ? Je reconnais un bout de corde d'arc, on en trouve chez tous les flécheurs."
+          ]
+        }
+      },
+      "locations": {
+        "forge": "à la forge",
+        "moulin": "au moulin",
+        "puits": "au puits",
+        "eglise": "à l'église",
+        "marche": "au marché",
+        "taverne": "à la taverne",
+        "champs": "aux champs",
+        "bergerie": "à la bergerie"
+      },
+      "trades": {
+        "flecheur": "flécheur",
+        "forgeron": "forgeron",
+        "pretre": "prêtre",
+        "pecheur": "pêcheur"
+      }
+    }
+  }
+}

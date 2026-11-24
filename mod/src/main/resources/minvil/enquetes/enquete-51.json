@@ -1,0 +1,220 @@
+{
+  "format": "minvil-enquete",
+  "version": 1,
+  "seed": 51,
+  "public": {
+    "victim": "isembert",
+    "crime_location": "marche",
+    "clue": {
+      "description": "un bout de fil tressé",
+      "could_be": [
+        "pecheur",
+        "flecheur"
+      ]
+    },
+    "villagers": [
+      {
+        "id": "clovis",
+        "name": "Clovis",
+        "trade": "tanneur",
+        "minecraft_profession": "minecraft:leatherworker",
+        "alive": true,
+        "statement": {
+          "location": "bergerie",
+          "seen": [],
+          "rumors": [],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "douce",
+        "name": "Douce",
+        "trade": "pecheur",
+        "minecraft_profession": "minecraft:fisherman",
+        "alive": true,
+        "statement": {
+          "location": "eglise",
+          "seen": [
+            "lothaire"
+          ],
+          "rumors": [],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "gauvain",
+        "name": "Gauvain",
+        "trade": "bibliothecaire",
+        "minecraft_profession": "minecraft:librarian",
+        "alive": true,
+        "statement": {
+          "location": "taverne",
+          "seen": [],
+          "rumors": [
+            {
+              "about": "douce",
+              "motive": "terre_disputee"
+            }
+          ],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "isembert",
+        "name": "Isembert",
+        "trade": "fermier",
+        "minecraft_profession": "minecraft:farmer",
+        "alive": false
+      },
+      {
+        "id": "lothaire",
+        "name": "Lothaire",
+        "trade": "flecheur",
+        "minecraft_profession": "minecraft:fletcher",
+        "alive": true,
+        "statement": {
+          "location": "eglise",
+          "seen": [
+            "douce"
+          ],
+          "rumors": [
+            {
+              "about": "mahaut",
+              "motive": "rancune"
+            }
+          ],
+          "recognizes_clue": "flecheur"
+        }
+      },
+      {
+        "id": "mahaut",
+        "name": "Mahaut",
+        "trade": "flecheur",
+        "minecraft_profession": "minecraft:fletcher",
+        "alive": true,
+        "statement": {
+          "location": "bergerie",
+          "seen": [
+            "clovis"
+          ],
+          "rumors": [],
+          "recognizes_clue": null
+        }
+      }
+    ]
+  },
+  "solution": {
+    "culprit": "mahaut",
+    "red_herring": "douce",
+    "motives": {
+      "mahaut": "rancune",
+      "douce": "terre_disputee"
+    },
+    "true_locations": {
+      "isembert": "marche",
+      "mahaut": "marche",
+      "clovis": "bergerie",
+      "douce": "eglise",
+      "lothaire": "eglise",
+      "gauvain": "taverne"
+    },
+    "witnesses": [
+      "clovis"
+    ],
+    "clue": {
+      "trade": "flecheur",
+      "object": "un bout de corde d'arc"
+    },
+    "false_rumor": null,
+    "explanation": {
+      "fr": [
+        "Mahaut prétendait être à la bergerie et y avoir vu Clovis, mais Clovis y était sans y voir Mahaut. Mobile : Mahaut en voulait à Isembert depuis longtemps.",
+        "Douce avait aussi un motif, mais Lothaire confirme sa présence à l'église.",
+        "L'objet trouvé près du corps, un bout de fil tressé, était un bout de corde d'arc, comme Lothaire l'a reconnu. Il désignait le métier de flécheur : Lothaire et Mahaut. Parmi eux, Mahaut était la seule personne avec un motif."
+      ]
+    }
+  },
+  "texts": {
+    "fr": {
+      "scene": [
+        "Ce matin, on a retrouvé le corps de Isembert au marché. Le crime a eu lieu dans la nuit.",
+        "Les villageois ont tous une version de la soirée. À toi de trouver qui ment."
+      ],
+      "examine": "Tu fouilles le lieu du crime, au marché. Près du corps, tu trouves un bout de fil tressé. Difficile de dire d'où ça vient : montre-le aux villageois en les interrogeant, quelqu'un du métier saura le reconnaître.",
+      "statements": {
+        "clovis": {
+          "without_clue": [
+            "J'étais à la bergerie.",
+            "Je n'y ai vu personne."
+          ],
+          "with_clue": [
+            "J'étais à la bergerie.",
+            "Je n'y ai vu personne."
+          ]
+        },
+        "douce": {
+          "without_clue": [
+            "J'étais à l'église.",
+            "J'y ai vu Lothaire."
+          ],
+          "with_clue": [
+            "J'étais à l'église.",
+            "J'y ai vu Lothaire."
+          ]
+        },
+        "gauvain": {
+          "without_clue": [
+            "J'étais à la taverne.",
+            "Je n'y ai vu personne.",
+            "Et puis on raconte que Douce se disputait une terre avec Isembert."
+          ],
+          "with_clue": [
+            "J'étais à la taverne.",
+            "Je n'y ai vu personne.",
+            "Et puis on raconte que Douce se disputait une terre avec Isembert."
+          ]
+        },
+        "lothaire": {
+          "without_clue": [
+            "J'étais à l'église.",
+            "J'y ai vu Douce.",
+            "Et puis on raconte que Mahaut en voulait à Isembert depuis longtemps."
+          ],
+          "with_clue": [
+            "J'étais à l'église.",
+            "J'y ai vu Douce.",
+            "Et puis on raconte que Mahaut en voulait à Isembert depuis longtemps.",
+            "L'objet trouvé près du corps ? Je reconnais un bout de corde d'arc, on en trouve chez tous les flécheurs."
+          ]
+        },
+        "mahaut": {
+          "without_clue": [
+            "J'étais à la bergerie.",
+            "J'y ai vu Clovis."
+          ],
+          "with_clue": [
+            "J'étais à la bergerie.",
+            "J'y ai vu Clovis."
+          ]
+        }
+      },
+      "locations": {
+        "forge": "à la forge",
+        "moulin": "au moulin",
+        "puits": "au puits",
+        "eglise": "à l'église",
+        "marche": "au marché",
+        "taverne": "à la taverne",
+        "champs": "aux champs",
+        "bergerie": "à la bergerie"
+      },
+      "trades": {
+        "bibliothecaire": "bibliothécaire",
+        "fermier": "fermier",
+        "flecheur": "flécheur",
+        "pecheur": "pêcheur",
+        "tanneur": "tanneur"
+      }
+    }
+  }
+}

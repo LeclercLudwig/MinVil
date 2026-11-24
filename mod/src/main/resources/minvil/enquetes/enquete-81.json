@@ -1,0 +1,280 @@
+{
+  "format": "minvil-enquete",
+  "version": 1,
+  "seed": 81,
+  "public": {
+    "victim": "fleur",
+    "crime_location": "puits",
+    "clue": {
+      "description": "un bout de fil tressé",
+      "could_be": [
+        "pecheur",
+        "flecheur"
+      ]
+    },
+    "villagers": [
+      {
+        "id": "aldric",
+        "name": "Aldric",
+        "trade": "macon",
+        "minecraft_profession": "minecraft:mason",
+        "alive": true,
+        "statement": {
+          "location": "bergerie",
+          "seen": [
+            "gauvain",
+            "hersende",
+            "jehanne"
+          ],
+          "rumors": [],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "berthe",
+        "name": "Berthe",
+        "trade": "berger",
+        "minecraft_profession": "minecraft:shepherd",
+        "alive": true,
+        "statement": {
+          "location": "taverne",
+          "seen": [],
+          "rumors": [],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "fleur",
+        "name": "Fleur",
+        "trade": "macon",
+        "minecraft_profession": "minecraft:mason",
+        "alive": false
+      },
+      {
+        "id": "gauvain",
+        "name": "Gauvain",
+        "trade": "flecheur",
+        "minecraft_profession": "minecraft:fletcher",
+        "alive": true,
+        "statement": {
+          "location": "bergerie",
+          "seen": [
+            "aldric",
+            "hersende",
+            "jehanne"
+          ],
+          "rumors": [],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "hersende",
+        "name": "Hersende",
+        "trade": "boucher",
+        "minecraft_profession": "minecraft:butcher",
+        "alive": true,
+        "statement": {
+          "location": "bergerie",
+          "seen": [
+            "aldric",
+            "gauvain",
+            "jehanne"
+          ],
+          "rumors": [
+            {
+              "about": "isembert",
+              "motive": "dette"
+            }
+          ],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "isembert",
+        "name": "Isembert",
+        "trade": "pecheur",
+        "minecraft_profession": "minecraft:fisherman",
+        "alive": true,
+        "statement": {
+          "location": "marche",
+          "seen": [
+            "lothaire"
+          ],
+          "rumors": [],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "jehanne",
+        "name": "Jehanne",
+        "trade": "pecheur",
+        "minecraft_profession": "minecraft:fisherman",
+        "alive": true,
+        "statement": {
+          "location": "bergerie",
+          "seen": [
+            "aldric",
+            "gauvain",
+            "hersende"
+          ],
+          "rumors": [
+            {
+              "about": "gauvain",
+              "motive": "heritage"
+            }
+          ],
+          "recognizes_clue": "pecheur"
+        }
+      },
+      {
+        "id": "lothaire",
+        "name": "Lothaire",
+        "trade": "flecheur",
+        "minecraft_profession": "minecraft:fletcher",
+        "alive": true,
+        "statement": {
+          "location": "marche",
+          "seen": [],
+          "rumors": [],
+          "recognizes_clue": null
+        }
+      }
+    ]
+  },
+  "solution": {
+    "culprit": "isembert",
+    "red_herring": "gauvain",
+    "motives": {
+      "isembert": "dette",
+      "gauvain": "heritage"
+    },
+    "true_locations": {
+      "fleur": "puits",
+      "isembert": "puits",
+      "lothaire": "marche",
+      "gauvain": "bergerie",
+      "hersende": "bergerie",
+      "jehanne": "bergerie",
+      "aldric": "bergerie",
+      "berthe": "taverne"
+    },
+    "witnesses": [
+      "lothaire"
+    ],
+    "clue": {
+      "trade": "pecheur",
+      "object": "un morceau de filet de pêche"
+    },
+    "false_rumor": null,
+    "explanation": {
+      "fr": [
+        "Isembert prétendait être au marché et y avoir vu Lothaire, mais Lothaire y était sans y voir Isembert. Mobile : Isembert devait de l'argent à Fleur.",
+        "Gauvain avait aussi un motif, mais Aldric, Hersende et Jehanne confirment sa présence à la bergerie.",
+        "L'objet trouvé près du corps, un bout de fil tressé, était un morceau de filet de pêche, comme Jehanne l'a reconnu. Il désignait le métier de pêcheur : Isembert et Jehanne. Parmi eux, Isembert était la seule personne avec un motif."
+      ]
+    }
+  },
+  "texts": {
+    "fr": {
+      "scene": [
+        "Ce matin, on a retrouvé le corps de Fleur au puits. Le crime a eu lieu dans la nuit.",
+        "Les villageois ont tous une version de la soirée. À toi de trouver qui ment."
+      ],
+      "examine": "Tu fouilles le lieu du crime, au puits. Près du corps, tu trouves un bout de fil tressé. Difficile de dire d'où ça vient : montre-le aux villageois en les interrogeant, quelqu'un du métier saura le reconnaître.",
+      "statements": {
+        "aldric": {
+          "without_clue": [
+            "J'étais à la bergerie.",
+            "J'y ai vu Gauvain, Hersende et Jehanne."
+          ],
+          "with_clue": [
+            "J'étais à la bergerie.",
+            "J'y ai vu Gauvain, Hersende et Jehanne."
+          ]
+        },
+        "berthe": {
+          "without_clue": [
+            "J'étais à la taverne.",
+            "Je n'y ai vu personne."
+          ],
+          "with_clue": [
+            "J'étais à la taverne.",
+            "Je n'y ai vu personne."
+          ]
+        },
+        "gauvain": {
+          "without_clue": [
+            "J'étais à la bergerie.",
+            "J'y ai vu Aldric, Hersende et Jehanne."
+          ],
+          "with_clue": [
+            "J'étais à la bergerie.",
+            "J'y ai vu Aldric, Hersende et Jehanne."
+          ]
+        },
+        "hersende": {
+          "without_clue": [
+            "J'étais à la bergerie.",
+            "J'y ai vu Aldric, Gauvain et Jehanne.",
+            "Et puis on raconte qu'Isembert devait de l'argent à Fleur."
+          ],
+          "with_clue": [
+            "J'étais à la bergerie.",
+            "J'y ai vu Aldric, Gauvain et Jehanne.",
+            "Et puis on raconte qu'Isembert devait de l'argent à Fleur."
+          ]
+        },
+        "isembert": {
+          "without_clue": [
+            "J'étais au marché.",
+            "J'y ai vu Lothaire."
+          ],
+          "with_clue": [
+            "J'étais au marché.",
+            "J'y ai vu Lothaire."
+          ]
+        },
+        "jehanne": {
+          "without_clue": [
+            "J'étais à la bergerie.",
+            "J'y ai vu Aldric, Gauvain et Hersende.",
+            "Et puis on raconte que Gauvain comptait hériter de Fleur."
+          ],
+          "with_clue": [
+            "J'étais à la bergerie.",
+            "J'y ai vu Aldric, Gauvain et Hersende.",
+            "Et puis on raconte que Gauvain comptait hériter de Fleur.",
+            "L'objet trouvé près du corps ? Je reconnais un morceau de filet de pêche, on en trouve chez tous les pêcheurs."
+          ]
+        },
+        "lothaire": {
+          "without_clue": [
+            "J'étais au marché.",
+            "Je n'y ai vu personne."
+          ],
+          "with_clue": [
+            "J'étais au marché.",
+            "Je n'y ai vu personne."
+          ]
+        }
+      },
+      "locations": {
+        "forge": "à la forge",
+        "moulin": "au moulin",
+        "puits": "au puits",
+        "eglise": "à l'église",
+        "marche": "au marché",
+        "taverne": "à la taverne",
+        "champs": "aux champs",
+        "bergerie": "à la bergerie"
+      },
+      "trades": {
+        "berger": "berger",
+        "boucher": "boucher",
+        "flecheur": "flécheur",
+        "macon": "maçon",
+        "pecheur": "pêcheur"
+      }
+    }
+  }
+}

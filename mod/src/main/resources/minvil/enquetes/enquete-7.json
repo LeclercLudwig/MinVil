@@ -1,0 +1,260 @@
+{
+  "format": "minvil-enquete",
+  "version": 1,
+  "seed": 7,
+  "public": {
+    "victim": "clovis",
+    "crime_location": "forge",
+    "clue": {
+      "description": "des fibres claires",
+      "could_be": [
+        "fermier",
+        "berger"
+      ]
+    },
+    "villagers": [
+      {
+        "id": "aldric",
+        "name": "Aldric",
+        "trade": "fermier",
+        "minecraft_profession": "minecraft:farmer",
+        "alive": true,
+        "statement": {
+          "location": "taverne",
+          "seen": [],
+          "rumors": [
+            {
+              "about": "gauvain",
+              "motive": "rancune"
+            }
+          ],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "berthe",
+        "name": "Berthe",
+        "trade": "fermier",
+        "minecraft_profession": "minecraft:farmer",
+        "alive": true,
+        "statement": {
+          "location": "puits",
+          "seen": [
+            "isembert"
+          ],
+          "rumors": [
+            {
+              "about": "aldric",
+              "motive": "dette"
+            }
+          ],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "clovis",
+        "name": "Clovis",
+        "trade": "flecheur",
+        "minecraft_profession": "minecraft:fletcher",
+        "alive": false
+      },
+      {
+        "id": "enguerrand",
+        "name": "Enguerrand",
+        "trade": "berger",
+        "minecraft_profession": "minecraft:shepherd",
+        "alive": true,
+        "statement": {
+          "location": "moulin",
+          "seen": [
+            "mahaut"
+          ],
+          "rumors": [],
+          "recognizes_clue": "berger"
+        }
+      },
+      {
+        "id": "gauvain",
+        "name": "Gauvain",
+        "trade": "berger",
+        "minecraft_profession": "minecraft:shepherd",
+        "alive": true,
+        "statement": {
+          "location": "taverne",
+          "seen": [
+            "aldric"
+          ],
+          "rumors": [],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "isembert",
+        "name": "Isembert",
+        "trade": "macon",
+        "minecraft_profession": "minecraft:mason",
+        "alive": true,
+        "statement": {
+          "location": "puits",
+          "seen": [
+            "berthe"
+          ],
+          "rumors": [
+            {
+              "about": "berthe",
+              "motive": "rancune"
+            }
+          ],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "mahaut",
+        "name": "Mahaut",
+        "trade": "berger",
+        "minecraft_profession": "minecraft:shepherd",
+        "alive": true,
+        "statement": {
+          "location": "moulin",
+          "seen": [
+            "enguerrand"
+          ],
+          "rumors": [],
+          "recognizes_clue": "berger"
+        }
+      }
+    ]
+  },
+  "solution": {
+    "culprit": "gauvain",
+    "red_herring": "berthe",
+    "motives": {
+      "gauvain": "rancune",
+      "berthe": "rancune"
+    },
+    "true_locations": {
+      "clovis": "forge",
+      "gauvain": "forge",
+      "aldric": "taverne",
+      "berthe": "puits",
+      "isembert": "puits",
+      "mahaut": "moulin",
+      "enguerrand": "moulin"
+    },
+    "witnesses": [
+      "aldric"
+    ],
+    "clue": {
+      "trade": "berger",
+      "object": "des touffes de laine"
+    },
+    "false_rumor": {
+      "teller": "berthe",
+      "about": "aldric",
+      "motive": "dette"
+    },
+    "explanation": {
+      "fr": [
+        "Gauvain prétendait être à la taverne et y avoir vu Aldric, mais Aldric y était sans y voir Gauvain. Mobile : Gauvain en voulait à Clovis depuis longtemps.",
+        "Berthe avait aussi un motif, mais Isembert confirme sa présence au puits.",
+        "L'objet trouvé près du corps, des fibres claires, était des touffes de laine, comme Enguerrand et Mahaut l'ont reconnu. Il désignait le métier de berger : Enguerrand, Gauvain et Mahaut. Parmi eux, Gauvain était la seule personne avec un motif.",
+        "La rumeur selon laquelle Aldric devait de l'argent à Clovis était fausse : Berthe ne faisait que répéter un ragot."
+      ]
+    }
+  },
+  "texts": {
+    "fr": {
+      "scene": [
+        "Ce matin, on a retrouvé le corps de Clovis à la forge. Le crime a eu lieu dans la nuit.",
+        "Les villageois ont tous une version de la soirée. À toi de trouver qui ment."
+      ],
+      "examine": "Tu fouilles le lieu du crime, à la forge. Près du corps, tu trouves des fibres claires. Difficile de dire d'où ça vient : montre-le aux villageois en les interrogeant, quelqu'un du métier saura le reconnaître.",
+      "statements": {
+        "aldric": {
+          "without_clue": [
+            "J'étais à la taverne.",
+            "Je n'y ai vu personne.",
+            "Et puis on raconte que Gauvain en voulait à Clovis depuis longtemps."
+          ],
+          "with_clue": [
+            "J'étais à la taverne.",
+            "Je n'y ai vu personne.",
+            "Et puis on raconte que Gauvain en voulait à Clovis depuis longtemps."
+          ]
+        },
+        "berthe": {
+          "without_clue": [
+            "J'étais au puits.",
+            "J'y ai vu Isembert.",
+            "Et puis on raconte qu'Aldric devait de l'argent à Clovis."
+          ],
+          "with_clue": [
+            "J'étais au puits.",
+            "J'y ai vu Isembert.",
+            "Et puis on raconte qu'Aldric devait de l'argent à Clovis."
+          ]
+        },
+        "enguerrand": {
+          "without_clue": [
+            "J'étais au moulin.",
+            "J'y ai vu Mahaut."
+          ],
+          "with_clue": [
+            "J'étais au moulin.",
+            "J'y ai vu Mahaut.",
+            "L'objet trouvé près du corps ? Je reconnais des touffes de laine, on en trouve chez tous les bergers."
+          ]
+        },
+        "gauvain": {
+          "without_clue": [
+            "J'étais à la taverne.",
+            "J'y ai vu Aldric."
+          ],
+          "with_clue": [
+            "J'étais à la taverne.",
+            "J'y ai vu Aldric."
+          ]
+        },
+        "isembert": {
+          "without_clue": [
+            "J'étais au puits.",
+            "J'y ai vu Berthe.",
+            "Et puis on raconte que Berthe en voulait à Clovis depuis longtemps."
+          ],
+          "with_clue": [
+            "J'étais au puits.",
+            "J'y ai vu Berthe.",
+            "Et puis on raconte que Berthe en voulait à Clovis depuis longtemps."
+          ]
+        },
+        "mahaut": {
+          "without_clue": [
+            "J'étais au moulin.",
+            "J'y ai vu Enguerrand."
+          ],
+          "with_clue": [
+            "J'étais au moulin.",
+            "J'y ai vu Enguerrand.",
+            "L'objet trouvé près du corps ? Je reconnais des touffes de laine, on en trouve chez tous les bergers."
+          ]
+        }
+      },
+      "locations": {
+        "forge": "à la forge",
+        "moulin": "au moulin",
+        "puits": "au puits",
+        "eglise": "à l'église",
+        "marche": "au marché",
+        "taverne": "à la taverne",
+        "champs": "aux champs",
+        "bergerie": "à la bergerie"
+      },
+      "trades": {
+        "berger": "berger",
+        "fermier": "fermier",
+        "flecheur": "flécheur",
+        "macon": "maçon"
+      }
+    }
+  }
+}

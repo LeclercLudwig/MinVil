@@ -1,0 +1,246 @@
+{
+  "format": "minvil-enquete",
+  "version": 1,
+  "seed": 34,
+  "public": {
+    "victim": "jehanne",
+    "crime_location": "champs",
+    "clue": {
+      "description": "un bout de parchemin déchiré",
+      "could_be": [
+        "bibliothecaire",
+        "pretre",
+        "cartographe"
+      ]
+    },
+    "villagers": [
+      {
+        "id": "aldric",
+        "name": "Aldric",
+        "trade": "pretre",
+        "minecraft_profession": "minecraft:cleric",
+        "alive": true,
+        "statement": {
+          "location": "puits",
+          "seen": [
+            "douce"
+          ],
+          "rumors": [],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "clovis",
+        "name": "Clovis",
+        "trade": "cartographe",
+        "minecraft_profession": "minecraft:cartographer",
+        "alive": true,
+        "statement": {
+          "location": "forge",
+          "seen": [],
+          "rumors": [
+            {
+              "about": "lothaire",
+              "motive": "jalousie"
+            }
+          ],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "douce",
+        "name": "Douce",
+        "trade": "pretre",
+        "minecraft_profession": "minecraft:cleric",
+        "alive": true,
+        "statement": {
+          "location": "puits",
+          "seen": [],
+          "rumors": [
+            {
+              "about": "aldric",
+              "motive": "terre_disputee"
+            }
+          ],
+          "recognizes_clue": "pretre"
+        }
+      },
+      {
+        "id": "gauvain",
+        "name": "Gauvain",
+        "trade": "boucher",
+        "minecraft_profession": "minecraft:butcher",
+        "alive": true,
+        "statement": {
+          "location": "eglise",
+          "seen": [
+            "lothaire"
+          ],
+          "rumors": [],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "isembert",
+        "name": "Isembert",
+        "trade": "berger",
+        "minecraft_profession": "minecraft:shepherd",
+        "alive": true,
+        "statement": {
+          "location": "marche",
+          "seen": [],
+          "rumors": [],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "jehanne",
+        "name": "Jehanne",
+        "trade": "tanneur",
+        "minecraft_profession": "minecraft:leatherworker",
+        "alive": false
+      },
+      {
+        "id": "lothaire",
+        "name": "Lothaire",
+        "trade": "bibliothecaire",
+        "minecraft_profession": "minecraft:librarian",
+        "alive": true,
+        "statement": {
+          "location": "eglise",
+          "seen": [
+            "gauvain"
+          ],
+          "rumors": [],
+          "recognizes_clue": null
+        }
+      }
+    ]
+  },
+  "solution": {
+    "culprit": "aldric",
+    "red_herring": "lothaire",
+    "motives": {
+      "aldric": "terre_disputee",
+      "lothaire": "jalousie"
+    },
+    "true_locations": {
+      "jehanne": "champs",
+      "aldric": "champs",
+      "douce": "puits",
+      "lothaire": "eglise",
+      "gauvain": "eglise",
+      "clovis": "forge",
+      "isembert": "marche"
+    },
+    "witnesses": [
+      "douce"
+    ],
+    "clue": {
+      "trade": "pretre",
+      "object": "une page de psautier"
+    },
+    "false_rumor": null,
+    "explanation": {
+      "fr": [
+        "Aldric prétendait être au puits et y avoir vu Douce, mais Douce y était sans y voir Aldric. Mobile : Aldric se disputait une terre avec Jehanne.",
+        "Lothaire avait aussi un motif, mais Gauvain confirme sa présence à l'église.",
+        "L'objet trouvé près du corps, un bout de parchemin déchiré, était une page de psautier, comme Douce l'a reconnu. Il désignait le métier de prêtre : Aldric et Douce. Parmi eux, Aldric était la seule personne avec un motif."
+      ]
+    }
+  },
+  "texts": {
+    "fr": {
+      "scene": [
+        "Ce matin, on a retrouvé le corps de Jehanne aux champs. Le crime a eu lieu dans la nuit.",
+        "Les villageois ont tous une version de la soirée. À toi de trouver qui ment."
+      ],
+      "examine": "Tu fouilles le lieu du crime, aux champs. Près du corps, tu trouves un bout de parchemin déchiré. Difficile de dire d'où ça vient : montre-le aux villageois en les interrogeant, quelqu'un du métier saura le reconnaître.",
+      "statements": {
+        "aldric": {
+          "without_clue": [
+            "J'étais au puits.",
+            "J'y ai vu Douce."
+          ],
+          "with_clue": [
+            "J'étais au puits.",
+            "J'y ai vu Douce."
+          ]
+        },
+        "clovis": {
+          "without_clue": [
+            "J'étais à la forge.",
+            "Je n'y ai vu personne.",
+            "Et puis on raconte que Lothaire jalousait Jehanne."
+          ],
+          "with_clue": [
+            "J'étais à la forge.",
+            "Je n'y ai vu personne.",
+            "Et puis on raconte que Lothaire jalousait Jehanne."
+          ]
+        },
+        "douce": {
+          "without_clue": [
+            "J'étais au puits.",
+            "Je n'y ai vu personne.",
+            "Et puis on raconte qu'Aldric se disputait une terre avec Jehanne."
+          ],
+          "with_clue": [
+            "J'étais au puits.",
+            "Je n'y ai vu personne.",
+            "Et puis on raconte qu'Aldric se disputait une terre avec Jehanne.",
+            "L'objet trouvé près du corps ? Je reconnais une page de psautier, on en trouve chez tous les prêtres."
+          ]
+        },
+        "gauvain": {
+          "without_clue": [
+            "J'étais à l'église.",
+            "J'y ai vu Lothaire."
+          ],
+          "with_clue": [
+            "J'étais à l'église.",
+            "J'y ai vu Lothaire."
+          ]
+        },
+        "isembert": {
+          "without_clue": [
+            "J'étais au marché.",
+            "Je n'y ai vu personne."
+          ],
+          "with_clue": [
+            "J'étais au marché.",
+            "Je n'y ai vu personne."
+          ]
+        },
+        "lothaire": {
+          "without_clue": [
+            "J'étais à l'église.",
+            "J'y ai vu Gauvain."
+          ],
+          "with_clue": [
+            "J'étais à l'église.",
+            "J'y ai vu Gauvain."
+          ]
+        }
+      },
+      "locations": {
+        "forge": "à la forge",
+        "moulin": "au moulin",
+        "puits": "au puits",
+        "eglise": "à l'église",
+        "marche": "au marché",
+        "taverne": "à la taverne",
+        "champs": "aux champs",
+        "bergerie": "à la bergerie"
+      },
+      "trades": {
+        "berger": "berger",
+        "bibliothecaire": "bibliothécaire",
+        "boucher": "boucher",
+        "cartographe": "cartographe",
+        "pretre": "prêtre",
+        "tanneur": "tanneur"
+      }
+    }
+  }
+}

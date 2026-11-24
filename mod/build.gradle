@@ -9,6 +9,16 @@ base {
 	archivesName = project.archives_base_name
 }
 
+// Client et serveur de développement : ./gradlew runClient ou runServer.
+// Le jeu tourne dans mod/run/ (ignoré par git), sans compte Minecraft.
+loom {
+	runs {
+		client {
+			programArgs "--username", "Enqueteur"
+		}
+	}
+}
+
 dependencies {
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
 	implementation "net.fabricmc:fabric-loader:${project.loader_version}"

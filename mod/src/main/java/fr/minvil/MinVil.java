@@ -7,6 +7,7 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.player.AttackEntityCallback;
 import net.fabricmc.fabric.api.event.player.UseEntityCallback;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.ChatFormatting;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
@@ -80,7 +81,13 @@ public final class MinVil implements ModInitializer {
 	// --- Commandes -----------------------------------------------------------
 
 	private static void enregistrer(CommandDispatcher<CommandSourceStack> dispatcher) {
-		dispatcher.register(Commands.literal("enquete")
+		var racine = Commands.literal("enquete");
+		// Raccourci de test : absent du .jar distribué.
+		if (FabricLoader.getInstance().isDevelopmentEnvironment()) {
+			racine.then(Commands.literal("solution")
+					.executes(ctx -> solution(ctx.getSource())));
+		}
+		dispatcher.register(racine
 				.executes(ctx -> aide(ctx.getSource()))
 				.then(Commands.literal("commencer")
 						.executes(ctx -> commencer(ctx.getSource(),
@@ -191,6 +198,20 @@ public final class MinVil implements ModInitializer {
 				+ enquete.vivants().size() + ". /enquete terminer pour renvoyer les villageois.")
 				.withStyle(ChatFormatting.GRAY));
 		return juste ? 1 : 0;
+	}
+
+	/** Développement uniquement : dévoile le coupable sans clore l'enquête. */
+	private static int solution(CommandSourceStack source) {
+		if (enquete == null) {
+			source.sendFailure(Component.literal("Aucune enquête en cours. Lance /enquete commencer."));
+			return 0;
+		}
+		dire(source, Component.literal("[dev] Coupable : " + enquete.nomCoupable())
+				.withStyle(ChatFormatting.LIGHT_PURPLE));
+		for (String phrase : enquete.explication()) {
+			dire(source, Component.literal("[dev] " + phrase).withStyle(ChatFormatting.LIGHT_PURPLE));
+		}
+		return 1;
 	}
 
 	private static int terminer(CommandSourceStack source) {

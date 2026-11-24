@@ -24,37 +24,43 @@ Stratégie : construire **une seule boucle complète** avant d'élargir. Le prot
 3. Le coupable **ment** sur son lieu. Il doit être **démasquable** : au moins un témoin doit pouvoir le contredire.
 
 ## État actuel
-- `generate()` produit un crime avec victime, coupable, lieu, PNJ, alibis, témoins.
-- `check()` vérifie : un seul coupable (motif + occasion), position cohérente, alibis des innocents justes, mensonge du coupable contredit par au moins un témoin, témoins dérivés de la vérité.
-- Les trois tests passent : `test_case_is_consistent`, `test_generation_is_deterministic`, `test_culprit_lies_and_is_contradicted`.
-- `python3 -I mystery.py --seed N` affiche un cas lisible.
+- `generate()` produit un crime avec victime, coupable, fausse piste, lieu, PNJ, alibis, « qui a vu qui », rumeurs et témoins.
+- Chaque villageois vivant déclare où il était et qui il y a vu. Les innocents disent vrai ; le coupable donne un faux lieu et dit n'y avoir vu personne.
+- Deux villageois ont un motif : le coupable et la **fausse piste**. Les motifs ne sont connus que par des **rumeurs**, racontées par d'autres innocents.
+- `solve()` résout l'enquête avec les seules informations accessibles au joueur (déclarations et rumeurs), sans regarder la vérité.
+- `check()` vérifie : un seul coupable (motif + occasion), positions cohérentes, déclarations des innocents justes, mensonge du coupable contredit par au moins un témoin, alibi de la fausse piste confirmé par au moins un villageois, motifs tous révélés par des rumeurs, au moins deux suspects, et `solve()` désigne le bon coupable.
+- Cinq tests passent, sur 500 seeds chacun.
+- `enquete.py` : version jouable dans le terminal (interroger, carnet, accuser). 4 000 parties automatiques jouées sans erreur.
 
-## Bug corrigé : absence de témoin
-Le premier prototype n'ajoutait un témoin que si un innocent se trouvait **par hasard** au lieu revendiqué par le coupable. Le prototype a été réécrit (l'original n'avait pas été versionné) ; sans correctif, 243 seeds sur 500 n'avaient aucun témoin.
+## Garanties du générateur
+Les rôles sont placés d'office, plutôt que d'espérer que le hasard tombe bien (c'était le bug du premier prototype : 243 seeds sur 500 sans témoin) :
+- un **témoin** est placé au lieu revendiqué par le coupable ;
+- la **fausse piste** et un **partenaire d'alibi** sont placés ensemble, dans un lieu différent du crime et du mensonge ;
+- les autres innocents sont placés au hasard, hors du lieu du crime ;
+- il faut donc au moins trois innocents (5 PNJ minimum), sinon `generate()` lève une erreur.
 
-**Correctif appliqué** (`_ensure_witness`) : après le choix du mensonge (`lie`), si aucun innocent n'est à `lie`, un innocent tiré au sort y est déplacé. Garanties :
-- le PNJ déplacé est toujours un innocent, jamais la victime ni le coupable ;
-- `lie` est toujours différent du lieu du crime, donc le témoin n'acquiert pas d'occasion ;
-- les témoins sont recalculés depuis `location_at_crime`, donc la position réelle reste cohérente ;
-- le générateur refuse un cas sans aucun innocent.
+Raisonnement attendu du joueur : parmi les suspects révélés par les rumeurs, le coupable est celui dont l'alibi est contredit (des villageois étaient à l'endroit annoncé et ne l'y ont pas vu) ; l'alibi de la fausse piste est confirmé.
 
-Note : la réécriture ne tire pas les nombres aléatoires dans le même ordre que l'original, donc une seed donnée ne produit pas le même crime qu'avant.
+Note : chaque réécriture change l'ordre des tirages aléatoires, donc une seed ne produit pas le même crime d'une version à l'autre.
 
 ## Prochaines étapes
 1. ~~Garantir au moins un témoin.~~ Fait.
-2. Ajouter un **indice physique** (objet laissé sur le lieu du crime) relié au coupable, pour faire converger les pistes.
-3. Ajouter un **PNJ de fausse piste** avec motif mais alibi vrai, pour que l'enquête ait de vrais choix.
-4. Sérialiser le cas en JSON (PNJ, liens, événements) pour le porter ensuite dans le mod Java.
-5. Seulement après : brancher le conseil du village (vote) et la réputation.
+2. ~~Ajouter un PNJ de fausse piste avec motif mais alibi vrai.~~ Fait.
+3. ~~Version jouable dans le terminal.~~ Fait : y jouer plusieurs parties pour juger si l'enquête est intéressante.
+4. Ajouter un **indice physique** (objet laissé sur le lieu du crime) relié au coupable, pour faire converger les pistes.
+5. Sérialiser le cas en JSON (PNJ, liens, événements) pour le porter ensuite dans le mod Java.
+6. Seulement après : brancher le conseil du village (vote) et la réputation.
 
 ## Commandes
 ```
 cd prototype
 python3 -I mystery.py            # lance les tests
-python3 -I mystery.py --seed 0   # affiche le cas de la seed 0
+python3 -I mystery.py --seed 0   # affiche toute la vérité de la seed 0
+python3 -I enquete.py            # joue une enquête tirée au hasard
+python3 -I enquete.py 42         # rejoue l'enquête de la seed 42
 ```
 
 ## Points de vigilance
 - Le générateur est déterministe par seed : même seed, même crime. Garder ce comportement pour le débogage et la reproductibilité en jeu.
 - Les tests vérifient la cohérence sur 500 seeds. Un bug qui n'apparaît que sur certaines seeds sera détecté par cette boucle.
-- Le texte des témoignages n'est pas encore généré. Il viendra après, à partir de la structure de données.
+- Le texte des témoignages est généré dans `enquete.py`, à partir de la structure de données. Les phrases évitent d'accorder au masculin ou au féminin : le genre des PNJ n'est pas modélisé.

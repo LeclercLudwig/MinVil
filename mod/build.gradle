@@ -24,11 +24,15 @@ test {
 	useJUnitPlatform()
 }
 
+// Variable locale : le cache de configuration de Gradle interdit de lire
+// `project` pendant l'exécution des tâches.
+def modVersion = project.version
+
 processResources {
-	inputs.property "version", project.version
+	inputs.property "version", modVersion
 
 	filesMatching("fabric.mod.json") {
-		expand "version": project.version
+		expand "version": modVersion
 	}
 }
 

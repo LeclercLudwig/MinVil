@@ -10,6 +10,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.SharedSuggestionProvider;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
@@ -20,7 +21,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntitySpawnReason;
-import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.npc.villager.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
 import org.slf4j.Logger;
@@ -47,7 +48,8 @@ import java.util.UUID;
  * Clic droit sur un villageois de l'enquête : il fait sa déclaration.
  *
  * Prototype : une seule enquête à la fois sur le serveur, gardée en mémoire
- * (elle ne survit pas à un redémarrage).
+ * (elle ne survit pas à un redémarrage). Les villageois portent aussi
+ * l'étiquette « minvil_enquete » : /kill @e[tag=minvil_enquete] les retire.
  */
 public final class MinVil implements ModInitializer {
 	public static final String MOD_ID = "minvil";
@@ -55,11 +57,11 @@ public final class MinVil implements ModInitializer {
 
 	/** Étiquette posée sur tous les villageois d'une enquête. */
 	private static final String TAG = "minvil_enquete";
-	/** Préfixe de l'étiquette qui donne l'id du villageois dans l'enquête. */
-	private static final String TAG_ID = "minvil_id:";
 	private static final double RAYON = 4.0;
 
 	private static Enquete enquete;
+	/** Villageois apparus pour l'enquête : UUID de l'entité -> id dans l'enquête. */
+	private static final Map<UUID, String> villageoisIds = new HashMap<>();
 	/** Anti-doublon : le serveur peut recevoir deux interactions pour un même clic. */
 	private static final Map<UUID, Long> dernierClic = new HashMap<>();
 
@@ -211,6 +213,7 @@ public final class MinVil implements ModInitializer {
 		List<Enquete.Villageois> vivants = e.vivants();
 		int n = vivants.size();
 		var professions = niveau.registryAccess().lookupOrThrow(Registries.VILLAGER_PROFESSION);
+		var typeVillageois = BuiltInRegistries.ENTITY_TYPE.getValue(Identifier.parse("minecraft:villager"));
 		for (int i = 0; i < n; i++) {
 			Enquete.Villageois v = vivants.get(i);
 			double angle = 2 * Math.PI * i / n;
@@ -219,8 +222,8 @@ public final class MinVil implements ModInitializer {
 			// Tourné vers le centre du cercle.
 			float lacet = (float) Math.toDegrees(Math.atan2(centre.z - z, centre.x - x)) - 90.0f;
 
-			var villageois = EntityType.VILLAGER.create(niveau, EntitySpawnReason.COMMAND);
-			if (villageois == null) {
+			if (!(typeVillageois.create(niveau, EntitySpawnReason.COMMAND) instanceof Villager villageois)) {
+				LOGGER.error("Impossible de créer le villageois {}", v.id());
 				continue;
 			}
 			villageois.snapTo(x, centre.y, z, lacet, 0.0f);
@@ -234,7 +237,7 @@ public final class MinVil implements ModInitializer {
 			professions.get(cle).ifPresent(profession ->
 					villageois.setVillagerData(villageois.getVillagerData().withProfession(profession)));
 			villageois.addTag(TAG);
-			villageois.addTag(TAG_ID + v.id());
+			villageoisIds.put(villageois.getUUID(), v.id());
 			niveau.addFreshEntity(villageois);
 		}
 	}
@@ -245,7 +248,7 @@ public final class MinVil implements ModInitializer {
 		for (ServerLevel niveau : serveur.getAllLevels()) {
 			List<Entity> aRetirer = new ArrayList<>();
 			for (Entity entite : niveau.getAllEntities()) {
-				if (entite.getTags().contains(TAG)) {
+				if (villageoisIds.containsKey(entite.getUUID())) {
 					aRetirer.add(entite);
 				}
 			}
@@ -254,11 +257,13 @@ public final class MinVil implements ModInitializer {
 				total++;
 			}
 		}
+		villageoisIds.clear();
 		return total;
 	}
 
 	private static InteractionResult interroger(Player joueur, boolean coteClient, InteractionHand main, Entity entite) {
-		if (coteClient || !entite.getTags().contains(TAG)) {
+		String id = coteClient ? null : villageoisIds.get(entite.getUUID());
+		if (id == null) {
 			return InteractionResult.PASS;
 		}
 		// Bloque toujours l'écran de commerce, mais ne répond qu'une fois par clic.
@@ -267,18 +272,14 @@ public final class MinVil implements ModInitializer {
 		if (main != InteractionHand.MAIN_HAND || (precedent != null && precedent == tick)) {
 			return InteractionResult.SUCCESS;
 		}
-		String id = entite.getTags().stream()
-				.filter(t -> t.startsWith(TAG_ID))
-				.map(t -> t.substring(TAG_ID.length()))
-				.findFirst().orElse(null);
-		if (enquete == null || id == null) {
-			joueur.displayClientMessage(Component.literal("Ce villageois n'a plus rien à dire.")
-					.withStyle(ChatFormatting.GRAY), false);
+		if (enquete == null) {
+			joueur.sendSystemMessage(Component.literal("Ce villageois n'a plus rien à dire.")
+					.withStyle(ChatFormatting.GRAY));
 			return InteractionResult.SUCCESS;
 		}
 		enquete.vivants().stream().filter(v -> v.id().equals(id)).findFirst().ifPresent(v -> {
 			enquete.noterInterrogatoire(v.id());
-			joueur.displayClientMessage(declaration(v), false);
+			joueur.sendSystemMessage(declaration(v));
 		});
 		return InteractionResult.SUCCESS;
 	}

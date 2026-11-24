@@ -56,6 +56,20 @@ jobs:
               javap -cp "$JAR" -public "${c%.class}" | grep -E 'snapTo|moveTo|addTag|getTags|discard|create\(|withProfession|setVillagerData|getVillagerData|sendSuccess|sendFailure|displayClientMessage|sendSystemMessage|getAllEntities|getAllLevels|lookupOrThrow|setNoAi|setPersistenceRequired|setCustomName|isClientSide|getGameTime|level\(|suggest\(|literal\(|parse\(|SUCCESS|PASS' | head -40
             done
           fi
+          if [ -n "$JAR" ]; then
+            echo "=== Méthodes d'Entity liées aux étiquettes et à l'UUID"
+            javap -cp "$JAR" -public net.minecraft.world.entity.Entity | grep -iE 'tag|uuid' | head -30
+            echo "=== Registre des types d'entités"
+            javap -cp "$JAR" -public net.minecraft.core.registries.BuiltInRegistries | grep -E 'ENTITY_TYPE' | head -5
+            javap -cp "$JAR" -public net.minecraft.core.Registry | grep -E 'getValue|getOptional|get\(' | head -10
+            echo "=== Où est la constante VILLAGER ?"
+            for c in $(unzip -l "$JAR" | awk '{print $4}' | grep -E '^net/minecraft/world/entity/[A-Za-z]*\.class$'); do
+              javap -cp "$JAR" -public "${c%.class}" 2>/dev/null | grep -qE ' VILLAGER;' && echo "VILLAGER dans ${c%.class}"
+            done
+            echo "=== Player et Level"
+            javap -cp "$JAR" -public net.minecraft.world.entity.player.Player | grep -iE 'message' | head -10
+            javap -cp "$JAR" -public net.minecraft.world.level.Level | grep -E 'isClientSide|getGameTime' | head -5
+          fi
           echo "=== Classes Fabric API"
           for j in $(find ~/.gradle/caches -name 'fabric-*.jar' 2>/dev/null); do
             unzip -l "$j" 2>/dev/null | awk '{print $4}' | grep -E 'CommandRegistrationCallback|UseEntityCallback' | sed "s|^|$(basename $j): |"

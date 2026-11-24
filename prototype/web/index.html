@@ -339,6 +339,10 @@ td.lie { color: var(--bad); font-weight: 700; }
         "<p>Motifs : " + esc(c.culprit) + " (" + esc(c.motives[c.culprit]) + "), " +
           esc(c.herring) + " (" + esc(c.motives[c.herring]) + ").</p>" +
         "<p>Rumeurs : " + tellers.join(" ; ") + ".</p>" +
+        (c.false_rumor
+          ? "<p>Rumeur fausse : " + esc(c.false_rumor.teller) + " prête à " + esc(c.false_rumor.target) +
+            " un motif inventé (" + esc(c.false_rumor.motive) + ").</p>"
+          : "<p>Pas de rumeur fausse dans cette enquête.</p>") +
       "</div>";
   }
 

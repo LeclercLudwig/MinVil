@@ -55,6 +55,10 @@ def statement(case: Case, npc: str, clue_found: bool = False) -> list[str]:
     for holder in case.rumors.get(npc, []):
         motive = MOTIVE_TEXT[case.motives[holder]].format(who=holder, victim=case.victim)
         lines.append(f"Et puis on raconte {que(motive)}.")
+    fr = case.false_rumor
+    if fr and fr["teller"] == npc:
+        motive = MOTIVE_TEXT[fr["motive"]].format(who=fr["target"], victim=case.victim)
+        lines.append(f"Et puis on raconte {que(motive)}.")
     if clue_found and npc in clue_experts(case):
         lines.append(f"L'objet trouvé près du corps ? Je reconnais "
                      f"{CLUE_TEXT[case.clue]}, on en trouve chez tous les "
@@ -88,7 +92,7 @@ def explain(case: Case) -> list[str]:
     experts = clue_experts(case)
     recognized = "l'a" if len(experts) == 1 else "l'ont"
     motive = MOTIVE_TEXT[case.motives[case.culprit]].format(who=case.culprit, victim=case.victim)
-    return [
+    lines = [
         f"{case.culprit} prétendait être {lie} et y avoir vu "
         f"{join(case.seen[case.culprit])}, mais {join(case.witnesses)} "
         f"y {'était' if len(case.witnesses) == 1 else 'étaient'} sans y voir "
@@ -102,6 +106,14 @@ def explain(case: Case) -> list[str]:
         f"métier de {case.clue} : {join(holders)}. Parmi eux, {case.culprit} "
         f"était la seule personne avec un motif.",
     ]
+    fr = case.false_rumor
+    if fr:
+        rumor = MOTIVE_TEXT[fr["motive"]].format(who=fr["target"], victim=case.victim)
+        source = (f"{case.culprit} l'avait inventée pour brouiller les pistes"
+                  if fr["teller"] == case.culprit
+                  else f"{fr['teller']} ne faisait que répéter un ragot")
+        lines.append(f"La rumeur selon laquelle {rumor} était fausse : {source}.")
+    return lines
 
 
 def play(seed: int) -> int:

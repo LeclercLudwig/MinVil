@@ -42,7 +42,7 @@ const expected = JSON.parse(res.stdout);
 
 const FIELDS = ["npcs", "victim", "culprit", "herring", "crime_location",
   "location_at_crime", "motives", "alibis", "seen", "rumors", "witnesses",
-  "trades", "clue"];
+  "trades", "clue", "false_rumor"];
 
 // Compare en ignorant l'ordre des clés des objets, mais pas celui des listes.
 function canon(v) {

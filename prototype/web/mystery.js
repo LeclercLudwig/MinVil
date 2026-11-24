@@ -246,12 +246,23 @@
     // son mensonge (tiré en dernier, comme en Python).
     seen[culprit] = [rng.choice(witnesses)];
 
+    // Une fois sur deux, une rumeur fausse prête un motif à un innocent
+    // (tirée en dernier, comme en Python).
+    let falseRumor = null;
+    const targets = innocents.filter((n) => n !== herring && trades[n] !== clue);
+    if (targets.length && rng.choice([false, true])) {
+      const target = rng.choice(targets);
+      const teller = rng.choice([culprit, ...innocents].filter((n) => n !== target));
+      falseRumor = { teller, target, motive: rng.choice(MOTIVES) };
+    }
+
     const npcs = pySorted(chosen);
     return {
       seed, npcs, victim, culprit, herring,
       crime_location: crimeLocation,
       location_at_crime: locationAtCrime,
       motives, alibis, seen, rumors, witnesses, trades, clue,
+      false_rumor: falseRumor,
       living: npcs.filter((n) => n !== victim),
       innocents: npcs.filter((n) => n !== victim && n !== culprit),
     };
@@ -274,12 +285,20 @@
       .replace("{who}", holder).replace("{victim}", c.victim);
   }
 
+  function rumorText(c, fr) {
+    return MOTIVE_TEXT[fr.motive].replace("{who}", fr.target).replace("{victim}", c.victim);
+  }
+
   function statement(c, npc, clueFound) {
     const lines = [`J'étais ${LOCATION_AT[c.alibis[npc]]}.`];
     const seen = c.seen[npc];
     lines.push(seen.length ? `J'y ai vu ${join(seen)}.` : "Je n'y ai vu personne.");
     for (const holder of c.rumors[npc] || []) {
       lines.push(`Et puis on raconte ${que(motiveText(c, holder))}.`);
+    }
+    const fr = c.false_rumor;
+    if (fr && fr.teller === npc) {
+      lines.push(`Et puis on raconte ${que(rumorText(c, fr))}.`);
     }
     if (clueFound && clueExperts(c).includes(npc)) {
       lines.push(`L'objet trouvé près du corps ? Je reconnais ${CLUE_TEXT[c.clue]}, ` +
@@ -295,7 +314,7 @@
     const holders = c.living.filter((n) => c.trades[n] === c.clue);
     const experts = clueExperts(c);
     const w = c.witnesses;
-    return [
+    const lines = [
       `${c.culprit} prétendait être ${lie} et y avoir vu ${join(c.seen[c.culprit])}, ` +
         `mais ${join(w)} ` +
         `y ${w.length === 1 ? "était" : "étaient"} sans y voir ${c.culprit}. ` +
@@ -308,6 +327,14 @@
         `Il désignait le métier de ${c.clue} : ${join(holders)}. ` +
         `Parmi eux, ${c.culprit} était la seule personne avec un motif.`,
     ];
+    const fr = c.false_rumor;
+    if (fr) {
+      const source = fr.teller === c.culprit
+        ? `${c.culprit} l'avait inventée pour brouiller les pistes`
+        : `${fr.teller} ne faisait que répéter un ragot`;
+      lines.push(`La rumeur selon laquelle ${rumorText(c, fr)} était fausse : ${source}.`);
+    }
+    return lines;
   }
 
   const api = {

@@ -12,6 +12,8 @@ l'occasion), puis on en dérive les alibis, les témoignages et les rumeurs.
   de la fausse piste ; seul un villageois du bon métier le reconnaît. Au
   moins un autre villageois exerce ce métier, mais jamais la fausse piste :
   l'indice et les alibis mènent au coupable chacun de leur côté.
+- Une fois sur deux, une rumeur fausse prête un motif à un innocent. Rien ne
+  la distingue d'une vraie : c'est l'alibi et l'indice qui le disculpent.
 
 Le générateur est déterministe : même seed, même crime.
 
@@ -126,6 +128,9 @@ class Case:
     trades: dict[str, str]
     # Indice physique trouvé sur le lieu du crime : le métier qu'il désigne.
     clue: str
+    # Rumeur fausse éventuelle : {"teller", "target", "motive"}, ou None.
+    # Elle prête un motif à un innocent qui n'en a pas.
+    false_rumor: dict | None = None
 
     @property
     def innocents(self) -> list[str]:
@@ -206,6 +211,19 @@ def generate(seed: int) -> Case:
     #    (Tiré en dernier pour ne pas changer le reste du crime d'une seed.)
     seen[culprit] = [rng.choice(witnesses)]
 
+    # 7. Une fois sur deux, une rumeur fausse prête un motif à un innocent.
+    #    La cible n'est ni la fausse piste ni quelqu'un du métier désigné par
+    #    l'indice : l'alibi et l'indice la disculpent toujours. N'importe quel
+    #    villageois peut la raconter, y compris le coupable.
+    #    (Tiré en dernier pour ne pas changer le reste du crime d'une seed.)
+    false_rumor = None
+    targets = [n for n in innocents if n != herring and trades[n] != clue]
+    if targets and rng.choice([False, True]):
+        target = rng.choice(targets)
+        teller = rng.choice([n for n in [culprit, *innocents] if n != target])
+        false_rumor = {"teller": teller, "target": target,
+                       "motive": rng.choice(MOTIVES)}
+
     return Case(
         seed=seed,
         npcs=sorted(chosen),
@@ -221,12 +239,16 @@ def generate(seed: int) -> Case:
         witnesses=witnesses,
         trades=trades,
         clue=clue,
+        false_rumor=false_rumor,
     )
 
 
 def _suspects(case: Case) -> list[str]:
-    """Villageois dont une rumeur révèle le motif."""
-    return sorted({h for holders in case.rumors.values() for h in holders})
+    """Villageois à qui une rumeur, vraie ou fausse, prête un motif."""
+    suspects = {h for holders in case.rumors.values() for h in holders}
+    if case.false_rumor:
+        suspects.add(case.false_rumor["target"])
+    return sorted(suspects)
 
 
 def solve_by_alibi(case: Case) -> str | None:
@@ -326,6 +348,20 @@ def check(case: Case) -> list[str]:
     if any(teller in holders for teller, holders in case.rumors.items()):
         errors.append("un villageois révèle son propre motif")
 
+    # Rumeur fausse : vise un innocent sans motif, que l'alibi et l'indice
+    # disculpent.
+    fr = case.false_rumor
+    if fr:
+        t = fr["target"]
+        if t not in case.innocents or t == case.herring or t in case.motives:
+            errors.append("la rumeur fausse ne vise pas un innocent sans motif")
+        elif case.trades.get(t) == case.clue:
+            errors.append("la rumeur fausse vise quelqu'un du métier désigné par l'indice")
+        if fr["teller"] == t or fr["teller"] not in case.living:
+            errors.append("la rumeur fausse est racontée par sa cible ou par un absent")
+        if fr["motive"] not in MOTIVE_TEXT:
+            errors.append("la rumeur fausse a un motif inconnu")
+
     # Indice physique : désigne le métier du coupable, partagé par un autre
     # villageois, mais pas par la fausse piste.
     if set(case.trades) != set(case.npcs):
@@ -421,6 +457,22 @@ def test_clue_points_to_culprit():
         assert clue_experts(case), f"seed {seed} : personne ne reconnaît l'indice"
 
 
+def test_false_rumors_are_sometimes_present_and_harmless():
+    with_false = 0
+    for seed in SEEDS:
+        case = generate(seed)
+        fr = case.false_rumor
+        if not fr:
+            continue
+        with_false += 1
+        t = fr["target"]
+        assert t in case.innocents and t != case.herring, f"seed {seed} : cible {t}"
+        assert t not in case.motives, f"seed {seed} : la cible a un vrai motif"
+        assert case.trades[t] != case.clue, f"seed {seed} : la cible a le métier de l'indice"
+        assert solve(case) == case.culprit, f"seed {seed} : la rumeur fausse égare"
+    assert 0.3 * len(SEEDS) < with_false < 0.7 * len(SEEDS), f"{with_false} rumeurs fausses"
+
+
 def test_every_vague_clue_is_ambiguous():
     for trade in TRADES:
         assert len(clue_group(trade)) >= 2, f"{trade} : description non ambiguë"
@@ -434,6 +486,7 @@ TESTS = [
     test_case_is_solvable_with_testimonies,
     test_clue_points_to_culprit,
     test_every_vague_clue_is_ambiguous,
+    test_false_rumors_are_sometimes_present_and_harmless,
 ]
 
 
@@ -473,6 +526,10 @@ def describe(case: Case) -> str:
     lines.append(f"Témoins contre {case.culprit} : {', '.join(case.witnesses)}")
     for teller, holders in case.rumors.items():
         lines.append(f"{teller} révèle le motif de : {', '.join(holders)}")
+    if case.false_rumor:
+        fr = case.false_rumor
+        lines.append(f"Rumeur fausse : {fr['teller']} prête à {fr['target']} "
+                     f"un motif ({fr['motive']})")
     return "\n".join(lines)
 
 

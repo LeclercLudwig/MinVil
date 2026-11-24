@@ -16,7 +16,7 @@ Projet de mod Minecraft (Java, Fabric ou NeoForge à terme). On a écarté les f
 Stratégie : construire **une seule boucle complète** avant d'élargir. Le prototype actuel ne couvre que la brique « génération de crime cohérent ».
 
 ## Fichiers
-- `/home/claude/village_mystery/mystery.py` : générateur de graphe de vérité, `check()`, et trois tests.
+- `prototype/mystery.py` : générateur de graphe de vérité, `check()`, et trois tests (500 seeds chacun).
 
 ## Principe de conception
 1. On décide d'abord la **vérité** : qui était où, qui a un motif, qui a l'occasion.
@@ -25,16 +25,23 @@ Stratégie : construire **une seule boucle complète** avant d'élargir. Le prot
 
 ## État actuel
 - `generate()` produit un crime avec victime, coupable, lieu, PNJ, alibis, témoins.
-- `check()` vérifie : un seul coupable (motif + occasion), position cohérente, alibis des innocents justes.
-- **Test qui échoue** : `test_culprit_lies_and_is_contradicted`, seed 0, aucun témoin.
+- `check()` vérifie : un seul coupable (motif + occasion), position cohérente, alibis des innocents justes, mensonge du coupable contredit par au moins un témoin, témoins dérivés de la vérité.
+- Les trois tests passent : `test_case_is_consistent`, `test_generation_is_deterministic`, `test_culprit_lies_and_is_contradicted`.
+- `python3 -I mystery.py --seed N` affiche un cas lisible.
 
-## Bug connu (à corriger en premier)
-Dans `generate()`, un témoin n'est ajouté que si un innocent se trouve **par hasard** au lieu que le coupable prétend avoir fréquenté. Rien ne garantit ce cas. Sans témoin, le joueur ne peut pas démasquer le coupable, donc le scénario est injouable.
+## Bug corrigé : absence de témoin
+Le premier prototype n'ajoutait un témoin que si un innocent se trouvait **par hasard** au lieu revendiqué par le coupable. Le prototype a été réécrit (l'original n'avait pas été versionné) ; sans correctif, 243 seeds sur 500 n'avaient aucun témoin.
 
-**Correctif proposé** : après avoir choisi le mensonge du coupable (`lie`), forcer au moins un innocent à se trouver à `lie` au moment du crime, et l'ajouter comme témoin. Ce PNJ doit aussi avoir une position réelle cohérente dans `location_at_crime`.
+**Correctif appliqué** (`_ensure_witness`) : après le choix du mensonge (`lie`), si aucun innocent n'est à `lie`, un innocent tiré au sort y est déplacé. Garanties :
+- le PNJ déplacé est toujours un innocent, jamais la victime ni le coupable ;
+- `lie` est toujours différent du lieu du crime, donc le témoin n'acquiert pas d'occasion ;
+- les témoins sont recalculés depuis `location_at_crime`, donc la position réelle reste cohérente ;
+- le générateur refuse un cas sans aucun innocent.
+
+Note : la réécriture ne tire pas les nombres aléatoires dans le même ordre que l'original, donc une seed donnée ne produit pas le même crime qu'avant.
 
 ## Prochaines étapes
-1. Corriger le générateur pour garantir au moins un témoin, puis relancer `python3 -I mystery.py`. Les trois tests doivent passer.
+1. ~~Garantir au moins un témoin.~~ Fait.
 2. Ajouter un **indice physique** (objet laissé sur le lieu du crime) relié au coupable, pour faire converger les pistes.
 3. Ajouter un **PNJ de fausse piste** avec motif mais alibi vrai, pour que l'enquête ait de vrais choix.
 4. Sérialiser le cas en JSON (PNJ, liens, événements) pour le porter ensuite dans le mod Java.
@@ -42,8 +49,9 @@ Dans `generate()`, un témoin n'est ajouté que si un innocent se trouve **par h
 
 ## Commandes
 ```
-cd /home/claude/village_mystery
-python3 -I mystery.py
+cd prototype
+python3 -I mystery.py            # lance les tests
+python3 -I mystery.py --seed 0   # affiche le cas de la seed 0
 ```
 
 ## Points de vigilance

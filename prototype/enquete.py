@@ -116,6 +116,23 @@ def explain(case: Case) -> list[str]:
     return lines
 
 
+def scene_text(case: Case) -> list[str]:
+    """Présentation de l'enquête."""
+    return [
+        f"Ce matin, on a retrouvé le corps de {case.victim} "
+        f"{LOCATION_AT[case.crime_location]}. Le crime a eu lieu dans la nuit.",
+        "Les villageois ont tous une version de la soirée. À toi de trouver qui ment.",
+    ]
+
+
+def examine_text(case: Case) -> str:
+    """Ce que le joueur découvre en fouillant le lieu du crime."""
+    return (f"Tu fouilles le lieu du crime, {LOCATION_AT[case.crime_location]}. "
+            f"Près du corps, tu trouves {CLUE_VAGUE[case.clue]}. Difficile de "
+            f"dire d'où ça vient : montre-le aux villageois en les interrogeant, "
+            f"quelqu'un du métier saura le reconnaître.")
+
+
 def play(seed: int) -> int:
     case = generate(seed)
     living = case.living
@@ -125,9 +142,9 @@ def play(seed: int) -> int:
     clue_line = f"Près du corps, {crime_place} : {CLUE_VAGUE[case.clue]}."
 
     print(f"\n=== Enquête n° {seed} ===\n")
-    print(f"Ce matin, on a retrouvé le corps de {case.victim} "
-          f"{LOCATION_AT[case.crime_location]}. Le crime a eu lieu dans la nuit.")
-    print("Les villageois ont tous une version de la soirée. À toi de trouver qui ment.\n")
+    for line in scene_text(case):
+        print(line)
+    print()
     print(HELP)
 
     while True:
@@ -173,10 +190,7 @@ def play(seed: int) -> int:
 
         if cmd in ("e", "examiner", "fouiller"):
             clue_found = True
-            print(f"Tu fouilles le lieu du crime, {crime_place}. Près du corps, "
-                  f"tu trouves {CLUE_VAGUE[case.clue]}. Difficile de dire d'où "
-                  f"ça vient : montre-le aux villageois en les interrogeant, "
-                  f"quelqu'un du métier saura le reconnaître.")
+            print(examine_text(case))
             continue
 
         if cmd in ("aide", "?", "h"):

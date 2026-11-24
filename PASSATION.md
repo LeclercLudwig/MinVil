@@ -34,6 +34,7 @@ Stratégie : construire **une seule boucle complète** avant d'élargir. Le prot
 - `check()` vérifie : un seul coupable (motif + occasion), positions cohérentes, déclarations des innocents justes, mensonge du coupable contredit par au moins un témoin, coupable qui cite exactement un villageois vraiment présent au lieu de son mensonge, alibi de la fausse piste confirmé par au moins un villageois, motifs tous révélés par des rumeurs, au moins deux suspects, indice lié au coupable mais partagé par un autre villageois et pas par la fausse piste, et les deux pistes désignent le bon coupable.
 - Huit tests passent (sept sur 500 seeds chacun, un sur les données des indices).
 - `enquete.py` : version jouable dans le terminal (examiner, interroger, carnet, accuser). 4 000 parties automatiques jouées sans erreur.
+- `export.py` : export d'une enquête en JSON pour le mod (format décrit dans `prototype/FORMAT_JSON.md`, exemples dans `prototype/exemples/`). La partie `public` (ce que le joueur peut apprendre) est séparée de `solution` ; `python3 -I export.py --test` vérifie que la partie publique suffit à trouver le coupable et ne dévoile rien.
 - `web/` : page web de test, avec le même jeu (`index.html`). Le générateur y est porté en JavaScript (`mystery.js`), avec le même générateur aléatoire que Python : une même seed donne le même crime. `web/verifier.js` compare les deux versions (20 006 seeds identiques). **Toute modification de `generate()` ou des phrases dans les fichiers Python doit être reportée dans `mystery.js`**, puis vérifiée avec `node prototype/web/verifier.js`.
 
 ## Garanties du générateur
@@ -56,9 +57,10 @@ Note : chaque réécriture change l'ordre des tirages aléatoires, donc une seed
 2. ~~Ajouter un PNJ de fausse piste avec motif mais alibi vrai.~~ Fait.
 3. ~~Version jouable dans le terminal.~~ Fait : y jouer plusieurs parties pour juger si l'enquête est intéressante.
 4. ~~Ajouter un indice physique relié au coupable.~~ Fait.
-5. Équilibrer la difficulté (voir « Points de vigilance »).
-6. Sérialiser le cas en JSON (PNJ, liens, événements) pour le porter ensuite dans le mod Java.
-7. Seulement après : brancher le conseil du village (vote) et la réputation.
+5. ~~Équilibrer la difficulté.~~ Fait (coupable crédible, indice ambigu, rumeurs fausses) ; à confirmer en jouant.
+6. ~~Sérialiser le cas en JSON.~~ Fait : `export.py`, format `minvil-enquete` version 1.
+7. **Prochaine étape : le mod Fabric 26.1**, qui lit ce JSON (commande pour lancer une enquête, villageois interrogeables, accusation).
+8. Seulement après : brancher le conseil du village (vote) et la réputation.
 
 ## Commandes
 ```
@@ -67,6 +69,8 @@ python3 -I mystery.py            # lance les tests
 python3 -I mystery.py --seed 0   # affiche toute la vérité de la seed 0
 python3 -I enquete.py            # joue une enquête tirée au hasard
 python3 -I enquete.py 42         # rejoue l'enquête de la seed 42
+python3 -I export.py 42          # exporte l'enquête de la seed 42 en JSON
+python3 -I export.py --test      # vérifie le format JSON
 node web/verifier.js             # vérifie que la page web donne les mêmes crimes
 ```
 La page web s'ouvre directement dans un navigateur : `prototype/web/index.html` (`#enquete-42` à la fin de l'adresse pour une seed précise).

@@ -1,0 +1,225 @@
+{
+  "format": "minvil-enquete",
+  "version": 1,
+  "seed": 1,
+  "public": {
+    "victim": "jehanne",
+    "crime_location": "bergerie",
+    "clue": {
+      "description": "un morceau de cuir",
+      "could_be": [
+        "boucher",
+        "tanneur"
+      ]
+    },
+    "villagers": [
+      {
+        "id": "berthe",
+        "name": "Berthe",
+        "trade": "tanneur",
+        "minecraft_profession": "minecraft:leatherworker",
+        "alive": true,
+        "statement": {
+          "location": "eglise",
+          "seen": [
+            "enguerrand"
+          ],
+          "rumors": [],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "enguerrand",
+        "name": "Enguerrand",
+        "trade": "macon",
+        "minecraft_profession": "minecraft:mason",
+        "alive": true,
+        "statement": {
+          "location": "eglise",
+          "seen": [
+            "gauvain"
+          ],
+          "rumors": [
+            {
+              "about": "lothaire",
+              "motive": "dette"
+            }
+          ],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "gauvain",
+        "name": "Gauvain",
+        "trade": "fermier",
+        "minecraft_profession": "minecraft:farmer",
+        "alive": true,
+        "statement": {
+          "location": "eglise",
+          "seen": [
+            "enguerrand"
+          ],
+          "rumors": [
+            {
+              "about": "berthe",
+              "motive": "jalousie"
+            }
+          ],
+          "recognizes_clue": null
+        }
+      },
+      {
+        "id": "hersende",
+        "name": "Hersende",
+        "trade": "tanneur",
+        "minecraft_profession": "minecraft:leatherworker",
+        "alive": true,
+        "statement": {
+          "location": "champs",
+          "seen": [
+            "lothaire"
+          ],
+          "rumors": [],
+          "recognizes_clue": "tanneur"
+        }
+      },
+      {
+        "id": "jehanne",
+        "name": "Jehanne",
+        "trade": "bibliothecaire",
+        "minecraft_profession": "minecraft:librarian",
+        "alive": false
+      },
+      {
+        "id": "lothaire",
+        "name": "Lothaire",
+        "trade": "boucher",
+        "minecraft_profession": "minecraft:butcher",
+        "alive": true,
+        "statement": {
+          "location": "champs",
+          "seen": [
+            "hersende"
+          ],
+          "rumors": [],
+          "recognizes_clue": null
+        }
+      }
+    ]
+  },
+  "solution": {
+    "culprit": "berthe",
+    "red_herring": "lothaire",
+    "motives": {
+      "berthe": "jalousie",
+      "lothaire": "dette"
+    },
+    "true_locations": {
+      "jehanne": "bergerie",
+      "berthe": "bergerie",
+      "enguerrand": "eglise",
+      "lothaire": "champs",
+      "hersende": "champs",
+      "gauvain": "eglise"
+    },
+    "witnesses": [
+      "enguerrand",
+      "gauvain"
+    ],
+    "clue": {
+      "trade": "tanneur",
+      "object": "une chute de cuir tanné"
+    },
+    "false_rumor": null,
+    "explanation": {
+      "fr": [
+        "Berthe prétendait être à l'église et y avoir vu Enguerrand, mais Enguerrand et Gauvain y étaient sans y voir Berthe. Mobile : Berthe jalousait Jehanne.",
+        "Lothaire avait aussi un motif, mais Hersende confirme sa présence aux champs.",
+        "L'objet trouvé près du corps, un morceau de cuir, était une chute de cuir tanné, comme Hersende l'a reconnu. Il désignait le métier de tanneur : Berthe et Hersende. Parmi eux, Berthe était la seule personne avec un motif."
+      ]
+    }
+  },
+  "texts": {
+    "fr": {
+      "scene": [
+        "Ce matin, on a retrouvé le corps de Jehanne à la bergerie. Le crime a eu lieu dans la nuit.",
+        "Les villageois ont tous une version de la soirée. À toi de trouver qui ment."
+      ],
+      "examine": "Tu fouilles le lieu du crime, à la bergerie. Près du corps, tu trouves un morceau de cuir. Difficile de dire d'où ça vient : montre-le aux villageois en les interrogeant, quelqu'un du métier saura le reconnaître.",
+      "statements": {
+        "berthe": {
+          "without_clue": [
+            "J'étais à l'église.",
+            "J'y ai vu Enguerrand."
+          ],
+          "with_clue": [
+            "J'étais à l'église.",
+            "J'y ai vu Enguerrand."
+          ]
+        },
+        "enguerrand": {
+          "without_clue": [
+            "J'étais à l'église.",
+            "J'y ai vu Gauvain.",
+            "Et puis on raconte que Lothaire devait de l'argent à Jehanne."
+          ],
+          "with_clue": [
+            "J'étais à l'église.",
+            "J'y ai vu Gauvain.",
+            "Et puis on raconte que Lothaire devait de l'argent à Jehanne."
+          ]
+        },
+        "gauvain": {
+          "without_clue": [
+            "J'étais à l'église.",
+            "J'y ai vu Enguerrand.",
+            "Et puis on raconte que Berthe jalousait Jehanne."
+          ],
+          "with_clue": [
+            "J'étais à l'église.",
+            "J'y ai vu Enguerrand.",
+            "Et puis on raconte que Berthe jalousait Jehanne."
+          ]
+        },
+        "hersende": {
+          "without_clue": [
+            "J'étais aux champs.",
+            "J'y ai vu Lothaire."
+          ],
+          "with_clue": [
+            "J'étais aux champs.",
+            "J'y ai vu Lothaire.",
+            "L'objet trouvé près du corps ? Je reconnais une chute de cuir tanné, on en trouve chez tous les tanneurs."
+          ]
+        },
+        "lothaire": {
+          "without_clue": [
+            "J'étais aux champs.",
+            "J'y ai vu Hersende."
+          ],
+          "with_clue": [
+            "J'étais aux champs.",
+            "J'y ai vu Hersende."
+          ]
+        }
+      },
+      "locations": {
+        "forge": "à la forge",
+        "moulin": "au moulin",
+        "puits": "au puits",
+        "eglise": "à l'église",
+        "marche": "au marché",
+        "taverne": "à la taverne",
+        "champs": "aux champs",
+        "bergerie": "à la bergerie"
+      },
+      "trades": {
+        "bibliothecaire": "bibliothécaire",
+        "boucher": "boucher",
+        "fermier": "fermier",
+        "macon": "maçon",
+        "tanneur": "tanneur"
+      }
+    }
+  }
+}

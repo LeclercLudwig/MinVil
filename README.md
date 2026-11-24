@@ -4,7 +4,8 @@ Projet de mod Minecraft (Fabric, Minecraft 26.1) autour d'une enquête villageoi
 
 Pour l'instant, le dépôt contient un prototype en Python, dans `prototype/` :
 - `mystery.py` : le générateur de crime et ses tests ;
-- `enquete.py` : une version jouable dans le terminal.
+- `enquete.py` : une version jouable dans le terminal ;
+- `web/index.html` : la même enquête dans une page web, à ouvrir dans un navigateur.
 
 ```
 cd prototype

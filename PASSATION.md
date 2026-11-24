@@ -32,6 +32,7 @@ Stratégie : construire **une seule boucle complète** avant d'élargir. Le prot
 - `check()` vérifie : un seul coupable (motif + occasion), positions cohérentes, déclarations des innocents justes, mensonge du coupable contredit par au moins un témoin, alibi de la fausse piste confirmé par au moins un villageois, motifs tous révélés par des rumeurs, au moins deux suspects, indice lié au coupable mais partagé par un autre villageois et pas par la fausse piste, et les deux pistes désignent le bon coupable.
 - Six tests passent, sur 500 seeds chacun.
 - `enquete.py` : version jouable dans le terminal (examiner, interroger, carnet, accuser). 4 000 parties automatiques jouées sans erreur.
+- `web/` : page web de test, avec le même jeu (`index.html`). Le générateur y est porté en JavaScript (`mystery.js`), avec le même générateur aléatoire que Python : une même seed donne le même crime. `web/verifier.js` compare les deux versions (20 006 seeds identiques). **Toute modification de `generate()` ou des phrases dans les fichiers Python doit être reportée dans `mystery.js`**, puis vérifiée avec `node prototype/web/verifier.js`.
 
 ## Garanties du générateur
 Les rôles sont placés d'office, plutôt que d'espérer que le hasard tombe bien (c'était le bug du premier prototype : 243 seeds sur 500 sans témoin) :
@@ -64,7 +65,9 @@ python3 -I mystery.py            # lance les tests
 python3 -I mystery.py --seed 0   # affiche toute la vérité de la seed 0
 python3 -I enquete.py            # joue une enquête tirée au hasard
 python3 -I enquete.py 42         # rejoue l'enquête de la seed 42
+node web/verifier.js             # vérifie que la page web donne les mêmes crimes
 ```
+La page web s'ouvre directement dans un navigateur : `prototype/web/index.html` (`#enquete-42` à la fin de l'adresse pour une seed précise).
 
 ## Choix techniques (mod)
 - **Chargeur de mods : Fabric.** Plus léger que NeoForge et suffisant pour un prototype ; on pourra viser NeoForge plus tard si le besoin apparaît.

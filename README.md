@@ -6,7 +6,7 @@ Mod Minecraft (Fabric, Minecraft 26.3, Java 25). Tu vis sur le dos d'une créatu
 
 D'autres mods posent une base sur le dos d'un géant qui marche dans le monde normal (Colossi, Living Decks) : le géant y est une monture ou une base mobile. Ici, **le Titan est le monde** : on naît sur son dos, son corps est le terrain, et il vit (marche, sommeil, puis plus tard maladies, organes à explorer, climat qui change selon où il marche). Le monde normal n'est que le sol, loin en dessous.
 
-## État actuel : jalons 1 à 3, « le dos », « le voyage », « descendre et remonter »
+## État actuel : jalons 1 à 4, « le dos », « le voyage », « descendre et remonter », « le corps vivant »
 
 - **Le dos du Titan** est une dimension (`letitan:dos`) : un corps de 560 blocs de long, de la tête à la queue, suspendu au-dessus des nuages. Dos couvert de terre et de forêt, crête de plaques d'os le long de l'échine, peau épaisse (boue tassée) autour de la chair, tête avec cornes et yeux lumineux, quatre pattes qui descendent dans la brume.
 - **Les nouveaux joueurs se réveillent sur le dos du Titan**, et y renaissent s'ils n'ont pas de lit.
@@ -18,14 +18,18 @@ D'autres mods posent une base sur le dos d'un géant qui marche dans le monde no
 - **Tomber du Titan** fait passer dans le monde normal, juste en dessous, sans écran de chargement : la chute continue, ralentie, jusqu'au sol.
 - **Descendre et remonter** : on saute de son flanc pour descendre (chute ralentie jusqu'au sol). Pour remonter, il suffit de toucher une de ses pattes : elle te hisse toute seule jusqu'à son dos, sans écran de chargement. Accroupi, on redescend le long de la patte (et l'on peut s'en éloigner).
 - **Ne pas se faire distancer** : quand il s'arrête (2 minutes pour boire ou brouter, ou toute la nuit), on peut descendre récolter. Il prévient 30 secondes avant de repartir, et au sol une boussole indique où il est et ce qu'il fait.
-- Commandes (opérateurs) : `/titan` remonte sur le dos, `/titan sol` descend au sol.
+- **On entre dans le Titan** par l'évent, un trou bordé d'os sur son dos près du cou, qui souffle de la vapeur. On y descend en s'agrippant aux parois ; quand il expire, son souffle te projette dehors.
+- **Ses entrailles** : un grand conduit rouge court le long du corps. Il mène au **cœur**, un énorme muscle qui bat (on l'entend de loin, la vue tremble à côté), aux deux **poumons** roses, et à l'**estomac**, au fond duquel l'acide vert empoisonne. Quand le Titan broute, ses repas arrivent dans l'estomac : boules de feuillage et tonneaux de restes, parfois avec les affaires d'un voyageur malchanceux. Du cœur part la **grande veine**, une rivière de sang dont le courant t'emporte jusqu'à un puits qui ressort près de la queue.
+- **Il tombe malade** : de temps en temps (et quand il boit une eau croupie), un kyste d'infection se loge dans un organe. Le sculk s'étend autour et des parasites en sortent. Malade, il ralentit ; trop faible, il ne marche plus. Crever le kyste le soigne. La boussole indique sa santé et où il est infecté.
+- Les mondes créés avant ont droit aux mêmes entrailles : elles sont creusées au premier lancement (une vingtaine de secondes).
+- Commandes (opérateurs) : `/titan` remonte sur le dos, `/titan sol` descend au sol, `/titan infection` et `/titan repas` pour essayer.
 
 ## Prochains jalons
 
 1. ~~Le dos du Titan : forme, marche, sommeil, chute.~~
 2. ~~Le voyage : le vrai sol défile en dessous, le Titan se voit depuis le sol, le dos change de biome.~~
 3. ~~Descendre et remonter : sauter de son flanc, toucher une patte pour être hissé, avant qu'il reparte.~~
-4. **Le corps vivant** : organes à explorer à l'intérieur, rivières qui sont ses veines, maladies et parasites à soigner.
+4. ~~Le corps vivant : organes à explorer, veine de sang, maladies et parasites à soigner.~~
 5. **Le lien** : le Titan réagit à ce qu'on fait sur son dos (déforestation, soins), et l'on peut influencer sa route.
 
 ## Développement
@@ -45,6 +49,8 @@ Créer un nouveau monde : on apparaît directement sur le Titan.
 - `src/main/java/fr/letitan/LeTitan.java` : arrivée, pas, chute, commandes.
 - `src/main/java/fr/letitan/voyage/` : la route du Titan (`Navigation`), le lien entre son dos et le monde d'en bas (`Repere`), l'état sauvegardé et envoyé aux joueurs.
 - `src/main/java/fr/letitan/sol/CarteSol.java` : la carte du sol autour du Titan, calculée en tâche de fond et envoyée aux joueurs sur son dos.
+- `src/main/java/fr/letitan/monde/Interieur.java` : la forme de l'intérieur (organes, conduits, veine), testée seule.
+- `src/main/java/fr/letitan/vie/Entrailles.java`, `Coeur.java`, `Maladies.java` : la vie de l'intérieur (souffle, acide, repas, cœur, infections).
 - `src/main/java/fr/letitan/vie/Accroche.java` : où l'on touche une patte du Titan (qui te hisse) ; `Lianes.java` : les lianes de son flanc.
 - `src/client/java/fr/letitan/client/RenduSol.java` et `RenduTitan.java` : le sol vu du dos, et le Titan vu du sol.
 - `src/client/java/fr/letitan/client/mixin/` : la caméra qui bouge avec le Titan et voit loin, les nuages qui défilent, le passage d'un monde à l'autre sans écran de chargement.

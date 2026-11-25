@@ -12,7 +12,7 @@ import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
  * pour faire défiler le sol et les nuages sans à-coups, et pour le dessiner vu du sol.
  */
 public record EtatTitanPayload(boolean marche, long temps, double odometre, double x, double z,
-		double cap, double capVise, double altitude) implements CustomPacketPayload {
+		double cap, double capVise, double altitude, double allure) implements CustomPacketPayload {
 	public static final Type<EtatTitanPayload> TYPE = new Type<>(LeTitan.id("etat"));
 	public static final StreamCodec<ByteBuf, EtatTitanPayload> CODEC = StreamCodec.composite(
 			ByteBufCodecs.BOOL, EtatTitanPayload::marche,
@@ -23,10 +23,11 @@ public record EtatTitanPayload(boolean marche, long temps, double odometre, doub
 			ByteBufCodecs.DOUBLE, EtatTitanPayload::cap,
 			ByteBufCodecs.DOUBLE, EtatTitanPayload::capVise,
 			ByteBufCodecs.DOUBLE, EtatTitanPayload::altitude,
+			ByteBufCodecs.DOUBLE, EtatTitanPayload::allure,
 			EtatTitanPayload::new);
 
 	public static EtatTitanPayload de(EtatVoyage etat, boolean marche, long temps) {
-		return new EtatTitanPayload(marche, temps, etat.odometre, etat.x, etat.z, etat.cap, etat.capVise, etat.altitude);
+		return new EtatTitanPayload(marche, temps, etat.odometre, etat.x, etat.z, etat.cap, etat.capVise, etat.altitude, etat.allure);
 	}
 
 	@Override

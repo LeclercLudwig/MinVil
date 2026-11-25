@@ -1,6 +1,7 @@
 package fr.letitan.vie;
 
 import fr.letitan.LeTitan;
+import fr.letitan.monde.Interieur;
 import fr.letitan.vie.AnimationTitan.Patte;
 import fr.letitan.vie.ModeleTitan.Piece;
 import fr.letitan.vie.Squelette.Pose;
@@ -61,7 +62,16 @@ public final class Accroche {
 		if (niveau.dimension() != LeTitan.DOS && niveau.dimension() != Level.OVERWORLD) {
 			return false;
 		}
+		if (niveau.dimension() == LeTitan.DOS && dansUnPuits(entite)) {
+			return true;
+		}
 		return aUnePatte(entite) != null;
+	}
+
+	/** Dans l'évent ou le puits de sortie : on s'agrippe aux parois d'os, comme à une échelle. */
+	public static boolean dansUnPuits(LivingEntity entite) {
+		Interieur.Organe o = Interieur.organe(entite.getX(), entite.getY() + 0.5, entite.getZ());
+		return o == Interieur.Organe.EVENT || o == Interieur.Organe.SORTIE;
 	}
 
 	/** La patte à laquelle le joueur est agrippé, ou null. */

@@ -16,8 +16,19 @@ import java.util.List;
  */
 public final class FormeTitan {
 
-	/** Ce dont un bloc est fait. Le générateur traduit chaque matière en bloc Minecraft. */
-	public enum Matiere { VIDE, HERBE, TERRE, PEAU, CHAIR, OS }
+	/**
+	 * Ce dont un bloc est fait. Le générateur traduit chaque matière en bloc Minecraft.
+	 * VIDE est l'air autour du Titan ; CAVITE, l'air de ses entrailles (voir {@link Interieur}).
+	 */
+	public enum Matiere {
+		VIDE, HERBE, TERRE, PEAU, CHAIR, OS,
+		CAVITE, SANG, ACIDE, LUMIERE, LUMIERE_ROSE, LUMIERE_VERTE, POUMON, POUMON_CLAIR, ESTOMAC, GLU, VRILLE;
+
+		/** Un bloc sur lequel on marche (ni air, ni liquide, ni plante). */
+		public boolean plein() {
+			return this != VIDE && this != CAVITE && this != SANG && this != ACIDE && this != VRILLE;
+		}
+	}
 
 	/** Hauteur de l'axe du corps. */
 	public static final int Y_CENTRE = 70;
@@ -200,7 +211,8 @@ public final class FormeTitan {
 	public static Matiere matiere(int x, int y, int z) {
 		Matiere m = corps(x, y, z);
 		if (m != Matiere.VIDE) {
-			return m;
+			Matiere dedans = Interieur.matiere(x, y, z, m);
+			return dedans != null ? dedans : m;
 		}
 		return crete(x, y, z);
 	}
@@ -208,7 +220,7 @@ public final class FormeTitan {
 	/** Plus haut bloc plein de la colonne, ou Y_MIN - 1 si la colonne est vide. */
 	public static int plusHautBloc(int x, int z, int yMax) {
 		for (int y = yMax; y >= Y_MIN; y--) {
-			if (matiere(x, y, z) != Matiere.VIDE) {
+			if (matiere(x, y, z).plein()) {
 				return y;
 			}
 		}

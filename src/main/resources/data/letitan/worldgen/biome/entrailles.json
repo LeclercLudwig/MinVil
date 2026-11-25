@@ -1,0 +1,54 @@
+{
+  "attributes": {
+    "minecraft:audio/ambient_sounds": {
+      "additions": {
+        "sound": "minecraft:ambient.crimson_forest.additions",
+        "tick_chance": 0.008
+      },
+      "loop": "minecraft:ambient.crimson_forest.loop",
+      "mood": {
+        "block_search_extent": 8,
+        "offset": 2.0,
+        "sound": "minecraft:ambient.crimson_forest.mood",
+        "tick_delay": 6000
+      }
+    },
+    "minecraft:gameplay/natural_mob_spawns": {
+      "argument": {
+        "spawn_costs": {},
+        "spawns_by_category": {
+          "ambient": [],
+          "axolotls": [],
+          "creature": [],
+          "misc": [],
+          "monster": [],
+          "underground_water_creature": [],
+          "water_ambient": [],
+          "water_creature": []
+        }
+      },
+      "modifier": "overlay"
+    },
+    "minecraft:visual/ambient_particles": {
+      "argument": [
+        {
+          "particle": {
+            "type": "minecraft:crimson_spore"
+          },
+          "probability": 0.012
+        }
+      ],
+      "modifier": "append"
+    },
+    "minecraft:visual/fog_color": "#3a0606",
+    "minecraft:visual/water_fog_color": "#4a0505"
+  },
+  "carvers": [],
+  "downfall": 0.0,
+  "effects": {
+    "water_color": "#8c0b0b"
+  },
+  "features": [],
+  "has_precipitation": false,
+  "temperature": 1.0
+}

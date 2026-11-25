@@ -16,6 +16,7 @@ import net.minecraft.world.level.StructureManager;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.BiomeManager;
 import net.minecraft.world.level.biome.BiomeSource;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkAccess;
@@ -59,7 +60,7 @@ public final class GenerateurTitan extends ChunkGenerator {
 		return CODEC;
 	}
 
-	static BlockState bloc(Matiere matiere) {
+	public static BlockState bloc(Matiere matiere) {
 		return switch (matiere) {
 			case VIDE -> Blocks.AIR.defaultBlockState();
 			case HERBE -> Blocks.GRASS_BLOCK.defaultBlockState();
@@ -67,6 +68,17 @@ public final class GenerateurTitan extends ChunkGenerator {
 			case PEAU -> Blocks.PACKED_MUD.defaultBlockState();
 			case CHAIR -> Blocks.NETHER_WART_BLOCK.defaultBlockState();
 			case OS -> Blocks.BONE_BLOCK.defaultBlockState();
+			case CAVITE -> Blocks.CAVE_AIR.defaultBlockState();
+			// Sang et acide : de l'eau, teintée par le biome des entrailles (rouge) ou de l'estomac (vert).
+			case SANG, ACIDE -> Blocks.WATER.defaultBlockState();
+			case LUMIERE -> Blocks.SHROOMLIGHT.defaultBlockState();
+			case LUMIERE_ROSE -> Blocks.PEARLESCENT_FROGLIGHT.defaultBlockState();
+			case LUMIERE_VERTE -> Blocks.VERDANT_FROGLIGHT.defaultBlockState();
+			case POUMON -> Blocks.DYED_TERRACOTTA.pick(DyeColor.PINK).defaultBlockState();
+			case POUMON_CLAIR -> Blocks.WOOL.pick(DyeColor.PINK).defaultBlockState();
+			case ESTOMAC -> Blocks.MUD.defaultBlockState();
+			case GLU -> Blocks.SLIME_BLOCK.defaultBlockState();
+			case VRILLE -> Blocks.WEEPING_VINES.defaultBlockState();
 		};
 	}
 

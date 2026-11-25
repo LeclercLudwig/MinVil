@@ -42,6 +42,8 @@ public final class EtatVoyage extends SavedData {
 	public String biomeDos = "minecraft:forest";
 	/** Faux tant que la position de départ n'a pas été choisie (au point d'apparition du monde). */
 	public boolean demarre;
+	/** Allure de marche, de 1 (en pleine santé) à 0 (trop faible pour marcher) : recalculée à chaque tick. */
+	public transient double allure = 1;
 	/** Hauteur du sol sous les pieds du Titan, dans le monde d'en bas (lissée). */
 	public double altitude = 64;
 

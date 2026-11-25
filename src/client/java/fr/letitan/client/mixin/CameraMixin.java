@@ -3,6 +3,7 @@ package fr.letitan.client.mixin;
 import fr.letitan.LeTitan;
 import fr.letitan.Rythme;
 import fr.letitan.client.EtatClient;
+import fr.letitan.monde.Interieur;
 import fr.letitan.voyage.Repere;
 import net.minecraft.client.Camera;
 import net.minecraft.client.DeltaTracker;
@@ -63,6 +64,7 @@ public abstract class CameraMixin {
 		if (niveau.dimension() != LeTitan.DOS) {
 			return;
 		}
+		letitan$pres_du_coeur(niveau, temps);
 		if (Rythme.eveille(niveau)) {
 			if (!EtatClient.marche()) {
 				return;
@@ -77,6 +79,23 @@ public abstract class CameraMixin {
 		} else {
 			move(0, (float) (Rythme.respiration(temps) * 0.06), 0);
 		}
+	}
+
+	/** Près du cœur, chaque battement fait trembler la vue. */
+	@Unique
+	private void letitan$pres_du_coeur(ClientLevel niveau, double temps) {
+		var joueur = Minecraft.getInstance().player;
+		if (joueur == null) {
+			return;
+		}
+		double[] c = Interieur.COEUR;
+		double distance = Math.sqrt(joueur.distanceToSqr(c[0], c[1], c[2]));
+		if (distance > 30) {
+			return;
+		}
+		double force = Rythme.battement(temps, Rythme.eveille(niveau)) * (1 - distance / 30);
+		setRotation(yRot, xRot + (float) (force * 1.2 * Math.cos(temps * 2.7)));
+		move(0, (float) (force * 0.06), 0);
 	}
 
 	/** Dans le monde d'en bas, près du Titan qui marche, le sol tremble à chacun de ses pas. */

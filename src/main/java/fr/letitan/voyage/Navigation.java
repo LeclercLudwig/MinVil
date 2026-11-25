@@ -12,7 +12,7 @@ package fr.letitan.voyage;
 public final class Navigation {
 
 	/** Ce que le Titan voit du terrain sous lui. */
-	public enum Genre { OCEAN, RIVIERE, PLAGE, FORET, AUTRE }
+	public enum Genre { OCEAN, RIVIERE, PLAGE, FORET, AUTRE, MORT }
 
 	/** Le terrain d'en bas, vu de haut. */
 	@FunctionalInterface
@@ -113,6 +113,13 @@ public final class Navigation {
 			}
 			if (proche == Genre.OCEAN) {
 				score -= 20;
+			}
+			// Les terres mortes : il les sent, et les contourne s'il le peut.
+			if (devant == Genre.MORT) {
+				score -= 4;
+			}
+			if (proche == Genre.MORT) {
+				score -= 8;
 			}
 			if (score > meilleurScore) {
 				meilleurScore = score;

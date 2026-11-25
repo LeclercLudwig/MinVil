@@ -2,6 +2,10 @@ package fr.letitan;
 
 import fr.letitan.monde.FormeTitan;
 import fr.letitan.monde.GenerateurTitan;
+import fr.letitan.silence.Muets;
+import fr.letitan.silence.Ombre;
+import fr.letitan.silence.Recit;
+import fr.letitan.silence.Silence;
 import fr.letitan.sol.CarteSol;
 import fr.letitan.sol.SolPayload;
 import fr.letitan.vie.Accroche;
@@ -19,6 +23,9 @@ import net.fabricmc.fabric.api.entity.event.v1.ServerEntityLevelChangeEvents;
 import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerChunkEvents;
 import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
+import net.fabricmc.fabric.api.event.player.UseBlockCallback;
+import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerEntityEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
@@ -110,7 +117,11 @@ public final class LeTitan implements ModInitializer {
 			}
 		};
 		ServerLifecycleEvents.SERVER_STARTED.register(serveur -> VoyageServeur.reinitialiser());
-		ServerLifecycleEvents.SERVER_STOPPED.register(serveur -> CarteSol.arreter());
+		ServerLifecycleEvents.SERVER_STOPPED.register(serveur -> {
+			CarteSol.arreter();
+			Silence.oublier();
+		});
+		registerSilence();
 		ServerPlayerEvents.JOIN.register(joueur -> {
 			VoyageServeur.accueillir(joueur);
 			if (joueur.entityTags().contains(ARRIVE)) {
@@ -118,7 +129,7 @@ public final class LeTitan implements ModInitializer {
 			}
 			joueur.addTag(ARRIVE);
 			monterSurLeTitan(joueur);
-			joueur.sendSystemMessage(Component.literal("Tu te réveilles sur le dos du Titan.")
+			joueur.sendSystemMessage(Component.literal("Tu te réveilles sur le dos du Titan. Non loin, une cabane en ruine : quelqu'un vivait ici avant toi.")
 					.withStyle(ChatFormatting.GOLD));
 		});
 		ServerPlayerEvents.AFTER_RESPAWN.register((ancien, joueur, finDuJeu) -> {
@@ -126,6 +137,7 @@ public final class LeTitan implements ModInitializer {
 			if (joueur.getRespawnConfig() == null) {
 				monterSurLeTitan(joueur);
 			}
+			Ombre.effacer(joueur);
 			VoyageServeur.accueillir(joueur);
 		});
 		ServerEntityLevelChangeEvents.AFTER_PLAYER_CHANGE_LEVEL.register((joueur, depart, arrivee) ->
@@ -141,6 +153,10 @@ public final class LeTitan implements ModInitializer {
 				tickTitan(niveau);
 				CorpsVivant.tick(niveau);
 				Entrailles.tick(niveau);
+				Ombre.tickDos(niveau);
+				Recit.tickDos(niveau);
+			} else if (niveau.dimension() == Level.OVERWORLD) {
+				Silence.tickSol(niveau);
 			}
 		});
 		CommandRegistrationCallback.EVENT.register((dispatcher, contexte, selection) ->
@@ -170,6 +186,34 @@ public final class LeTitan implements ModInitializer {
 			}
 		});
 		LOGGER.info("Le Titan s'éveille.");
+	}
+
+	/** Le Silence : terres mortes, Muets qui chassent au bruit, Pierres-Échos. */
+	private static void registerSilence() {
+		ServerChunkEvents.CHUNK_GENERATE.register((niveau, chunk) -> {
+			if (niveau.dimension() == Level.OVERWORLD) {
+				Silence.nouveauMorceau(chunk);
+			}
+		});
+		ServerEntityEvents.ENTITY_LOAD.register((entite, niveau) -> {
+			if (niveau.dimension() == Level.OVERWORLD) {
+				Muets.charge(entite);
+			}
+		});
+		UseBlockCallback.EVENT.register((joueur, niveau, main, cible) -> Recit.toucher(joueur, niveau, cible));
+		ServerLivingEntityEvents.AFTER_DAMAGE.register((victime, source, brut, inflige, bloque) -> {
+			if (victime instanceof ServerPlayer joueur && Muets.estUnMuet(source.getEntity())) {
+				Muets.touche(joueur);
+			}
+			if (source.getEntity() instanceof ServerPlayer joueur) {
+				Muets.bruit(joueur);
+			}
+		});
+		PlayerBlockBreakEvents.AFTER.register((niveau, joueur, pos, etat, entite) -> {
+			if (joueur instanceof ServerPlayer j && niveau.dimension() == Level.OVERWORLD) {
+				Muets.bruit(j);
+			}
+		});
 	}
 
 	// --- Le Titan vit --------------------------------------------------------

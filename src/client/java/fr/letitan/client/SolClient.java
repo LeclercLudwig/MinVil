@@ -49,7 +49,7 @@ final class SolClient {
 			int x = message.cx()[i] * message.pas(), z = message.cz()[i] * message.pas();
 			Holder<Biome> biome = biomes[message.biome()[i]];
 			String nom = message.biomes().get(message.biome()[i]);
-			int couleur = couleur(biome, nom, message.eau()[i], message.hauteur()[i], x, z);
+			int couleur = message.mort()[i] ? terreMorte(x, z) : couleur(biome, nom, message.eau()[i], message.hauteur()[i], x, z);
 			carte.put(CarteSol.cle(message.cx()[i], message.cz()[i]),
 					((long) message.hauteur()[i] << 32) | (couleur & 0xFFFFFFFFL));
 		}
@@ -92,6 +92,12 @@ final class SolClient {
 	}
 
 	// --- Couleurs vues de haut -----------------------------------------------
+
+	/** Une terre morte : le sculk, presque noir, avec des reflets bleu-vert. */
+	private static int terreMorte(int x, int z) {
+		double h = fr.letitan.monde.Interieur.hasard(x, 0, z);
+		return h < 0.15 ? 0x0E4A52 : h < 0.5 ? 0x0B1F26 : 0x081419;
+	}
 
 	private static final int SABLE = 0xD9CC94, ARGILE = 0xB86A3C, NEIGE = 0xE9EEF2, ROCHE = 0x8A8A8A, MYCELIUM = 0x8B7D86;
 

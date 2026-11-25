@@ -2,6 +2,8 @@ package fr.letitan.voyage;
 
 import fr.letitan.LeTitan;
 import fr.letitan.Rythme;
+import fr.letitan.silence.Silence;
+import fr.letitan.silence.ZonesMortes;
 import fr.letitan.sol.CarteSol;
 import fr.letitan.vie.AnimationTitan.Patte;
 import fr.letitan.vie.Entrailles;
@@ -89,7 +91,9 @@ public final class VoyageServeur {
 		}
 		// Malade, il ralentit ; trop faible, il ne marche plus.
 		etat.allure = Maladies.etat(serveur).allure();
-		Navigation.Terrain terrain = (x, z) -> genre(sol.getBiome(BlockPos.containing(x, Y_SURFACE, z)));
+		ZonesMortes mortes = Silence.zones(serveur);
+		Navigation.Terrain terrain = (x, z) -> mortes.morte(x, z) ? Genre.MORT
+				: genre(sol.getBiome(BlockPos.containing(x, Y_SURFACE, z)));
 		boolean change = Navigation.tick(etat, terrain, temps, Rythme.eveille(dos));
 		etat.setDirty();
 		if (change) {
@@ -108,6 +112,12 @@ public final class VoyageServeur {
 		}
 		eveilleAvant = eveille;
 		suivreLeRelief(sol, etat, temps);
+		// Dans une terre morte, le Silence s'accroche à ses pattes.
+		if (temps % 400 == 0 && enMarche(dos) && mortes.morte(etat.x, etat.z) && dos.getRandom().nextInt(6) == 0) {
+			prevenir(dos, Component.literal("Le Titan traverse une terre morte : le Silence s'accroche à lui.")
+					.withStyle(ChatFormatting.DARK_AQUA));
+			Maladies.infecterAuHasard(dos);
+		}
 		CarteSol.de(serveur).tick(dos, etat.repere(), temps);
 		boolean marche = enMarche(dos);
 		if (marcheEnvoyee == null || marche != marcheEnvoyee || temps % 20 == 0) {
@@ -217,6 +227,9 @@ public final class VoyageServeur {
 	}
 
 	private static Component nomAffiche(String biome) {
+		if (biome.equals("letitan:terre_morte")) {
+			return Component.literal("une terre morte");
+		}
 		Identifier id = Identifier.parse(biome);
 		return Component.translatable("biome." + id.getNamespace() + "." + id.getPath());
 	}
@@ -363,7 +376,8 @@ public final class VoyageServeur {
 	}
 
 	private static Component boussole(ServerLevel dos, ServerLevel sol, EtatVoyage etat) {
-		String sous = nom(sol.getBiome(BlockPos.containing(etat.x, Y_SURFACE, etat.z)));
+		String sous = Silence.zones(dos.getServer()).morte(etat.x, etat.z) ? "letitan:terre_morte"
+				: nom(sol.getBiome(BlockPos.containing(etat.x, Y_SURFACE, etat.z)));
 		String activite;
 		if (!Rythme.eveille(dos)) {
 			activite = "Le Titan dort";

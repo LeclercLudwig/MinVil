@@ -2,6 +2,6 @@
 	"required": true,
 	"package": "fr.letitan.client.mixin",
 	"compatibilityLevel": "JAVA_25",
-	"client": ["CameraMixin", "ClientPacketListenerMixin", "CloudRendererMixin", "SkyRendererMixin"],
+	"client": ["CameraMixin", "ClientLevelMixin", "ClientPacketListenerMixin", "CloudRendererMixin", "SkyRendererMixin"],
 	"injectors": { "defaultRequire": 1 }
 }

@@ -4,6 +4,8 @@ import fr.letitan.LeTitan;
 import fr.letitan.Rythme;
 import fr.letitan.sol.CarteSol;
 import fr.letitan.vie.AnimationTitan.Patte;
+import fr.letitan.vie.Entrailles;
+import fr.letitan.vie.Maladies;
 import fr.letitan.vie.Squelette;
 import org.joml.Vector3f;
 import fr.letitan.monde.FormeTitan;
@@ -26,6 +28,8 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.BiomeTags;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.biome.BiomeResolver;
+import fr.letitan.monde.Interieur;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.chunk.LevelChunk;
 
@@ -67,7 +71,8 @@ public final class VoyageServeur {
 
 	/** Le Titan avance-t-il en ce moment (éveillé et pas arrêté) ? */
 	public static boolean enMarche(ServerLevel dos) {
-		return Rythme.eveille(dos) && etat(dos.getServer()).enMarche();
+		EtatVoyage etat = etat(dos.getServer());
+		return Rythme.eveille(dos) && etat.enMarche() && etat.allure > 0;
 	}
 
 	public static void tick(ServerLevel dos) {
@@ -82,6 +87,8 @@ public final class VoyageServeur {
 			etat.z = depart.getZ();
 			etat.demarre = true;
 		}
+		// Malade, il ralentit ; trop faible, il ne marche plus.
+		etat.allure = Maladies.etat(serveur).allure();
 		Navigation.Terrain terrain = (x, z) -> genre(sol.getBiome(BlockPos.containing(x, Y_SURFACE, z)));
 		boolean change = Navigation.tick(etat, terrain, temps, Rythme.eveille(dos));
 		etat.setDirty();
@@ -234,7 +241,7 @@ public final class VoyageServeur {
 		for (int cx = CX_MIN; cx <= CX_MAX; cx++) {
 			for (int cz = CZ_MIN; cz <= CZ_MAX; cz++) {
 				LevelChunk chunk = dos.getChunkSource().getChunkNow(cx, cz);
-				if (chunk != null && remplir(chunk, sous)) {
+				if (chunk != null && remplir(dos, chunk, sous)) {
 					changes.add(chunk);
 				}
 			}
@@ -247,30 +254,62 @@ public final class VoyageServeur {
 
 	/** Un chunk du dos qui vient de charger prend le biome actuel du Titan. */
 	public static void chunkCharge(ServerLevel dos, LevelChunk chunk) {
-		biomeDos(dos).ifPresent(biome -> remplir(chunk, biome));
+		biomeDos(dos).ifPresent(biome -> remplir(dos, chunk, biome));
 	}
 
 	private static Optional<? extends Holder<Biome>> biomeDos(ServerLevel dos) {
-		String nom = etat(dos.getServer()).biomeDos;
-		return dos.registryAccess().lookupOrThrow(Registries.BIOME)
-				.get(ResourceKey.create(Registries.BIOME, Identifier.parse(nom)));
+		return biome(dos, etat(dos.getServer()).biomeDos);
 	}
 
-	/** Donne ce biome à tout le chunk. Renvoie faux s'il l'avait déjà. */
-	private static boolean remplir(ChunkAccess chunk, Holder<Biome> biome) {
-		int qx = QuartPos.fromBlock(chunk.getPos().getMinBlockX());
-		int qz = QuartPos.fromBlock(chunk.getPos().getMinBlockZ());
-		if (chunk.getNoiseBiome(qx, QuartPos.fromBlock(Y_SURFACE), qz).is(biome)) {
+	/**
+	 * Donne ce biome au chunk, sauf à l'intérieur du Titan : ses entrailles et son estomac
+	 * gardent leur propre ambiance. Renvoie faux si le chunk avait déjà ces biomes.
+	 */
+	private static boolean remplir(ServerLevel dos, ChunkAccess chunk, Holder<Biome> biome) {
+		Holder<Biome> entrailles = biome(dos, "letitan:entrailles").<Holder<Biome>>map(h -> h).orElse(biome);
+		Holder<Biome> estomac = biome(dos, "letitan:estomac").<Holder<Biome>>map(h -> h).orElse(biome);
+		BiomeResolver resolveur = (qx, qy, qz) -> {
+			Interieur.Zone zone = Interieur.zone(QuartPos.toBlock(qx) + 2, QuartPos.toBlock(qy) + 2, QuartPos.toBlock(qz) + 2);
+			return zone == null ? biome : zone == Interieur.Zone.ESTOMAC ? estomac : entrailles;
+		};
+		if (dejaRempli(chunk, resolveur)) {
 			return false;
 		}
-		chunk.fillBiomesFromNoise((x, y, z) -> biome);
+		chunk.fillBiomesFromNoise(resolveur);
 		chunk.markUnsaved();
 		return true;
+	}
+
+	/** Le chunk a-t-il déjà ces biomes ? On regarde une cellule sur quatre dans chaque direction. */
+	private static boolean dejaRempli(ChunkAccess chunk, BiomeResolver resolveur) {
+		int qx0 = QuartPos.fromBlock(chunk.getPos().getMinBlockX());
+		int qz0 = QuartPos.fromBlock(chunk.getPos().getMinBlockZ());
+		for (int dx = 0; dx < 4; dx++) {
+			for (int dz = 0; dz < 4; dz++) {
+				for (int y = 36; y <= 112; y += 4) {
+					int qy = QuartPos.fromBlock(y);
+					if (!chunk.getNoiseBiome(qx0 + dx, qy, qz0 + dz).equals(resolveur.getNoiseBiome(qx0 + dx, qy, qz0 + dz))) {
+						return false;
+					}
+				}
+			}
+		}
+		return true;
+	}
+
+	private static Optional<? extends Holder<Biome>> biome(ServerLevel dos, String nom) {
+		return dos.registryAccess().lookupOrThrow(Registries.BIOME)
+				.get(ResourceKey.create(Registries.BIOME, Identifier.parse(nom)));
 	}
 
 	// --- Messages ------------------------------------------------------------
 
 	private static void annoncerArret(ServerLevel dos, EtatVoyage etat) {
+		if (etat.arret == Arret.BROUTER) {
+			Entrailles.repas(dos);
+		} else if (etat.arret == Arret.BOIRE) {
+			Maladies.eauCroupie(dos);
+		}
 		String texte = switch (etat.arret) {
 			case BOIRE -> "Le Titan s'arrête au bord d'une rivière pour boire, pendant 2 minutes. Saute de son flanc pour descendre ; touche une de ses pattes pour remonter.";
 			case BROUTER -> "Le Titan s'arrête pour brouter la cime des arbres, pendant 2 minutes. Saute de son flanc pour descendre ; touche une de ses pattes pour remonter.";
@@ -300,7 +339,14 @@ public final class VoyageServeur {
 		long distance = Math.round(Math.hypot(dx, dz));
 		String ou = distance < 80 ? "Le Titan est au-dessus de toi"
 				: "Le Titan est à " + distance + " blocs vers " + Navigation.direction(Math.atan2(dx, -dz));
-		return Component.literal(ou + " · " + activite(dos, etat)).withStyle(ChatFormatting.YELLOW);
+		return Component.literal(ou + " · " + activite(dos, etat) + " · " + sante(dos)).withStyle(ChatFormatting.YELLOW);
+	}
+
+	/** « santé 72 % » et, s'il est malade, où. */
+	private static String sante(ServerLevel dos) {
+		String texte = "santé " + Math.round(Maladies.etat(dos.getServer()).sante) + " %";
+		String malades = Maladies.organesMalades(dos.getServer());
+		return malades.isEmpty() ? texte : texte + " (infection : " + malades + ")";
 	}
 
 	private static String activite(ServerLevel dos, EtatVoyage etat) {
@@ -310,6 +356,8 @@ public final class VoyageServeur {
 			return "il boit (encore " + duree(etat.arretRestant) + ")";
 		} else if (etat.arret == Arret.BROUTER) {
 			return "il broute (encore " + duree(etat.arretRestant) + ")";
+		} else if (etat.allure <= 0) {
+			return "il est trop faible pour marcher";
 		}
 		return "il marche vers " + Navigation.direction(etat.cap);
 	}
@@ -323,11 +371,13 @@ public final class VoyageServeur {
 			activite = "Le Titan boit (encore " + duree(etat.arretRestant) + ")";
 		} else if (etat.arret == Arret.BROUTER) {
 			activite = "Le Titan broute (encore " + duree(etat.arretRestant) + ")";
+		} else if (etat.allure <= 0) {
+			activite = "Le Titan est trop faible pour marcher";
 		} else {
 			activite = "Le Titan marche vers " + Navigation.direction(etat.cap);
 		}
 		return Component.literal(activite + " · sous lui : ").append(nomAffiche(sous))
-				.append(" · " + Math.round(etat.odometre) + " blocs parcourus")
+				.append(" · " + Math.round(etat.odometre) + " blocs parcourus · " + sante(dos))
 				.withStyle(ChatFormatting.YELLOW);
 	}
 

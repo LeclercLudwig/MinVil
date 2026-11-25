@@ -43,7 +43,7 @@ public final class Navigation {
 	 * Renvoie vrai si l'état « marche ou arrêt » a changé (pour prévenir les joueurs).
 	 */
 	public static boolean tick(EtatVoyage etat, Terrain terrain, long temps, boolean eveille) {
-		if (!eveille) {
+		if (!eveille || etat.allure <= 0) {
 			return false;
 		}
 		if (etat.arretRestant > 0) {
@@ -58,9 +58,10 @@ public final class Navigation {
 			etat.capVise = choisirCap(etat, terrain);
 		}
 		etat.cap = tourner(etat.cap, etat.capVise);
-		etat.x += Math.sin(etat.cap) * VITESSE;
-		etat.z -= Math.cos(etat.cap) * VITESSE;
-		etat.odometre += VITESSE;
+		double pas = VITESSE * etat.allure;
+		etat.x += Math.sin(etat.cap) * pas;
+		etat.z -= Math.cos(etat.cap) * pas;
+		etat.odometre += pas;
 		if (temps % 20 == 0) {
 			return verifierArret(etat, terrain.genre(etat.x, etat.z), temps);
 		}
@@ -78,18 +79,19 @@ public final class Navigation {
 	 * comme le ferait {@link #tick} sans arrêt ni nouveau cap : le client s'en sert pour
 	 * placer le Titan entre deux messages du serveur. Renvoie {x, z, cap}.
 	 */
-	public static double[] prolonger(double x, double z, double cap, double capVise, double ticks) {
+	public static double[] prolonger(double x, double z, double cap, double capVise, double allure, double ticks) {
+		double pas = VITESSE * allure;
 		int entiers = (int) Math.floor(ticks);
 		for (int i = 0; i < entiers; i++) {
 			cap = tourner(cap, capVise);
-			x += Math.sin(cap) * VITESSE;
-			z -= Math.cos(cap) * VITESSE;
+			x += Math.sin(cap) * pas;
+			z -= Math.cos(cap) * pas;
 		}
 		double reste = ticks - entiers;
 		if (reste > 0) {
 			double prochain = tourner(cap, capVise);
-			x += Math.sin(prochain) * VITESSE * reste;
-			z -= Math.cos(prochain) * VITESSE * reste;
+			x += Math.sin(prochain) * pas * reste;
+			z -= Math.cos(prochain) * pas * reste;
 			cap += (prochain - cap) * reste;
 		}
 		return new double[] {x, z, cap};

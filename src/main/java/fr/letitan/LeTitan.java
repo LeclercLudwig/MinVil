@@ -7,6 +7,8 @@ import fr.letitan.sol.SolPayload;
 import fr.letitan.vie.Accroche;
 import fr.letitan.vie.AnimationTitan.Patte;
 import fr.letitan.vie.CorpsVivant;
+import fr.letitan.vie.Entrailles;
+import fr.letitan.vie.Maladies;
 import fr.letitan.vie.Squelette;
 import fr.letitan.voyage.EtatTitanPayload;
 import fr.letitan.voyage.Repere;
@@ -16,6 +18,7 @@ import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.entity.event.v1.ServerEntityLevelChangeEvents;
 import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerChunkEvents;
+import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
@@ -137,6 +140,7 @@ public final class LeTitan implements ModInitializer {
 				VoyageServeur.tick(niveau);
 				tickTitan(niveau);
 				CorpsVivant.tick(niveau);
+				Entrailles.tick(niveau);
 			}
 		});
 		CommandRegistrationCallback.EVENT.register((dispatcher, contexte, selection) ->
@@ -149,7 +153,22 @@ public final class LeTitan implements ModInitializer {
 						.then(Commands.literal("sol").executes(ctx -> {
 							descendreAuSol(ctx.getSource().getPlayerOrException(), false);
 							return 1;
+						}))
+						// Pour essayer : rendre le Titan malade, ou le faire manger.
+						.then(Commands.literal("infection").executes(ctx -> {
+							ServerLevel dos = ctx.getSource().getServer().getLevel(DOS);
+							Maladies.infecterAuHasard(dos);
+							return 1;
+						}))
+						.then(Commands.literal("repas").executes(ctx -> {
+							Entrailles.repas(ctx.getSource().getServer().getLevel(DOS));
+							return 1;
 						}))));
+		PlayerBlockBreakEvents.AFTER.register((niveau, joueur, pos, etat, entite) -> {
+			if (niveau instanceof ServerLevel dos && dos.dimension() == DOS && joueur instanceof ServerPlayer j) {
+				Maladies.blocCasse(dos, j, pos, etat);
+			}
+		});
 		LOGGER.info("Le Titan s'éveille.");
 	}
 
@@ -160,12 +179,6 @@ public final class LeTitan implements ModInitializer {
 		if (Rythme.eveille(niveau)) {
 			if (Rythme.pas(temps) && VoyageServeur.enMarche(niveau)) {
 				pas(niveau, Rythme.force(temps));
-			}
-		} else if (temps % 60 == 0) {
-			// Le Titan dort : on entend son cœur battre sous ses pieds.
-			for (ServerPlayer joueur : niveau.players()) {
-				niveau.playSound(null, joueur.getX(), joueur.getY() - 4, joueur.getZ(),
-						SoundEvents.WARDEN_HEARTBEAT, SoundSource.AMBIENT, 0.7f, 0.5f);
 			}
 		}
 		// Une copie : faire passer un joueur dans le monde d'en bas le retire de cette liste.

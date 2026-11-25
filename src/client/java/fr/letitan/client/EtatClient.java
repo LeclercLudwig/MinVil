@@ -57,7 +57,7 @@ public final class EtatClient {
 
 	/** Distance parcourue par le Titan au temps de jeu donné (avec fraction de tick). */
 	public static double odometre(double tempsActuel) {
-		return etat == null ? 0 : etat.odometre() + Navigation.VITESSE * ecoule(tempsActuel);
+		return etat == null ? 0 : etat.odometre() + Navigation.VITESSE * etat.allure() * ecoule(tempsActuel);
 	}
 
 	/** Où est le Titan dans le monde d'en bas au temps de jeu donné, ou null si on ne le sait pas encore. */
@@ -65,7 +65,7 @@ public final class EtatClient {
 		if (etat == null) {
 			return null;
 		}
-		double[] p = Navigation.prolonger(etat.x(), etat.z(), etat.cap(), etat.capVise(), ecoule(tempsActuel));
+		double[] p = Navigation.prolonger(etat.x(), etat.z(), etat.cap(), etat.capVise(), etat.allure(), ecoule(tempsActuel));
 		// L'altitude change lentement : on prolonge sa pente entre les deux derniers messages.
 		double pente = etat.temps() > tempsPrecedent
 				? (etat.altitude() - altitudePrecedente) / (etat.temps() - tempsPrecedent) : 0;

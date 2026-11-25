@@ -39,7 +39,7 @@ class RepereTest {
 		EtatVoyage etat = new EtatVoyage();
 		etat.cap = 0.3;
 		etat.capVise = 1.4;
-		double[] prevu = Navigation.prolonger(etat.x, etat.z, etat.cap, etat.capVise, 60);
+		double[] prevu = Navigation.prolonger(etat.x, etat.z, etat.cap, etat.capVise, 1, 60);
 		// Temps 1 à 60 : pas de nouveau choix de cap (tous les 100 ticks).
 		for (long t = 1; t <= 60; t++) {
 			Navigation.tick(etat, plaines, t, true);

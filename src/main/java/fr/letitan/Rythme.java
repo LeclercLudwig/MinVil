@@ -48,6 +48,37 @@ public final class Rythme {
 		return Math.sin(2 * Math.PI * temps / (4.0 * PERIODE));
 	}
 
+	/** Ticks entre deux battements du cœur : lent quand il dort. */
+	public static final int BATTEMENT_EVEILLE = 30, BATTEMENT_ENDORMI = 50;
+
+	/**
+	 * Contraction du cœur, de 0 (repos) à 1 : un double coup (« poum-poum ») à chaque battement.
+	 * {@code temps} avec fraction de tick.
+	 */
+	public static double battement(double temps, boolean eveille) {
+		int periode = eveille ? BATTEMENT_EVEILLE : BATTEMENT_ENDORMI;
+		double depuis = ((temps % periode) + periode) % periode;
+		double premier = Math.exp(-depuis / 2.5);
+		double second = depuis >= 6 ? 0.6 * Math.exp(-(depuis - 6) / 2.5) : 0;
+		return Math.min(1, premier + second);
+	}
+
+	/** Vrai au tick où le cœur bat. */
+	public static boolean bat(long temps, boolean eveille) {
+		return temps % (eveille ? BATTEMENT_EVEILLE : BATTEMENT_ENDORMI) == 0;
+	}
+
+	/** Le Titan expire (souffle par l'évent) pendant la seconde moitié de chaque respiration. */
+	public static boolean expire(double temps) {
+		double phase = ((temps % RESPIRATION) + RESPIRATION) % RESPIRATION;
+		return phase >= RESPIRATION / 2;
+	}
+
+	/** Vrai au tick où il commence à expirer. */
+	public static boolean debutExpiration(long temps) {
+		return temps % (long) RESPIRATION == (long) RESPIRATION / 2;
+	}
+
 	/** Souffle du Titan endormi, entre -1 et 1. */
 	public static double respiration(double temps) {
 		return Math.sin(2 * Math.PI * temps / RESPIRATION);

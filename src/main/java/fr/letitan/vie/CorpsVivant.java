@@ -163,7 +163,7 @@ public final class CorpsVivant {
 			return;
 		}
 		veille = approcher(veille, Rythme.eveille(niveau) ? 1 : 0);
-		marche = approcher(marche, VoyageServeur.etat(niveau.getServer()).enMarche() ? 1 : 0);
+		marche = approcher(marche, VoyageServeur.enMarche(niveau) || !Rythme.eveille(niveau) ? 1 : 0);
 		// On vise la pose de la fin du glissement : le client arrive pile à l'heure.
 		poser(temps + CADENCE, CADENCE);
 	}

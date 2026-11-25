@@ -2,6 +2,10 @@
 
 Mod Minecraft (Fabric, Minecraft 26.3, Java 25). Tu vis sur le dos d'une créature colossale : c'est ton monde entier. Le jour, elle marche ; la nuit, elle dort.
 
+## L'histoire : le Silence
+
+Avant, le monde chantait : chaque être avait son rythme. Puis le **Silence** est monté des profondeurs, une moisissure de sculk qui éteint tout ce qui bat. Seuls les Titans lui résistent : leur cœur bat assez fort pour le repousser, alors ils marchent sans fin. Les derniers humains ont grimpé sur leur dos et sont devenus leurs **Gardiens**. Tu te réveilles seul sur le Titan ; la dernière Gardienne, Ysolde, a laissé son journal dans une cabane en ruine, non loin de la crête. Le Titan marche vers le **Berceau**, d'où le Silence est venu.
+
 ## Ce qui le distingue
 
 D'autres mods posent une base sur le dos d'un géant qui marche dans le monde normal (Colossi, Living Decks) : le géant y est une monture ou une base mobile. Ici, **le Titan est le monde** : on naît sur son dos, son corps est le terrain, et il vit (marche, sommeil, puis plus tard maladies, organes à explorer, climat qui change selon où il marche). Le monde normal n'est que le sol, loin en dessous.
@@ -21,6 +25,14 @@ D'autres mods posent une base sur le dos d'un géant qui marche dans le monde no
 - **On entre dans le Titan** par l'évent, un trou bordé d'os sur son dos près du cou, qui souffle de la vapeur. On y descend en s'agrippant aux parois ; quand il expire, son souffle te projette dehors.
 - **Ses entrailles** : un grand conduit rouge court le long du corps. Il mène au **cœur**, un énorme muscle qui bat (on l'entend de loin, la vue tremble à côté), aux deux **poumons** roses, et à l'**estomac**, au fond duquel l'acide vert empoisonne. Quand le Titan broute, ses repas arrivent dans l'estomac : boules de feuillage et tonneaux de restes, parfois avec les affaires d'un voyageur malchanceux. Du cœur part la **grande veine**, une rivière de sang dont le courant t'emporte jusqu'à un puits qui ressort près de la queue.
 - **Il tombe malade** : de temps en temps (et quand il boit une eau croupie), un kyste d'infection se loge dans un organe. Le sculk s'étend autour et des parasites en sortent. Malade, il ralentit ; trop faible, il ne marche plus. Crever le kyste le soigne. La boussole indique sa santé et où il est infecté.
+- **Le sol est dangereux** :
+  - **l'ombre du Titan** : à moins de 260 blocs de lui, son battement te protège. Plus loin (et plus vite la nuit), le Silence te gagne : vue obscurcie, lenteur, faiblesse, puis il fait mal. Sur son dos, il reflue ;
+  - **les terres mortes** : de grandes étendues de sculk aux arbres morts, avec des capteurs et des hurleurs, dans les terres que l'on découvre (jamais autour du point de départ). Le Titan les contourne, et s'il les traverse, le Silence l'infecte ;
+  - **les Muets** : sans visage ni voix, ils chassent au bruit. Courir, sauter, frapper ou casser un bloc les attire de loin, marcher de près. Accroupi, on passe à côté d'eux. Ils rôdent dans les terres mortes, et la nuit partout ;
+  - **les Pierres-Échos** : des stèles de l'ancien monde, plus fréquentes dans les terres mortes. Elles tintent quand on approche ; touche-les pour entendre un des huit fragments de l'histoire.
+- **Un monde d'après la fin du monde** : en bas, le ciel est couleur de cendre, la brume épaisse, les nuages bas, sombres et presque continus. Le jour peine à percer, il n'y a plus d'étoiles, la cendre tombe, l'herbe et les feuilles sont ternies, et il n'y a plus de musique. Le dos du Titan, lui, garde son ciel clair.
+- **Des ruines** : dans les terres nouvelles, les villages (et les autres constructions du monde) sont en ruine, avec leurs toits effondrés, leurs vitres brisées, leurs lumières éteintes, leurs champs morts et leurs toiles d'araignée, et plus aucun villageois. On croise aussi les restes de l'ancien monde : maisons effondrées (avec un coffre), tours écroulées, cimetières aux épitaphes.
+- Vues du dos du Titan, les terres mortes apparaissent en sombre sur le sol.
 - Les mondes créés avant ont droit aux mêmes entrailles : elles sont creusées au premier lancement (une vingtaine de secondes).
 - Commandes (opérateurs) : `/titan` remonte sur le dos, `/titan sol` descend au sol, `/titan infection` et `/titan repas` pour essayer.
 
@@ -30,7 +42,8 @@ D'autres mods posent une base sur le dos d'un géant qui marche dans le monde no
 2. ~~Le voyage : le vrai sol défile en dessous, le Titan se voit depuis le sol, le dos change de biome.~~
 3. ~~Descendre et remonter : sauter de son flanc, toucher une patte pour être hissé, avant qu'il reparte.~~
 4. ~~Le corps vivant : organes à explorer, veine de sang, maladies et parasites à soigner.~~
-5. **Le lien** : le Titan réagit à ce qu'on fait sur son dos (déforestation, soins), et l'on peut influencer sa route.
+5. **Le Silence (suite)** : les rêves du Titan, des fresques dans ses entrailles, des carcasses de Titans morts au sol, et le Berceau, la fin de l'histoire.
+6. **Le lien** : le Titan réagit à ce qu'on fait sur son dos (déforestation, soins), et l'on peut influencer sa route.
 
 ## Développement
 
@@ -51,6 +64,8 @@ Créer un nouveau monde : on apparaît directement sur le Titan.
 - `src/main/java/fr/letitan/sol/CarteSol.java` : la carte du sol autour du Titan, calculée en tâche de fond et envoyée aux joueurs sur son dos.
 - `src/main/java/fr/letitan/monde/Interieur.java` : la forme de l'intérieur (organes, conduits, veine), testée seule.
 - `src/main/java/fr/letitan/vie/Entrailles.java`, `Coeur.java`, `Maladies.java` : la vie de l'intérieur (souffle, acide, repas, cœur, infections).
+- `src/main/java/fr/letitan/silence/` : le Silence (terres mortes, ruines, ombre du Titan, Muets, cabane, journal et Pierres-Échos).
+- `src/client/java/fr/letitan/client/mixin/ClientLevelMixin.java` et `CloudRendererMixin.java` : l'ambiance sombre du monde d'en bas et ses nuages épais.
 - `src/main/java/fr/letitan/vie/Accroche.java` : où l'on touche une patte du Titan (qui te hisse) ; `Lianes.java` : les lianes de son flanc.
 - `src/client/java/fr/letitan/client/RenduSol.java` et `RenduTitan.java` : le sol vu du dos, et le Titan vu du sol.
 - `src/client/java/fr/letitan/client/mixin/` : la caméra qui bouge avec le Titan et voit loin, les nuages qui défilent, le passage d'un monde à l'autre sans écran de chargement.

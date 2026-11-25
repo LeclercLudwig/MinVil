@@ -1,6 +1,8 @@
 package fr.letitan.sol;
 
 import fr.letitan.LeTitan;
+import fr.letitan.silence.Silence;
+import fr.letitan.silence.ZonesMortes;
 import fr.letitan.voyage.Repere;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.core.Holder;
@@ -41,7 +43,7 @@ public final class CarteSol {
 	private static final int PAR_MESSAGE = 4096;
 
 	/** Un point calculé. */
-	private record Point(int pas, int cx, int cz, short hauteur, boolean eau, String biome) {
+	private record Point(int pas, int cx, int cz, short hauteur, boolean eau, boolean mort, String biome) {
 	}
 
 	/** Une grille : les points connus et ceux en cours de calcul. */
@@ -61,6 +63,7 @@ public final class CarteSol {
 	private final ServerLevel sol;
 	private final ChunkGenerator generateur;
 	private final RandomState aleas;
+	private final ZonesMortes mortes;
 	private final Grille fine = new Grille(PAS_FIN, RAYON_FIN);
 	private final Grille large = new Grille(PAS_LARGE, RAYON_LARGE);
 	private final ExecutorService ouvriers;
@@ -69,6 +72,7 @@ public final class CarteSol {
 
 	private CarteSol(ServerLevel sol) {
 		this.sol = sol;
+		this.mortes = Silence.zones(sol.getServer());
 		this.generateur = sol.getChunkSource().getGenerator();
 		this.aleas = sol.getChunkSource().randomState();
 		this.ouvriers = Executors.newFixedThreadPool(1, tache -> {
@@ -112,10 +116,10 @@ public final class CarteSol {
 			Holder<Biome> biome = sol.getUncachedNoiseBiome(
 					QuartPos.fromBlock(x), QuartPos.fromBlock(fond), QuartPos.fromBlock(z));
 			String nom = biome.unwrapKey().map(cle -> cle.identifier().toString()).orElse("minecraft:plains");
-			return new Point(pas, cx, cz, (short) haut, fond < mer, nom);
+			return new Point(pas, cx, cz, (short) haut, fond < mer, fond >= mer && mortes.morte(x, z), nom);
 		} catch (RuntimeException erreur) {
 			LeTitan.LOGGER.debug("Point du sol impossible à calculer en {} {}", x, z, erreur);
-			return new Point(pas, cx, cz, (short) generateur.getSeaLevel(), false, "minecraft:plains");
+			return new Point(pas, cx, cz, (short) generateur.getSeaLevel(), false, false, "minecraft:plains");
 		}
 	}
 
@@ -206,9 +210,10 @@ public final class CarteSol {
 		int n = lot.size();
 		int[] cx = new int[n], cz = new int[n];
 		short[] hauteur = new short[n], biome = new short[n];
-		boolean[] eau = new boolean[n];
+		boolean[] eau = new boolean[n], mort = new boolean[n];
 		for (int i = 0; i < n; i++) {
 			Point p = lot.get(i);
+			mort[i] = p.mort();
 			cx[i] = p.cx();
 			cz[i] = p.cz();
 			hauteur[i] = p.hauteur();
@@ -218,7 +223,7 @@ public final class CarteSol {
 				return biomes.size() - 1;
 			});
 		}
-		return new SolPayload(lot.get(0).pas(), biomes, cx, cz, hauteur, biome, eau);
+		return new SolPayload(lot.get(0).pas(), biomes, cx, cz, hauteur, biome, eau, mort);
 	}
 
 	public static long cle(int cx, int cz) {

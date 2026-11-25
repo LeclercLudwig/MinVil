@@ -1,0 +1,22 @@
+{
+	"schemaVersion": 1,
+	"id": "letitan",
+	"version": "${version}",
+	"name": "Le Titan",
+	"description": "Tu vis sur le dos d'une créature colossale qui marche le jour et dort la nuit.",
+	"environment": "*",
+	"entrypoints": {
+		"main": ["fr.letitan.LeTitan"],
+		"client": ["fr.letitan.client.LeTitanClient"]
+	},
+	"mixins": [
+		"letitan.mixins.json",
+		{ "config": "letitan.client.mixins.json", "environment": "client" }
+	],
+	"depends": {
+		"fabricloader": ">=0.20.1",
+		"minecraft": "~26.3",
+		"java": ">=25",
+		"fabric-api": "*"
+	}
+}

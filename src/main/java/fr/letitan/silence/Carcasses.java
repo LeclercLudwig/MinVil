@@ -5,6 +5,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.network.Filterable;
@@ -40,6 +41,74 @@ public final class Carcasses {
 	public static final String GARDIEN = "letitan.gardien";
 
 	private Carcasses() {
+	}
+
+	// --- Les Titans muets vaincus -------------------------------------------------
+
+	/** Le Titan muet vient de tomber : on retient où, et l'on pose ses os là où le monde est déjà chargé. */
+	static void ajouterLeTitanMuet(MinecraftServer serveur, Carcasse c) {
+		EtatRecit etat = Recit.etat(serveur);
+		etat.tombes.add(c.cx());
+		etat.tombes.add(c.cz());
+		etat.tombes.add(c.angle());
+		etat.gardiens.add(c.cle());
+		etat.deuils.add(c.cle());
+		etat.setDirty();
+		ServerLevel sol = serveur.overworld();
+		int r = (int) Math.ceil(Carcasse.RAYON / 16) + 1;
+		int ccx = (int) Math.floor(c.cx()) >> 4, ccz = (int) Math.floor(c.cz()) >> 4;
+		for (int i = ccx - r; i <= ccx + r; i++) {
+			for (int j = ccz - r; j <= ccz + r; j++) {
+				if (sol.hasChunk(i, j)) {
+					CHARGES.add(new ChunkPos(i, j));
+				}
+			}
+		}
+	}
+
+	/** Morceaux du monde chargés, où il faudra peut-être poser des os (traités au tick suivant). */
+	private static final java.util.Queue<ChunkPos> CHARGES = new java.util.ArrayDeque<>();
+
+	/**
+	 * Un morceau du monde se charge. On ne bâtit pas pendant le chargement (le morceau n'est pas
+	 * encore prêt) : on le note, et on y posera les os au prochain tick.
+	 */
+	public static void morceauCharge(ServerLevel sol, ChunkPos chunk) {
+		if (!Recit.etat(sol.getServer()).tombes.isEmpty()) {
+			CHARGES.add(chunk);
+		}
+	}
+
+	static void oublier() {
+		CHARGES.clear();
+	}
+
+	private static void poserLesOsEnAttente(ServerLevel sol) {
+		for (int i = 0; i < 4 && !CHARGES.isEmpty(); i++) {
+			ChunkPos chunk = CHARGES.poll();
+			if (sol.hasChunk(chunk.x(), chunk.z())) {
+				poserLesOs(sol, chunk);
+			}
+		}
+	}
+
+	/** Pose dans ce morceau du monde les os des Titans muets vaincus, une seule fois. */
+	private static void poserLesOs(ServerLevel sol, ChunkPos chunk) {
+		EtatRecit etat = Recit.etat(sol.getServer());
+		for (int t = 0; t + 2 < etat.tombes.size(); t += 3) {
+			Carcasse c = new Carcasse(etat.tombes.get(t), etat.tombes.get(t + 1), etat.tombes.get(t + 2), 1.0, Carcasse.MUET);
+			double cx = chunk.getMinBlockX() + 8, cz = chunk.getMinBlockZ() + 8;
+			if (Math.hypot(cx - c.cx(), cz - c.cz()) > Carcasse.RAYON + 24) {
+				continue;
+			}
+			long cle = ((long) (t / 3) << 40) ^ chunk.pack();
+			if (etat.tombesBaties.contains(cle)) {
+				continue;
+			}
+			etat.tombesBaties.add(cle);
+			etat.setDirty();
+			batir(sol, chunk, c);
+		}
 	}
 
 	// --- Construction ------------------------------------------------------------
@@ -121,7 +190,9 @@ public final class Carcasses {
 		sol.setBlock(coffre, Blocks.CHEST.defaultBlockState(), Block.UPDATE_ALL);
 		if (sol.getBlockEntity(coffre) instanceof ChestBlockEntity ch) {
 			RandomSource hasard = RandomSource.create(c.cle() ^ (reliques ? 1 : 2));
-			if (reliques) {
+			if (reliques && c.numero() == Carcasse.MUET) {
+				remplirLesReliquesDuMuet(ch, hasard);
+			} else if (reliques) {
 				remplirLesReliques(ch, c, hasard);
 			} else {
 				remplirLeCrane(ch, c, hasard);
@@ -150,6 +221,22 @@ public final class Carcasses {
 		if (hasard.nextFloat() < 0.08f) {
 			coffre.setItem(24, new ItemStack(Items.TOTEM_OF_UNDYING));
 		}
+	}
+
+	/** Ce que le Titan muet vaincu laisse dans sa cage. */
+	private static void remplirLesReliquesDuMuet(ChestBlockEntity coffre, RandomSource hasard) {
+		ItemStack coeur = new ItemStack(Items.ECHO_SHARD);
+		coeur.set(DataComponents.CUSTOM_NAME, Component.literal("Dernier battement du Titan muet").withStyle(ChatFormatting.AQUA));
+		coeur.set(DataComponents.LORE, new ItemLore(List.of(
+				Component.literal("Le Silence l'avait pris il y a longtemps.").withStyle(ChatFormatting.GRAY),
+				Component.literal("En tombant, son cœur a battu une fois. Une seule.").withStyle(ChatFormatting.GRAY))));
+		coffre.setItem(13, coeur);
+		mettre(coffre, 0, Items.NETHERITE_SCRAP, 1, 3, hasard);
+		mettre(coffre, 2, Items.DIAMOND, 3, 6, hasard);
+		mettre(coffre, 4, Items.ECHO_SHARD, 4, 8, hasard);
+		mettre(coffre, 6, Items.ENCHANTED_GOLDEN_APPLE, 1, 1, hasard);
+		mettre(coffre, 8, Items.TOTEM_OF_UNDYING, 1, 1, hasard);
+		mettre(coffre, 20, Items.SCULK_CATALYST, 1, 2, hasard);
 	}
 
 	private static void remplirLeCrane(ChestBlockEntity coffre, Carcasse c, RandomSource hasard) {
@@ -187,6 +274,16 @@ public final class Carcasses {
 	private static final String[] GARDIENS = {"Bran", "Ilse", "Tomas", "Nour"};
 
 	static ItemStack carnet(Carcasse c) {
+		if (c.numero() == Carcasse.MUET) {
+			ItemStack livre = new ItemStack(Items.WRITTEN_BOOK);
+			livre.set(DataComponents.WRITTEN_BOOK_CONTENT, new WrittenBookContent(Filterable.passThrough("Ce qu'il entendait"),
+					"?", 0, List.of(
+							"Il n'avait plus de voix. Il ne lui restait que l'ouïe.",
+							"Il entendait notre Titan battre, de très loin. C'était le seul bruit du monde. Il est venu vers lui, comme on va vers une lumière.",
+							"Peut-être ne voulait-il pas le tuer. Peut-être voulait-il seulement l'entendre de plus près.")
+							.stream().map(p -> Filterable.<Component>passThrough(Component.literal(p))).toList(), true));
+			return livre;
+		}
 		ItemStack livre = new ItemStack(Items.WRITTEN_BOOK);
 		livre.set(DataComponents.WRITTEN_BOOK_CONTENT, new WrittenBookContent(Filterable.passThrough("Carnet de " + GARDIENS[c.numero()]),
 				GARDIENS[c.numero()], 0,
@@ -198,6 +295,7 @@ public final class Carcasses {
 
 	/** Près d'un cœur pétrifié, le Gardien muet se lève, une fois par carcasse. */
 	static void tickSol(ServerLevel sol) {
+		poserLesOsEnAttente(sol);
 		if (sol.getGameTime() % 40 != 0) {
 			return;
 		}

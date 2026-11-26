@@ -3,6 +3,7 @@ package fr.letitan.client.mixin;
 import fr.letitan.LeTitan;
 import fr.letitan.Rythme;
 import fr.letitan.client.EtatClient;
+import fr.letitan.client.EtatMuetClient;
 import fr.letitan.monde.Interieur;
 import fr.letitan.voyage.Repere;
 import net.minecraft.client.Camera;
@@ -57,6 +58,12 @@ public abstract class CameraMixin {
 			return;
 		}
 		double temps = niveau.getGameTime() + partialTicks;
+		// Le choc d'une charge du Titan muet : la vue est violemment secouée, où que l'on soit.
+		double choc = EtatMuetClient.secousse();
+		if (choc > 0) {
+			setRotation(yRot + (float) (choc * 6 * Math.sin(temps * 3.7)), xRot + (float) (choc * 5 * Math.cos(temps * 4.3)));
+			move(0, (float) (choc * 0.3 * Math.sin(temps * 5.1)), 0);
+		}
 		if (niveau.dimension() == Level.OVERWORLD) {
 			letitan$secousseAuSol(niveau, temps);
 			return;

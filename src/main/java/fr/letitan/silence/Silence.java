@@ -68,5 +68,7 @@ public final class Silence {
 		Pourriture.oublier();
 		Ombre.oublier();
 		Muets.oublier();
+		TitanMuet.oublier();
+		Carcasses.oublier();
 	}
 }

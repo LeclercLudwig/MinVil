@@ -117,6 +117,20 @@ public final class Maladies {
 		}
 	}
 
+	/** Une blessure (un choc, une morsure). */
+	public static void blesser(MinecraftServer serveur, double quantite) {
+		EtatCorps etat = etat(serveur);
+		etat.sante = Math.max(0, etat.sante - quantite);
+		etat.setDirty();
+	}
+
+	/** Il reprend des forces. */
+	public static void soigner(MinecraftServer serveur, double quantite) {
+		EtatCorps etat = etat(serveur);
+		etat.sante = Math.min(100, etat.sante + quantite);
+		etat.setDirty();
+	}
+
 	/** Il a bu une eau croupie : une chance sur deux d'avoir mal au ventre. */
 	public static void eauCroupie(ServerLevel dos) {
 		EtatCorps etat = etat(dos.getServer());

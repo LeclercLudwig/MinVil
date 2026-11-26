@@ -1,6 +1,8 @@
 package fr.letitan.client;
 
 import fr.letitan.LeTitan;
+import fr.letitan.silence.MuetPayload;
+import fr.letitan.silence.SecoussePayload;
 import fr.letitan.sol.SolPayload;
 import fr.letitan.vie.Accroche;
 import fr.letitan.voyage.Repere;
@@ -39,9 +41,12 @@ public final class LeTitanClient implements ClientModInitializer {
 		};
 		ClientPlayNetworking.registerGlobalReceiver(EtatTitanPayload.TYPE, (etat, contexte) -> EtatClient.recevoir(etat));
 		ClientPlayNetworking.registerGlobalReceiver(SolPayload.TYPE, (carte, contexte) -> SolClient.recevoir(carte));
+		ClientPlayNetworking.registerGlobalReceiver(MuetPayload.TYPE, (muet, contexte) -> EtatMuetClient.recevoir(muet));
+		ClientPlayNetworking.registerGlobalReceiver(SecoussePayload.TYPE, (choc, contexte) -> EtatMuetClient.secouer(choc.force()));
 		ClientPlayConnectionEvents.DISCONNECT.register((reseau, client) -> {
 			EtatClient.oublier();
 			SolClient.oublier();
+			EtatMuetClient.oublier();
 		});
 		ClientTickEvents.END_CLIENT_TICK.register(client -> {
 			if (client.level != null) {
@@ -55,6 +60,7 @@ public final class LeTitanClient implements ClientModInitializer {
 			}
 			if (niveau.dimension() == LeTitan.DOS) {
 				RenduSol.dessiner(contexte, niveau);
+				RenduTitan.dessinerDepuisLeDos(contexte, niveau);
 			} else if (niveau.dimension() == Level.OVERWORLD) {
 				RenduTitan.dessiner(contexte, niveau);
 			}

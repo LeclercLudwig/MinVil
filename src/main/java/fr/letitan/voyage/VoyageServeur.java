@@ -6,6 +6,7 @@ import fr.letitan.silence.Carcasse;
 import fr.letitan.silence.EtatRecit;
 import fr.letitan.silence.Recit;
 import fr.letitan.silence.Silence;
+import fr.letitan.silence.TitanMuet;
 import fr.letitan.silence.ZonesMortes;
 import fr.letitan.sol.CarteSol;
 import fr.letitan.vie.AnimationTitan.Patte;
@@ -94,6 +95,10 @@ public final class VoyageServeur {
 		}
 		// Malade, il ralentit ; trop faible, il ne marche plus.
 		etat.allure = Maladies.etat(serveur).allure();
+		// Pendant un combat contre le Titan muet, il ne marche pas : il fait face.
+		if (TitanMuet.enCombat(serveur)) {
+			etat.allure = 0;
+		}
 		ZonesMortes mortes = Silence.zones(serveur);
 		Navigation.Terrain terrain = (x, z) -> mortes.morte(x, z) ? Genre.MORT
 				: genre(sol.getBiome(BlockPos.containing(x, Y_SURFACE, z)));

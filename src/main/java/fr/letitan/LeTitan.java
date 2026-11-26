@@ -2,7 +2,11 @@ package fr.letitan;
 
 import fr.letitan.monde.FormeTitan;
 import fr.letitan.monde.GenerateurTitan;
+import fr.letitan.silence.Carcasses;
+import fr.letitan.silence.MuetPayload;
 import fr.letitan.silence.Muets;
+import fr.letitan.silence.SecoussePayload;
+import fr.letitan.silence.TitanMuet;
 import fr.letitan.silence.Ombre;
 import fr.letitan.silence.Recit;
 import fr.letitan.silence.Silence;
@@ -99,6 +103,8 @@ public final class LeTitan implements ModInitializer {
 		Registry.register(BuiltInRegistries.CHUNK_GENERATOR, id("titan"), GenerateurTitan.CODEC);
 		PayloadTypeRegistry.clientboundPlay().register(EtatTitanPayload.TYPE, EtatTitanPayload.CODEC);
 		PayloadTypeRegistry.clientboundPlay().register(SolPayload.TYPE, SolPayload.CODEC);
+		PayloadTypeRegistry.clientboundPlay().register(MuetPayload.TYPE, MuetPayload.CODEC);
+		PayloadTypeRegistry.clientboundPlay().register(SecoussePayload.TYPE, SecoussePayload.CODEC);
 
 		Accroche.serveur = new Accroche.Source() {
 			@Override
@@ -145,6 +151,8 @@ public final class LeTitan implements ModInitializer {
 		ServerChunkEvents.CHUNK_LOAD.register((niveau, chunk, nouveau) -> {
 			if (niveau.dimension() == DOS) {
 				VoyageServeur.chunkCharge(niveau, chunk);
+			} else if (niveau.dimension() == Level.OVERWORLD) {
+				Carcasses.morceauCharge(niveau, chunk.getPos());
 			}
 		});
 		ServerTickEvents.END_LEVEL_TICK.register(niveau -> {
@@ -155,6 +163,8 @@ public final class LeTitan implements ModInitializer {
 				Entrailles.tick(niveau);
 				Ombre.tickDos(niveau);
 				Recit.tickDos(niveau);
+				TitanMuet.tick(niveau);
+				Muets.tickDos(niveau);
 			} else if (niveau.dimension() == Level.OVERWORLD) {
 				Silence.tickSol(niveau);
 			}
@@ -174,6 +184,10 @@ public final class LeTitan implements ModInitializer {
 						.then(Commands.literal("infection").executes(ctx -> {
 							ServerLevel dos = ctx.getSource().getServer().getLevel(DOS);
 							Maladies.infecterAuHasard(dos);
+							return 1;
+						}))
+						.then(Commands.literal("muet").executes(ctx -> {
+							TitanMuet.appeler(ctx.getSource().getServer().getLevel(DOS));
 							return 1;
 						}))
 						.then(Commands.literal("repas").executes(ctx -> {

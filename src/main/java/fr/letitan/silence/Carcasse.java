@@ -28,6 +28,8 @@ public record Carcasse(double cx, double cz, double angle, double echelle, int n
 	static final double DEMI_LONGUEUR = 140, RAYON = 175;
 	/** Les noms des Titans tombés, pour leurs carnets. */
 	static final String[] NOMS = {"Vael", "Orm", "Sélène", "Brakka"};
+	/** Numéro réservé à la carcasse du Titan muet vaincu. */
+	public static final int MUET = 99;
 
 	// --- Emplacements ----------------------------------------------------------
 
@@ -64,7 +66,7 @@ public record Carcasse(double cx, double cz, double angle, double echelle, int n
 	}
 
 	public String nom() {
-		return NOMS[numero];
+		return numero == MUET ? "Titan muet" : NOMS[numero];
 	}
 
 	/** Identifiant stable de la carcasse (pour se souvenir de ce qui s'y est passé). */

@@ -21,7 +21,9 @@ public final class EtatRecit extends SavedData {
 			Codec.LONG.listOf().optionalFieldOf("pierres", List.of()).forGetter(e -> e.pierres),
 			Codec.INT.listOf().optionalFieldOf("fragments", List.of()).forGetter(e -> e.fragments),
 			Codec.LONG.listOf().optionalFieldOf("gardiens", List.of()).forGetter(e -> e.gardiens),
-			Codec.LONG.listOf().optionalFieldOf("deuils", List.of()).forGetter(e -> e.deuils)
+			Codec.LONG.listOf().optionalFieldOf("deuils", List.of()).forGetter(e -> e.deuils),
+			Codec.DOUBLE.listOf().optionalFieldOf("tombes", List.of()).forGetter(e -> e.tombes),
+			Codec.LONG.listOf().optionalFieldOf("tombes_baties", List.of()).forGetter(e -> e.tombesBaties)
 	).apply(i, EtatRecit::new));
 
 	public static final SavedDataType<EtatRecit> TYPE =
@@ -36,16 +38,23 @@ public final class EtatRecit extends SavedData {
 	public final List<Long> gardiens = new ArrayList<>();
 	/** Les carcasses devant lesquelles le Titan a déjà pleuré. */
 	public final List<Long> deuils = new ArrayList<>();
+	/** Les Titans muets vaincus : x, z, cap de chacun, à la suite. */
+	public final List<Double> tombes = new ArrayList<>();
+	/** Les morceaux du monde où leurs os sont déjà posés (chunk compacté, par tombe : indice * 2^40 + chunk). */
+	public final List<Long> tombesBaties = new ArrayList<>();
 
 	public EtatRecit() {
 	}
 
-	private EtatRecit(boolean cabane, List<Long> pierres, List<Integer> fragments, List<Long> gardiens, List<Long> deuils) {
+	private EtatRecit(boolean cabane, List<Long> pierres, List<Integer> fragments, List<Long> gardiens, List<Long> deuils,
+			List<Double> tombes, List<Long> tombesBaties) {
 		this.cabane = cabane;
 		this.pierres.addAll(pierres);
 		this.fragments.addAll(fragments);
 		this.gardiens.addAll(gardiens);
 		this.deuils.addAll(deuils);
+		this.tombes.addAll(tombes);
+		this.tombesBaties.addAll(tombesBaties);
 	}
 
 	/** Nombre de fragments déjà entendus (chacun n'est attribué qu'une fois). */

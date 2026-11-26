@@ -92,6 +92,13 @@ public final class Muets {
 		}
 	}
 
+	/** Sur le dos du Titan aussi, les Muets qui y ont sauté écoutent. */
+	public static void tickDos(ServerLevel dos) {
+		if (dos.getGameTime() % 5 == 0) {
+			ecouter(dos, dos.getGameTime());
+		}
+	}
+
 	// --- Apparition ----------------------------------------------------------
 
 	private static void faireApparaitre(ServerLevel sol) {
@@ -166,16 +173,16 @@ public final class Muets {
 
 	private static void ecouter(ServerLevel sol, long temps) {
 		Map<UUID, Boolean> marchent = new HashMap<>();
-		for (ServerPlayer joueur : sol.players()) {
+		for (ServerPlayer joueur : sol.getServer().getPlayerList().getPlayers()) {
 			double[] avant = POSITIONS.put(joueur.getUUID(), new double[] {joueur.getX(), joueur.getZ()});
 			marchent.put(joueur.getUUID(), avant != null && Math.hypot(joueur.getX() - avant[0], joueur.getZ() - avant[1]) > 0.2);
 		}
 		for (Zombie m : MUETS) {
-			if (m.isRemoved()) {
+			if (m.isRemoved() || m.level() != sol) {
 				continue;
 			}
 			ServerPlayer entendu = null;
-			for (ServerPlayer joueur : sol.players()) {
+			for (ServerPlayer joueur : ((ServerLevel) m.level()).players()) {
 				if (!joueur.isCreative() && !joueur.isSpectator()
 						&& entend(m, joueur, temps, marchent.getOrDefault(joueur.getUUID(), false))) {
 					entendu = joueur;

@@ -26,6 +26,27 @@ public final class Silence {
 		return zones;
 	}
 
+	/** Les carcasses de Titans dont la forme peut toucher ce point (à {@code marge} blocs près). */
+	public static java.util.List<Carcasse> carcasses(MinecraftServer serveur, double x, double z, double marge) {
+		ServerLevel sol = serveur.overworld();
+		BlockPos spawn = sol.getRespawnData().pos();
+		return Carcasse.pres(x, z, marge, sol.getSeed(), spawn.getX(), spawn.getZ());
+	}
+
+	/** Le Silence a-t-il pris cet endroit (terre morte, ou sol sous une carcasse) ? */
+	public static boolean mort(MinecraftServer serveur, double x, double z) {
+		if (zones(serveur).morte(x, z)) {
+			return true;
+		}
+		for (Carcasse c : carcasses(serveur, x, z, 0)) {
+			double[] l = c.local(x, z);
+			if (Carcasse.sousLaCarcasse(l[0], l[1])) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	/** Un morceau du monde d'en bas vient d'être créé : le Silence l'a peut-être déjà pris. */
 	public static void nouveauMorceau(net.minecraft.world.level.chunk.LevelChunk chunk) {
 		Pourriture.nouveau(chunk);
@@ -37,6 +58,7 @@ public final class Silence {
 		Ombre.tickSol(sol);
 		Muets.tick(sol);
 		Recit.tickSol(sol);
+		Carcasses.tickSol(sol);
 	}
 
 	/** À l'arrêt du serveur. */

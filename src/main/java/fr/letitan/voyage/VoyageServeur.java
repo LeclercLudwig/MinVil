@@ -2,6 +2,9 @@ package fr.letitan.voyage;
 
 import fr.letitan.LeTitan;
 import fr.letitan.Rythme;
+import fr.letitan.silence.Carcasse;
+import fr.letitan.silence.EtatRecit;
+import fr.letitan.silence.Recit;
 import fr.letitan.silence.Silence;
 import fr.letitan.silence.ZonesMortes;
 import fr.letitan.sol.CarteSol;
@@ -112,6 +115,9 @@ public final class VoyageServeur {
 		}
 		eveilleAvant = eveille;
 		suivreLeRelief(sol, etat, temps);
+		if (temps % 200 == 0) {
+			pleurerLesSiens(dos, etat);
+		}
 		// Dans une terre morte, le Silence s'accroche à ses pattes.
 		if (temps % 400 == 0 && enMarche(dos) && mortes.morte(etat.x, etat.z) && dos.getRandom().nextInt(6) == 0) {
 			prevenir(dos, Component.literal("Le Titan traverse une terre morte : le Silence s'accroche à lui.")
@@ -346,13 +352,42 @@ public final class VoyageServeur {
 		}
 	}
 
+	/** Le Titan passe près des ossements d'un des siens : il gémit longuement. */
+	private static void pleurerLesSiens(ServerLevel dos, EtatVoyage etat) {
+		EtatRecit recit = Recit.etat(dos.getServer());
+		for (Carcasse c : Silence.carcasses(dos.getServer(), etat.x, etat.z, 450)) {
+			if (recit.deuils.contains(c.cle())) {
+				continue;
+			}
+			recit.deuils.add(c.cle());
+			recit.setDirty();
+			String ou = Navigation.direction(Math.atan2(c.cx() - etat.x, -(c.cz() - etat.z)));
+			prevenir(dos, Component.literal("Le Titan ralentit et tourne la tête vers " + ou
+					+ " : là-bas gisent les ossements d'un des siens. Il gémit longuement.").withStyle(ChatFormatting.DARK_AQUA));
+			for (ServerPlayer joueur : dos.players()) {
+				dos.playSound(null, joueur.getX(), joueur.getY(), joueur.getZ(), SoundEvents.ENDER_DRAGON_GROWL,
+						SoundSource.AMBIENT, 2.0f, 0.35f);
+			}
+		}
+	}
+
 	/** Au sol, la boussole montre le Titan : où il est, et ce qu'il fait. */
 	private static Component boussoleAuSol(ServerLevel dos, ServerPlayer joueur, EtatVoyage etat) {
 		double dx = etat.x - joueur.getX(), dz = etat.z - joueur.getZ();
 		long distance = Math.round(Math.hypot(dx, dz));
 		String ou = distance < 80 ? "Le Titan est au-dessus de toi"
 				: "Le Titan est à " + distance + " blocs vers " + Navigation.direction(Math.atan2(dx, -dz));
-		return Component.literal(ou + " · " + activite(dos, etat) + " · " + sante(dos)).withStyle(ChatFormatting.YELLOW);
+		String os = "";
+		double plusPres = 400;
+		for (Carcasse c : Silence.carcasses(dos.getServer(), joueur.getX(), joueur.getZ(), 400)) {
+			double d = Math.hypot(c.cx() - joueur.getX(), c.cz() - joueur.getZ());
+			if (d < plusPres) {
+				plusPres = d;
+				os = " · ossements de Titan à " + Math.round(d) + " blocs vers "
+						+ Navigation.direction(Math.atan2(c.cx() - joueur.getX(), -(c.cz() - joueur.getZ())));
+			}
+		}
+		return Component.literal(ou + " · " + activite(dos, etat) + " · " + sante(dos) + os).withStyle(ChatFormatting.YELLOW);
 	}
 
 	/** « santé 72 % » et, s'il est malade, où. */

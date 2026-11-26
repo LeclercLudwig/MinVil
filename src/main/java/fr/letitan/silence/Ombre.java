@@ -10,6 +10,9 @@ import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.core.Holder;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -62,14 +65,18 @@ public final class Ombre {
 			}
 			double distance = Math.hypot(joueur.getX() - titan.x, joueur.getZ() - titan.z);
 			boolean ombre = distance < RAYON;
-			boolean morte = zones.morte(joueur.getX(), joueur.getZ());
+			boolean morte = Silence.mort(sol.getServer(), joueur.getX(), joueur.getZ());
 			double variation;
 			if (morte) {
-				variation = ombre ? 1.5 : 3;
+				variation = ombre ? 0.6 : nuit ? 1.6 : 1.1;
 			} else if (ombre) {
 				variation = -2.5;
 			} else {
-				variation = nuit ? 1.5 : 0.6;
+				variation = nuit ? 0.9 : 0.35;
+			}
+			// Le cœur pétrifié d'un Titan garde un écho de son battement : il protège à moitié.
+			if (variation > 0 && porteUnCoeur(joueur)) {
+				variation *= 0.5;
 			}
 			double niveau = Math.max(0, Math.min(100, niveau(joueur) + variation));
 			NIVEAUX.put(joueur.getUUID(), niveau);
@@ -93,15 +100,27 @@ public final class Ombre {
 		}
 	}
 
+	/** Le joueur porte-t-il le cœur pétrifié d'un Titan ? */
+	private static boolean porteUnCoeur(ServerPlayer joueur) {
+		for (int i = 0; i < joueur.getInventory().getContainerSize(); i++) {
+			ItemStack objet = joueur.getInventory().getItem(i);
+			Component nom = objet.get(DataComponents.CUSTOM_NAME);
+			if (objet.is(Items.HEART_OF_THE_SEA) && nom != null && nom.getString().startsWith("Cœur pétrifié")) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	private static void effets(ServerLevel sol, ServerPlayer joueur, double niveau, long temps) {
-		if (niveau >= 40) {
+		if (niveau >= 50) {
 			appliquer(joueur, MobEffects.DARKNESS, 0);
 		}
-		if (niveau >= 60) {
-			appliquer(joueur, MobEffects.SLOWNESS, niveau >= 80 ? 1 : 0);
+		if (niveau >= 70) {
+			appliquer(joueur, MobEffects.SLOWNESS, niveau >= 85 ? 1 : 0);
 			appliquer(joueur, MobEffects.MINING_FATIGUE, 0);
 		}
-		if (niveau >= 80) {
+		if (niveau >= 85) {
 			appliquer(joueur, MobEffects.WEAKNESS, 0);
 		}
 		if (niveau >= 100 && temps % 40 == 0) {

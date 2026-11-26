@@ -16,7 +16,7 @@ import java.util.List;
  * dans {@code biomes}).
  */
 public record SolPayload(int pas, List<String> biomes, int[] cx, int[] cz, short[] hauteur, short[] biome, boolean[] eau,
-		boolean[] mort)
+		boolean[] mort, boolean[] os)
 		implements CustomPacketPayload {
 	public static final Type<SolPayload> TYPE = new Type<>(LeTitan.id("sol"));
 	public static final StreamCodec<ByteBuf, SolPayload> CODEC = StreamCodec.of(SolPayload::ecrire, SolPayload::lire);
@@ -36,7 +36,7 @@ public record SolPayload(int pas, List<String> biomes, int[] cx, int[] cz, short
 			buf.writeInt(p.cx[i]);
 			buf.writeInt(p.cz[i]);
 			buf.writeShort(p.hauteur[i]);
-			buf.writeShort(p.biome[i] | (p.eau[i] ? 0x4000 : 0) | (p.mort[i] ? 0x2000 : 0));
+			buf.writeShort(p.biome[i] | (p.eau[i] ? 0x4000 : 0) | (p.mort[i] ? 0x2000 : 0) | (p.os[i] ? 0x1000 : 0));
 		}
 	}
 
@@ -50,17 +50,18 @@ public record SolPayload(int pas, List<String> biomes, int[] cx, int[] cz, short
 		int n = ByteBufCodecs.VAR_INT.decode(buf);
 		int[] cx = new int[n], cz = new int[n];
 		short[] hauteur = new short[n], biome = new short[n];
-		boolean[] eau = new boolean[n], mort = new boolean[n];
+		boolean[] eau = new boolean[n], mort = new boolean[n], os = new boolean[n];
 		for (int i = 0; i < n; i++) {
 			cx[i] = buf.readInt();
 			cz[i] = buf.readInt();
 			hauteur[i] = buf.readShort();
 			short b = buf.readShort();
-			biome[i] = (short) (b & 0x1FFF);
+			biome[i] = (short) (b & 0x0FFF);
 			eau[i] = (b & 0x4000) != 0;
 			mort[i] = (b & 0x2000) != 0;
+			os[i] = (b & 0x1000) != 0;
 		}
-		return new SolPayload(pas, biomes, cx, cz, hauteur, biome, eau, mort);
+		return new SolPayload(pas, biomes, cx, cz, hauteur, biome, eau, mort, os);
 	}
 
 	@Override

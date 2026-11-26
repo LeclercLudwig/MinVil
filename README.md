@@ -32,7 +32,8 @@ D'autres mods posent une base sur le dos d'un géant qui marche dans le monde no
   - **les Pierres-Échos** : des stèles de l'ancien monde, plus fréquentes dans les terres mortes. Elles tintent quand on approche ; touche-les pour entendre un des huit fragments de l'histoire.
 - **Un monde d'après la fin du monde** : en bas, le ciel est couleur de cendre, la brume épaisse, les nuages bas, sombres et presque continus. Le jour peine à percer, il n'y a plus d'étoiles, la cendre tombe, l'herbe et les feuilles sont ternies, et il n'y a plus de musique. Le dos du Titan, lui, garde son ciel clair.
 - **Des ruines** : dans les terres nouvelles, les villages (et les autres constructions du monde) sont en ruine, avec leurs toits effondrés, leurs vitres brisées, leurs lumières éteintes, leurs champs morts et leurs toiles d'araignée, et plus aucun villageois. On croise aussi les restes de l'ancien monde : maisons effondrées (avec un coffre), tours écroulées, cimetières aux épitaphes.
-- Vues du dos du Titan, les terres mortes apparaissent en sombre sur le sol.
+- **Les carcasses de Titans** : loin du point de départ, les squelettes de Titans morts gisent, envahis par le Silence. Une cage de côtes assez haute pour y marcher, une épine hérissée de vertèbres, un crâne de dragon creux (avec le carnet du Gardien de ce Titan), les os des pattes couchés à côté, et au milieu de la cage son **cœur pétrifié**, avec un coffre de reliques (diamants, éclats d'écho, pommes d'or, parfois un totem) et le **Cœur pétrifié** lui-même : le porter ralentit le Silence de moitié. Un **Gardien muet** se lève quand on approche du cœur. Le Titan gémit en passant près des siens, et la boussole signale les ossements proches.
+- Vues du dos du Titan, les terres mortes apparaissent en sombre sur le sol, et les os des carcasses en blanc.
 - Les mondes créés avant ont droit aux mêmes entrailles : elles sont creusées au premier lancement (une vingtaine de secondes).
 - Commandes (opérateurs) : `/titan` remonte sur le dos, `/titan sol` descend au sol, `/titan infection` et `/titan repas` pour essayer.
 
@@ -42,7 +43,7 @@ D'autres mods posent une base sur le dos d'un géant qui marche dans le monde no
 2. ~~Le voyage : le vrai sol défile en dessous, le Titan se voit depuis le sol, le dos change de biome.~~
 3. ~~Descendre et remonter : sauter de son flanc, toucher une patte pour être hissé, avant qu'il reparte.~~
 4. ~~Le corps vivant : organes à explorer, veine de sang, maladies et parasites à soigner.~~
-5. **Le Silence (suite)** : les rêves du Titan, des fresques dans ses entrailles, des carcasses de Titans morts au sol, et le Berceau, la fin de l'histoire.
+5. **Le Silence (suite)** : les rêves du Titan, des fresques dans ses entrailles, et le Berceau, la fin de l'histoire. (Les carcasses de Titans sont faites.)
 6. **Le lien** : le Titan réagit à ce qu'on fait sur son dos (déforestation, soins), et l'on peut influencer sa route.
 
 ## Développement
@@ -64,7 +65,7 @@ Créer un nouveau monde : on apparaît directement sur le Titan.
 - `src/main/java/fr/letitan/sol/CarteSol.java` : la carte du sol autour du Titan, calculée en tâche de fond et envoyée aux joueurs sur son dos.
 - `src/main/java/fr/letitan/monde/Interieur.java` : la forme de l'intérieur (organes, conduits, veine), testée seule.
 - `src/main/java/fr/letitan/vie/Entrailles.java`, `Coeur.java`, `Maladies.java` : la vie de l'intérieur (souffle, acide, repas, cœur, infections).
-- `src/main/java/fr/letitan/silence/` : le Silence (terres mortes, ruines, ombre du Titan, Muets, cabane, journal et Pierres-Échos).
+- `src/main/java/fr/letitan/silence/` : le Silence (terres mortes, ruines, carcasses de Titans, ombre du Titan, Muets, cabane, journal et Pierres-Échos). `Carcasse.java` décrit la forme d'une carcasse, testée seule.
 - `src/client/java/fr/letitan/client/mixin/ClientLevelMixin.java` et `CloudRendererMixin.java` : l'ambiance sombre du monde d'en bas et ses nuages épais.
 - `src/main/java/fr/letitan/vie/Accroche.java` : où l'on touche une patte du Titan (qui te hisse) ; `Lianes.java` : les lianes de son flanc.
 - `src/client/java/fr/letitan/client/RenduSol.java` et `RenduTitan.java` : le sol vu du dos, et le Titan vu du sol.

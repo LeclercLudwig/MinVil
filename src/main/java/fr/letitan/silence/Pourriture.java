@@ -47,6 +47,7 @@ final class Pourriture {
 			if (sol.hasChunk(pos.x(), pos.z())) {
 				Ruines.ruiner(sol, pos);
 				pourrir(sol, pos);
+				Carcasses.construire(sol, pos);
 				Ruines.peutEtreUneRuine(sol, pos);
 				Recit.peutEtreUnePierre(sol, pos);
 			}
@@ -57,7 +58,7 @@ final class Pourriture {
 	 * Le vrai sol de la colonne (un bloc plein qui n'est ni bois ni feuillage), sous les arbres
 	 * et les bambous ; ou Integer.MIN_VALUE si c'est de l'eau.
 	 */
-	private static int solide(ServerLevel sol, BlockPos.MutableBlockPos pos, int x, int z) {
+	static int solide(ServerLevel sol, BlockPos.MutableBlockPos pos, int x, int z) {
 		int haut = sol.getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, x, z) - 1;
 		for (int y = haut; y > haut - 48 && y > sol.getMinY(); y--) {
 			BlockState etat = sol.getBlockState(pos.set(x, y, z));

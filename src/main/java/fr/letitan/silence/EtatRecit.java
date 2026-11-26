@@ -19,7 +19,9 @@ public final class EtatRecit extends SavedData {
 	public static final Codec<EtatRecit> CODEC = RecordCodecBuilder.create(i -> i.group(
 			Codec.BOOL.optionalFieldOf("cabane", false).forGetter(e -> e.cabane),
 			Codec.LONG.listOf().optionalFieldOf("pierres", List.of()).forGetter(e -> e.pierres),
-			Codec.INT.listOf().optionalFieldOf("fragments", List.of()).forGetter(e -> e.fragments)
+			Codec.INT.listOf().optionalFieldOf("fragments", List.of()).forGetter(e -> e.fragments),
+			Codec.LONG.listOf().optionalFieldOf("gardiens", List.of()).forGetter(e -> e.gardiens),
+			Codec.LONG.listOf().optionalFieldOf("deuils", List.of()).forGetter(e -> e.deuils)
 	).apply(i, EtatRecit::new));
 
 	public static final SavedDataType<EtatRecit> TYPE =
@@ -30,14 +32,20 @@ public final class EtatRecit extends SavedData {
 	public final List<Long> pierres = new ArrayList<>();
 	/** Pour chaque pierre, le fragment qu'elle rejoue (-1 : pas encore écoutée). */
 	public final List<Integer> fragments = new ArrayList<>();
+	/** Les carcasses dont le Gardien muet s'est déjà levé. */
+	public final List<Long> gardiens = new ArrayList<>();
+	/** Les carcasses devant lesquelles le Titan a déjà pleuré. */
+	public final List<Long> deuils = new ArrayList<>();
 
 	public EtatRecit() {
 	}
 
-	private EtatRecit(boolean cabane, List<Long> pierres, List<Integer> fragments) {
+	private EtatRecit(boolean cabane, List<Long> pierres, List<Integer> fragments, List<Long> gardiens, List<Long> deuils) {
 		this.cabane = cabane;
 		this.pierres.addAll(pierres);
 		this.fragments.addAll(fragments);
+		this.gardiens.addAll(gardiens);
+		this.deuils.addAll(deuils);
 	}
 
 	/** Nombre de fragments déjà entendus (chacun n'est attribué qu'une fois). */

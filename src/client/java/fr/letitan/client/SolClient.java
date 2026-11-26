@@ -49,7 +49,8 @@ final class SolClient {
 			int x = message.cx()[i] * message.pas(), z = message.cz()[i] * message.pas();
 			Holder<Biome> biome = biomes[message.biome()[i]];
 			String nom = message.biomes().get(message.biome()[i]);
-			int couleur = message.mort()[i] ? terreMorte(x, z) : couleur(biome, nom, message.eau()[i], message.hauteur()[i], x, z);
+			int couleur = message.os()[i] ? 0xDDD6C2 : message.mort()[i] ? terreMorte(x, z)
+					: couleur(biome, nom, message.eau()[i], message.hauteur()[i], x, z);
 			carte.put(CarteSol.cle(message.cx()[i], message.cz()[i]),
 					((long) message.hauteur()[i] << 32) | (couleur & 0xFFFFFFFFL));
 		}

@@ -102,6 +102,9 @@ public final class Muets {
 		RandomSource hasard = sol.getRandom();
 		// Ceux que plus personne n'entend s'évanouissent ; le jour, hors des terres mortes aussi.
 		for (Zombie m : List.copyOf(MUETS)) {
+			if (m.entityTags().contains(Carcasses.GARDIEN)) {
+				continue;
+			}
 			boolean seul = sol.getNearestPlayer(m, 96) == null;
 			if (seul || (!nuit && !zones.morte(m.getX(), m.getZ()) && m.getTarget() == null)) {
 				m.discard();
@@ -112,7 +115,8 @@ public final class Muets {
 				continue;
 			}
 			boolean ombre = Math.hypot(joueur.getX() - titan.x, joueur.getZ() - titan.z) < Ombre.RAYON;
-			boolean morte = zones.intensite(joueur.getX(), joueur.getZ()) >= ZonesMortes.BORD;
+			boolean morte = zones.intensite(joueur.getX(), joueur.getZ()) >= ZonesMortes.BORD
+					|| Silence.mort(sol.getServer(), joueur.getX(), joueur.getZ());
 			int maximum = morte ? 6 : !nuit ? 0 : ombre ? 2 : 5;
 			long presents = MUETS.stream().filter(m -> m.distanceToSqr(joueur) < 48 * 48).count();
 			if (presents >= maximum) {
@@ -133,10 +137,10 @@ public final class Muets {
 		}
 	}
 
-	private static void creer(ServerLevel sol, double x, double y, double z, RandomSource hasard) {
+	static Zombie creer(ServerLevel sol, double x, double y, double z, RandomSource hasard) {
 		Zombie muet = EntityTypes.ZOMBIE.create(sol, EntitySpawnReason.EVENT);
 		if (muet == null) {
-			return;
+			return null;
 		}
 		muet.snapTo(x, y, z, hasard.nextFloat() * 360, 0);
 		muet.setBaby(false);
@@ -155,6 +159,7 @@ public final class Muets {
 		((MobAccesseur) muet).letitan$selecteurDeCibles().removeAllGoals(but -> true);
 		sol.addFreshEntity(muet);
 		MUETS.add(muet);
+		return muet;
 	}
 
 	// --- Ouïe ----------------------------------------------------------------
